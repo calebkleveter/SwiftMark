@@ -35,4 +35,9 @@ open class MarkdownRenderer {
         
         self.init(with: newLexer, and: newParser)
     }
+    
+    public func render(_ string: String)throws -> String {
+        let tokens = try lexer.tokenize(string)
+        return parser.parse(tokens)
+    }
 }
