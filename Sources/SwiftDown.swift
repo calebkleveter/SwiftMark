@@ -21,5 +21,5 @@
 //SOFTWARE.
 
 open class MarkdownRenderer {
-    
+    init() {}
 }
