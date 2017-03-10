@@ -40,5 +40,6 @@ class Lexer {
         case codeBlock([String])
         case horizontalRule
         case code(String)
+        case escape(String)
     }
 }
