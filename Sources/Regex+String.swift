@@ -23,3 +23,30 @@
 import Foundation
 
 var expressions: [String: NSRegularExpression] = [:]
+
+public extension String {
+    public func match(regex: String, with templates: [String])throws -> ([String], String)? {
+        let expression: NSRegularExpression
+        if let regExp = expressions[regex] { expression = regExp } else {
+            expression = try NSRegularExpression(pattern: "^\(regex)", options: [])
+            expressions[regex] = expression
+        }
+        
+        let matchRange = expression.rangeOfFirstMatch(in: self, options: [], range: NSMakeRange(0, self.utf16.count))
+        if matchRange.location == NSNotFound {
+            return nil
+        }
+        var matchString = (self as NSString).substring(with: matchRange)
+        var regexCaptures: [String] = []
+        var fullMatch = ""
+        for match in expression.matches(in: matchString, options: .withoutAnchoringBounds, range: NSMakeRange(0, matchString.utf16.count)) {
+            for temp in templates {
+                let text = expression.replacementString(for: match, in: matchString, offset: 0, template: temp)
+                if text != "" { regexCaptures.append(text) }
+                
+            }
+            fullMatch = expression.replacementString(for: match, in: matchString, offset: 0, template: "$0")
+        }
+        return (regexCaptures, fullMatch)
+    }
+}
