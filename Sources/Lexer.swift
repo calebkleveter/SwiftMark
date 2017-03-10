@@ -46,6 +46,33 @@ class Lexer {
         
     ]
     
+    func tokenize(_ string: String)throws -> [Token] {
+        var tokens: [Token] = []
+        var input = string
+        
+        while input.characters.count > 0 {
+            var matched = false
+            
+            for (regex, template, generator) in tokenGenerators {
+                if let regexMatch = try input.match(regex: regex, with: template) {
+                    if let token = generator(regexMatch.0) {
+                        tokens.append(token)
+                    }
+                    input = input.substring(from: input.characters.index(input.startIndex, offsetBy: regexMatch.1.characters.count))
+                    matched = true
+                    break
+                    
+                }
+            }
+            if !matched {
+                let index = input.characters.index(input.startIndex, offsetBy: 1)
+                tokens.append(.text(input.substring(to: index)))
+                input = input.substring(from: index)
+            }
+        }
+        return tokens
+    }
+    
     enum Token {
         case header1(String)
         case header2(String)
