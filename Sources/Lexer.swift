@@ -33,5 +33,6 @@ class Lexer {
         case bold(String)
         case italic(String)
         case link(text: String, url: String)
+        case image(text: String, url: String)
     }
 }
