@@ -37,5 +37,6 @@ class Lexer {
         case blockQuote([String])
         case orderedList([String])
         case unOrderedList([String])
+        case codeBlock([String])
     }
 }
