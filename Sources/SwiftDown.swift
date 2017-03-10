@@ -20,15 +20,26 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
+/// Renders Markdown to HTML
 open class MarkdownRenderer {
+    
+    /// The Lexer used to convert the text to tokens so it can parsed.
     public let lexer: Lexer
+    
+    /// The parser used to cnovert the tokens from the lexer to HTML.
     public let parser: Parser
     
+    /// Creates a Markdown renderer with a custom lexer and parser
+    ///
+    /// - Parameters:
+    ///   - lexer: The lexer that will be used during rendering to convert the Markdown to tokens.
+    ///   - parser: The parser that will be used during rendering to convert the lexer tokens to HTML.
     public init(with lexer: Lexer, and parser: Parser) {
         self.lexer = lexer
         self.parser = parser
     }
     
+    /// Creats a Markdown renderer with a default lexer and parser.
     public convenience init() {
         let newLexer = Lexer()
         let newParser = Parser()
@@ -36,6 +47,11 @@ open class MarkdownRenderer {
         self.init(with: newLexer, and: newParser)
     }
     
+    /// Renders Markdown to HTML.
+    ///
+    /// - Parameter string: The Markdown that will be rendered
+    /// - Returns: HTML created from the string passed in.
+    /// - Throws: Any errors thrown when creating the RegEx to find the Markdown patterns in the string passed in.
     public func render(_ string: String)throws -> String {
         let tokens = try lexer.tokenize(string)
         return parser.parse(tokens)
