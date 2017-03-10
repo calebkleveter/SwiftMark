@@ -29,5 +29,6 @@ class Lexer {
         case header3(String)
         case header4(String)
         case header5(String)
+        case header6(String)
     }
 }
