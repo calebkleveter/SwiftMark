@@ -20,4 +20,41 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-class Parser {}
+class Parser {
+    func parse(_ tokens: [Lexer.Token]) -> String {
+        var paragraph = ""
+        var html = ""
+        
+        for token in tokens {
+            switch token {
+            case .escape(let escapedString): paragraph.append(escapedString)
+            case .text(let textString):
+                if textString == "\n" {
+                    if paragraph != "" {
+                        html.append("<p>\(paragraph)</p>")
+                        paragraph = ""
+                    } else {
+                        html.append("<br/>")
+                    }
+                } else {
+                    paragraph.append(textString)
+                }
+            case .code(let codeString): paragraph.append("<code>\(codeString)</code>")
+            case .link(text: let linkText, url: let url): paragraph.append("<a href=\"\(url)\">\(linkText)</a>")
+            case .bold(let boldText): paragraph.append("<strong>\(boldText)</strong>")
+            case .italic(let italicText): paragraph.append("<em>\(italicText)</em>")
+            default:
+                if paragraph != "" {
+                    html.append("<p>\(paragraph)</p>")
+                    paragraph = ""
+                }
+                html.append(token.html)
+            }
+        }
+        if paragraph != "" {
+            html.append("<p>\(paragraph)</p>")
+        }
+        return html
+    }
+
+}
