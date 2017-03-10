@@ -21,3 +21,5 @@
 //SOFTWARE.
 
 import Foundation
+
+class Lexer {}
