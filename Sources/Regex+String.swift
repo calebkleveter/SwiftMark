@@ -36,7 +36,7 @@ public extension String {
         if matchRange.location == NSNotFound {
             return nil
         }
-        var matchString = (self as NSString).substring(with: matchRange)
+        var matchString = NSString(string: self).substring(with: matchRange)
         var regexCaptures: [String] = []
         var fullMatch = ""
         for match in expression.matches(in: matchString, options: .withoutAnchoringBounds, range: NSMakeRange(0, matchString.utf16.count)) {
