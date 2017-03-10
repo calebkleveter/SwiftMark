@@ -28,4 +28,11 @@ open class MarkdownRenderer {
         self.lexer = lexer
         self.parser = parser
     }
+    
+    convenience init() {
+        let newLexer = Lexer()
+        let newParser = Parser()
+        
+        self.init(with: newLexer, and: newParser)
+    }
 }
