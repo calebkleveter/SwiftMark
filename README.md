@@ -8,6 +8,13 @@ SwiftDown is a Markdown renderer built in swift.
 
 SwiftDown is a SwiftPM package, but if you want to add it manually to a project, you can just add the files.
 
+Using SwiftDown is very simple. Just create a renderer, call `render`, and pass in the Markdown text.
+
+```swift
+let renderer = MarkdownRenderer()
+let html = renderer.render(markdownText)
+```
+
 ## License
 
 The whole SwiftDown package is under the MIT license agreement.
