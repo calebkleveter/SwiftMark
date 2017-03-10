@@ -22,4 +22,6 @@
 
 import Foundation
 
-class Lexer {}
+class Lexer {
+    enum Token {}
+}
