@@ -21,3 +21,5 @@
 //SOFTWARE.
 
 import Foundation
+
+var expressions: [String: NSRegularExpression] = [:]
