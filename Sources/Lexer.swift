@@ -39,5 +39,6 @@ class Lexer {
         case unOrderedList([String])
         case codeBlock([String])
         case horizontalRule
+        case code(String)
     }
 }
