@@ -38,7 +38,7 @@ open class Parser {
                         html.append("<p>\(paragraph)</p>")
                         paragraph = ""
                     } else {
-                        if orderedList == "" && unOrderedList == "" {
+                        if orderedList == "" && unOrderedList == "" && blockQuote == "" {
                             html.append("<br/>")
                         }
                     }
@@ -147,6 +147,8 @@ open class Parser {
             html.append("<ol>\(orderedList)</ol>")
         } else if unOrderedList != "" {
             html.append("<ul>\(unOrderedList)</ul>")
+        } else if blockQuote != "" {
+            html.append("<blockquote>\(blockQuote)</blockquote>")
         }
         
         return html
