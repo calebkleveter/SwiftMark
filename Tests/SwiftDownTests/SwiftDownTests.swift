@@ -25,12 +25,48 @@ class SwiftDownTests: XCTestCase {
         } catch { XCTFail() }
     }
     
+    func testCodeRendering() {
+        let renderer = MarkdownRenderer()
+        
+        let codeBlock = "    class Bold {\n        func goWhereNoneHaveGoneBefore() {\n            print(\"I'm lost!\")\n        }\n    }"
+        let headerCode = "    # Jon Skeet"
+        
+        let codeHtml = "<pre><code>class Bold {\n    func goWhereNoneHaveGoneBefore() {\n        print(\"I'm lost!\")\n    }\n}\n</code></pre>"
+        let headerHtml = "<pre><code># Jon Skeet\n</code></pre>"
+        
+        XCTAssert(try renderer.render(codeBlock) == codeHtml, try! renderer.render(codeBlock))
+        XCTAssert(try renderer.render(headerCode) == headerHtml, try! renderer.render(headerCode))
+    }
     
+    func testUnOrderedLists() {
+        let renderer = MarkdownRenderer()
+        let md = "+ HHHHHHHHH\n- GGGGGGGGGG\n* dskfjhdsfjkdf"
+        let html = "<ul><li>HHHHHHHHH</li><li>GGGGGGGGGG</li><li>dskfjhdsfjkdf</li></ul>"
+        XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
+    }
+    
+    func testOrderedList() {
+        let renderer = MarkdownRenderer()
+        let md = "1. HHHHHHHHH\n2. GGGGGGGGGG\n3. dskfjhdsfjkdf"
+        let html = "<ol><li>HHHHHHHHH</li><li>GGGGGGGGGG</li><li>dskfjhdsfjkdf</li></ol>"
+        XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
+    }
+    
+    func testBlockQuote() {
+        let renderer = MarkdownRenderer()
+        let md = "> HHHHHHHHH\n> GGGGGGGGGG\n> dskfjhdsfjkdf"
+        let html = "<blockquote><p>HHHHHHHHH</p><p>GGGGGGGGGG</p><p>dskfjhdsfjkdf</p></blockquote>"
+        XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
+    }
     
     static var allTests : [(String, (SwiftDownTests) -> () throws -> Void)] {
         return [
             ("Test Regex Match", testRegexMatch),
-            ("Test Markdown Rendering", testMarkdownRenderer)
+            ("Test Markdown Rendering", testMarkdownRenderer),
+            ("Test Code Block Rendering", testCodeRendering),
+            ("Test Unordered List", testUnOrderedLists),
+            ("Test Ordered List", testOrderedList),
+            ("Test Block Quotes", testBlockQuote)
         ]
     }
 }
