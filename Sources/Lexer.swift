@@ -35,5 +35,6 @@ class Lexer {
         case link(text: String, url: String)
         case image(text: String, url: String)
         case blockQuote([String])
+        case orderedList([String])
     }
 }
