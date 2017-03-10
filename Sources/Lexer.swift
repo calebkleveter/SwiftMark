@@ -26,20 +26,20 @@ open class Lexer {
     
     let tokenGenerators: [(regex: String, templates: [String], tokenGenerator: ([String]) -> Token?)] = [
         ("\\\\(.)", ["$1"], { return .escape($0[0])}),
+        ("\\s{4}([^\\n]+)", ["$1"], { return .codeBlock($0[0])}),
         ("\\#{6}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header6($0[0])}),
         ("\\#{5}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header5($0[0])}),
         ("\\#{4}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header4($0[0])}),
         ("\\#{3}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header3($0[0])}),
-        ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-+)", ["$2", "$3"], { return .header2($0[0])}),
+        ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-{2,})", ["$2", "$3"], { return .header2($0[0])}),
         ("(\\#\\s?([^\\#]+)\\#*|(.+)\\n\\=+)", ["$2", "$3"], { return .header1($0[0])}),
         ("(\\_{2}|\\*{2})([^\\_\\*]+)(\\_{2}|\\*{2})", ["$2"], {return .bold($0[0])}),
         ("(\\_|\\*)([^\\_\\*]+)(\\_|\\*)", ["$2"], { return .italic($0[0])}),
         ("\\!\\[(.+)\\]\\((.+)\\)",  ["$1", "$2"], { return .image(text: $0[0], url: $0[1])}),
         ("\\[(.+)\\]\\((.+)\\)", ["$1", "$2"], { return .link(text: $0[0], url: $0[1])}),
-        ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote($0)}),
-        ("(\\+|\\-|\\*)\\s?([^\\n(\\+|\\-|\\*)]+)", ["$2"], { return .unOrderedList($0)}),
-        ("\\d\\.\\s?([^\\n]+)", ["$1"], { return .orderedList($0)}),
-        ("\\s{5}([^\\n]+)", ["$1"], { return .codeBlock($0)}),
+        ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote($0[0])}),
+        ("(\\+|\\-|\\*)\\s?([^\\n(\\+|\\-|\\*)]+)", ["$2"], { return .unOrderedList($0[0])}),
+        ("\\d\\.\\s?([^\\n]+)", ["$1"], { return .orderedList($0[0])}),
         ("((\\-|\\_|\\*)[\\s]?){3,}", [], { _ in return .horizontalRule}),
         ("\\`(.*)\\`", ["$1"], { return .code($0[0])}),
         ("([^\\s]+)", ["$1"], { return .text($0[0])})
@@ -84,10 +84,10 @@ open class Lexer {
         case italic(String)
         case link(text: String, url: String)
         case image(text: String, url: String)
-        case blockQuote([String])
-        case orderedList([String])
-        case unOrderedList([String])
-        case codeBlock([String])
+        case blockQuote(String)
+        case orderedList(String)
+        case unOrderedList(String)
+        case codeBlock(String)
         case horizontalRule
         case code(String)
         case escape(String)
@@ -105,18 +105,10 @@ open class Lexer {
             case .italic(let string): return "<em>\(string)</em>"
             case .link(text: let string, url: let url): return "<a href=\"\(url)\">\(string)</a>"
             case .image(text: let string, url: let url): return "<img src=\"\(url)\" alt=\"\(string)\">"
-            case .blockQuote(let strings):
-                let paragraphes = strings.map({ return "<p>\($0)</p>" }).joined()
-                return "<blockquote>\(paragraphes)</blockquote>"
-            case .orderedList(let strings):
-                let listItems = strings.map({ return "<li>\($0)</li>" }).joined()
-                return "<ol>\(listItems)</ol>"
-            case .unOrderedList(let strings):
-                let listItems = strings.map({ return "<li>\($0)</li>" }).joined()
-                return "<ul>\(listItems)</ul>"
-            case .codeBlock(let strings):
-                let lines = strings.map({ return "\($0)\n" }).joined()
-                return "<pre><code>\(lines)</code></pre>"
+            case .blockQuote(let string): return "<p>\(string)</p>"
+            case .orderedList(let string): return "<li>\(string)</li>"
+            case .unOrderedList(let string): return "<li>\(string)</li>"
+            case .codeBlock(let string): return string
             case .horizontalRule: return "<hr />"
             case .code(let string): return "<code>\(string)</code>"
             case .escape(let string): return string
