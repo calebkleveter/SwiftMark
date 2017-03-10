@@ -20,7 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-class Parser {
+open class Parser {
     func parse(_ tokens: [Lexer.Token]) -> String {
         var paragraph = ""
         var html = ""

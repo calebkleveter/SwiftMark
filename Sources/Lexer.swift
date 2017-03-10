@@ -22,7 +22,7 @@
 
 import Foundation
 
-class Lexer {
+open class Lexer {
     
     let tokenGenerators: [(regex: String, templates: [String], tokenGenerator: ([String]) -> Token?)] = [
         ("\\\\(.)", ["$1"], { return .escape($0[0])}),

@@ -21,15 +21,15 @@
 //SOFTWARE.
 
 open class MarkdownRenderer {
-    let lexer: Lexer
-    let parser: Parser
+    public let lexer: Lexer
+    public let parser: Parser
     
-    init(with lexer: Lexer, and parser: Parser) {
+    public init(with lexer: Lexer, and parser: Parser) {
         self.lexer = lexer
         self.parser = parser
     }
     
-    convenience init() {
+    public convenience init() {
         let newLexer = Lexer()
         let newParser = Parser()
         
