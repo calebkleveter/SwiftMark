@@ -21,5 +21,9 @@
 //SOFTWARE.
 
 open class MarkdownRenderer {
-    init() {}
+    let lexer: Lexer
+    
+    init(with lexer: Lexer) {
+        self.lexer = lexer
+    }
 }
