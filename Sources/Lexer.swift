@@ -26,5 +26,6 @@ class Lexer {
     enum Token {
         case header1(String)
         case header2(String)
+        case header3(String)
     }
 }
