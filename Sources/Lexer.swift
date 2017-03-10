@@ -23,5 +23,7 @@
 import Foundation
 
 class Lexer {
-    enum Token {}
+    enum Token {
+        case header1(String)
+    }
 }
