@@ -19,3 +19,31 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
+
+extension Character {
+    
+    /// Tests a character to see if it could be involved in an HTML tag.
+    ///
+    /// - Returns: A bool denoting whether the the character is a '>', '<', '/', '(', ')', '"', '{', or '}'.
+    func isDangerousAscii() -> Bool {
+        if self == "<" || self == ">" || self == "/" || self == "(" || self == ")" || self == "{" || self == "}" || self == "\"" { return true }
+        return false
+    }
+}
+
+extension String {
+    
+    /// Encodes a string to pervent direct HTML injection to a web page.
+    ///
+    /// - Returns: The encoded string.
+    func safetyHTMLEncoded() -> String {
+        let htmlAsciiCodes: [String: String] = ["<": "&lt;", ">": "&gt;", "/": "&#47;", "(": "&#40;", ")": "&#41;", "{": "&#123;", "}": "&#125;", "\"": "&quot;"]
+        var finalString = ""
+        _ = self.characters.map {
+            if $0.isDangerousAscii() {
+                finalString.append(htmlAsciiCodes[String($0)]!)
+            } else { finalString.append(String($0)) }
+        }
+        return finalString
+    }
+}
