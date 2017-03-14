@@ -25,24 +25,24 @@ import Foundation
 open class Lexer {
     
     let tokenGenerators: [(regex: String, templates: [String], tokenGenerator: ([String]) -> Token?)] = [
-        ("\\\\(.)", ["$1"], { return .escape($0[0])}),
-        ("\\s{4}([^\\n]+)", ["$1"], { return .codeBlock($0[0])}),
-        ("\\#{6}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header6($0[0])}),
-        ("\\#{5}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header5($0[0])}),
-        ("\\#{4}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header4($0[0])}),
-        ("\\#{3}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header3($0[0])}),
-        ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-{2,})", ["$2", "$3"], { return .header2($0[0])}),
-        ("(\\#\\s?([^\\#]+)\\#*|(.+)\\n\\=+)", ["$2", "$3"], { return .header1($0[0])}),
-        ("(\\_{2}|\\*{2})([^\\_\\*]+)(\\_{2}|\\*{2})", ["$2"], {return .bold($0[0])}),
-        ("(\\_|\\*)([^\\_\\*]+)(\\_|\\*)", ["$2"], { return .italic($0[0])}),
-        ("\\!\\[(.+)\\]\\((.+)\\)",  ["$1", "$2"], { return .image(text: $0[0], url: $0[1])}),
-        ("\\[(.+)\\]\\((.+)\\)", ["$1", "$2"], { return .link(text: $0[0], url: $0[1])}),
+        ("\\\\(.)", ["$1"], { return .escape($0[0].safetyHTMLEncoded())}),
+        ("\\s{4}([^\\n]+)", ["$1"], { return .codeBlock($0[0].safetyHTMLEncoded())}),
+        ("\\#{6}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header6($0[0].safetyHTMLEncoded())}),
+        ("\\#{5}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header5($0[0].safetyHTMLEncoded())}),
+        ("\\#{4}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header4($0[0].safetyHTMLEncoded())}),
+        ("\\#{3}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header3($0[0].safetyHTMLEncoded())}),
+        ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-{2,})", ["$2", "$3"], { return .header2($0[0].safetyHTMLEncoded())}),
+        ("(\\#\\s?([^\\#]+)\\#*|(.+)\\n\\=+)", ["$2", "$3"], { return .header1($0[0].safetyHTMLEncoded())}),
+        ("(\\_{2}|\\*{2})([^\\_\\*]+)(\\_{2}|\\*{2})", ["$2"], {return .bold($0[0].safetyHTMLEncoded())}),
+        ("(\\_|\\*)([^\\_\\*]+)(\\_|\\*)", ["$2"], { return .italic($0[0].safetyHTMLEncoded())}),
+        ("\\!\\[(.+)\\]\\((.+)\\)",  ["$1", "$2"], { return .image(text: $0[0].safetyHTMLEncoded(), url: $0[1])}),
+        ("\\[(.+)\\]\\((.+)\\)", ["$1", "$2"], { return .link(text: $0[0].safetyHTMLEncoded(), url: $0[1])}),
         ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote($0[0])}),
-        ("(\\+|\\-|\\*)\\s?([^\\n(\\+|\\-|\\*)]+)", ["$2"], { return .unOrderedList($0[0])}),
-        ("\\d\\.\\s?([^\\n]+)", ["$1"], { return .orderedList($0[0])}),
+        ("(\\+|\\-|\\*)\\s?([^\\n(\\+|\\-|\\*)]+)", ["$2"], { return .unOrderedList($0[0].safetyHTMLEncoded())}),
+        ("\\d\\.\\s?([^\\n]+)", ["$1"], { return .orderedList($0[0].safetyHTMLEncoded())}),
         ("((\\-|\\_|\\*)[\\s]?){3,}", [], { _ in return .horizontalRule}),
-        ("\\`(.*)\\`", ["$1"], { return .code($0[0])}),
-        ("([^\\s]+)", ["$1"], { return .text($0[0])})
+        ("\\`(.*)\\`", ["$1"], { return .code($0[0].safetyHTMLEncoded())}),
+        ("([^\\s]+)", ["$1"], { return .text($0[0].safetyHTMLEncoded())})
         
     ]
     
