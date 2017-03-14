@@ -31,7 +31,7 @@ class SwiftDownTests: XCTestCase {
         let codeBlock = "    class Bold {\n        func goWhereNoneHaveGoneBefore() {\n            print(\"I'm lost!\")\n        }\n    }"
         let headerCode = "    # Jon Skeet"
         
-        let codeHtml = "<pre><code>class Bold {\n    func goWhereNoneHaveGoneBefore() {\n        print(\"I'm lost!\")\n    }\n}\n</code></pre>"
+        let codeHtml = "<pre><code>class Bold &#123;\n    func goWhereNoneHaveGoneBefore&#40;&#41; &#123;\n        print&#40;&quot;I'm lost!&quot;&#41;\n    &#125;\n&#125;\n</code></pre>"
         let headerHtml = "<pre><code># Jon Skeet\n</code></pre>"
         
         XCTAssert(try renderer.render(codeBlock) == codeHtml, try! renderer.render(codeBlock))
