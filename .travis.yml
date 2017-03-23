@@ -7,3 +7,8 @@ dist: trusty
 osx_image: xcode8
 script:
   - eval "$(curl -sL https://swift.vapor.sh/ci-3.1)"
+  if [[ $OS == "macos" ]];
+  then
+    sudo gem install cocoapods
+    pod lib lint SwiftDown.podspec
+  fi
