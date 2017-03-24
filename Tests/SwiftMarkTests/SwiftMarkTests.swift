@@ -1,7 +1,7 @@
 import XCTest
 @testable import SwiftMark
 
-class SwiftDownTests: XCTestCase {
+class SwiftMarkTests: XCTestCase {
     func testRegexMatch() {
         do {
            let match = try "![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)".match(regex: "\\!\\[(.+)\\]\\((.+)\\)", with: ["$1", "$2"])
