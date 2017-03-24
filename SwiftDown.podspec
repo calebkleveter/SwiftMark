@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = 'SwiftDown'
-s.version          = '0.2.0'
+s.version          = '0.2.2'
 s.summary          = "A Markdown renderer written in Swift."
 
 s.description      = <<-DESC
