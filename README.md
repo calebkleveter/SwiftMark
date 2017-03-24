@@ -1,14 +1,14 @@
-# SwiftDown
+# SwiftMark
 
-[![Build Status](https://travis-ci.org/calebkleveter/SwiftDown.svg?branch=master)](https://travis-ci.org/calebkleveter/SwiftDown)
+[![Build Status](https://travis-ci.org/calebkleveter/SwiftMark.svg?branch=master)](https://travis-ci.org/calebkleveter/SwiftMark)
 
-SwiftDown is a Markdown renderer built in swift.
+SwiftMark is a Markdown renderer built in swift.
 
 ## Usage
 
-SwiftDown is a SwiftPM package, but if you want to add it manually to a project, you can just add the files.
+SwiftMark is a SwiftPM package, but if you want to add it manually to a project, you can just add the files.
 
-Using SwiftDown is very simple. Just create a renderer, call `render`, and pass in the Markdown text.
+Using SwiftMark is very simple. Just create a renderer, call `render`, and pass in the Markdown text.
 
 ```swift
 let renderer = MarkdownRenderer()
@@ -17,7 +17,7 @@ let html = renderer.render(markdownText)
 
 ## License
 
-The whole SwiftDown package is under the MIT license agreement.
+The whole SwiftMark package is under the MIT license agreement.
 
 ## Attribution
 
