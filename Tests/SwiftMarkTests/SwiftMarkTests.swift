@@ -59,7 +59,7 @@ class SwiftMarkTests: XCTestCase {
         XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
     }
     
-    static var allTests : [(String, (SwiftDownTests) -> () throws -> Void)] {
+    static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
             ("Test Regex Match", testRegexMatch),
             ("Test Markdown Rendering", testMarkdownRenderer),
