@@ -1,6 +1,6 @@
 import XCTest
-@testable import SwiftDownTests
+@testable import SwiftMarkTests
 
 XCTMain([
-     testCase(SwiftDownTests.allTests),
+     testCase(SwiftMarkTests.allTests),
 ])

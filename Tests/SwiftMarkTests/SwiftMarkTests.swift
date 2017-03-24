@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwiftDown
+@testable import SwiftMark
 
 class SwiftDownTests: XCTestCase {
     func testRegexMatch() {
