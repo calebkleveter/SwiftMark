@@ -22,6 +22,10 @@
 
 import Foundation
 
+#if os(Linux)
+    typealias NSRegularExpression = RegularExpression
+#endif
+
 var expressions: [String: NSRegularExpression] = [:]
 
 public extension String {
