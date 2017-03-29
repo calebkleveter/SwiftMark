@@ -6,6 +6,9 @@ func multiLine(_ string: String...) -> String {
 }
 
 class SwiftMarkTests: XCTestCase {
+    
+    let renderer = MarkdownRenderer()
+    
     func testRegexMatch() {
         do {
            let match = try "![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)".match(regex: "\\!\\[(.+)\\]\\((.+)\\)", with: ["$1", "$2"])
@@ -20,7 +23,7 @@ class SwiftMarkTests: XCTestCase {
     }
     
     func testMarkdownRenderer() {
-        let renderer = MarkdownRenderer()
+        
         let text = "\\![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)\nHello!\nGood `day`\nThis is an ![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)\n## Oh my!\nGoogle Eyes\n-----------\n\nThis has **bold** and _italic_ text"
         let html = "<p>!<a href=\"https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png\">UIWebKit Icon</a></p><p>Hello!</p><p>Good <code>day</code></p><p>This is an </p><img src=\"https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png\" alt=\"UIWebKit Icon\"><br/><h2>Oh my!</h2><br/><h2>Google Eyes</h2><br/><br/><p>This has <strong>bold</strong> and <em>italic</em> text</p>"
         do {
@@ -30,7 +33,7 @@ class SwiftMarkTests: XCTestCase {
     }
     
     func testCodeRendering() {
-        let renderer = MarkdownRenderer()
+        
         
         let codeBlock = "    class Bold {\n        func goWhereNoneHaveGoneBefore() {\n            print(\"I'm lost!\")\n        }\n    }"
         let headerCode = "    # Jon Skeet"
@@ -43,21 +46,21 @@ class SwiftMarkTests: XCTestCase {
     }
     
     func testUnOrderedLists() {
-        let renderer = MarkdownRenderer()
+        
         let md = "+ HHHHHHHHH\n- GGGGGGGGGG\n* dskfjhdsfjkdf"
         let html = "<ul><li>HHHHHHHHH</li><li>GGGGGGGGGG</li><li>dskfjhdsfjkdf</li></ul>"
         XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
     }
     
     func testOrderedList() {
-        let renderer = MarkdownRenderer()
+        
         let md = "1. HHHHHHHHH\n2. GGGGGGGGGG\n3. dskfjhdsfjkdf"
         let html = "<ol><li>HHHHHHHHH</li><li>GGGGGGGGGG</li><li>dskfjhdsfjkdf</li></ol>"
         XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
     }
     
     func testBlockQuote() {
-        let renderer = MarkdownRenderer()
+        
         let md = "> HHHHHHHHH\n> GGGGGGGGGG\n> dskfjhdsfjkdf"
         let html = "<blockquote><p>HHHHHHHHH</p><p>GGGGGGGGGG</p><p>dskfjhdsfjkdf</p></blockquote>"
         XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
