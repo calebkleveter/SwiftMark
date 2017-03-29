@@ -8,9 +8,9 @@
 
 import Foundation
 
-func runScript(fromUser user: String, withPath path: String) -> String? {
+func runScript(withName name: String) -> String? {
     
-    let scriptPath: String = "/Users/\(user)/\(path)"
+    let scriptPath: String = "\(FileManager.default.currentDirectoryPath)/\(name)"
     
     let arguments = [scriptPath]
     
