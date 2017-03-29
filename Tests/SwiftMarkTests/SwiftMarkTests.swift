@@ -23,9 +23,18 @@ class SwiftMarkTests: XCTestCase {
     }
     
     func testMarkdownRenderer() {
-        
-        let text = "\\![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)\nHello!\nGood `day`\nThis is an ![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)\n## Oh my!\nGoogle Eyes\n-----------\n\nThis has **bold** and _italic_ text"
-        let html = "<p>!<a href=\"https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png\">UIWebKit Icon</a></p><p>Hello!</p><p>Good <code>day</code></p><p>This is an </p><img src=\"https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png\" alt=\"UIWebKit Icon\"><br/><h2>Oh my!</h2><br/><h2>Google Eyes</h2><br/><br/><p>This has <strong>bold</strong> and <em>italic</em> text</p>"
+        let text = multiLine(
+            "\\![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)",
+            "Hello!",
+            "Good `day`",
+            "This is an ![UIWebKit Icon](https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png)",
+            "## Oh my!",
+            "Google Eyes",
+            "-----------",
+            "",
+            "This has **bold** and _italic_ text"
+        )
+        let html = "<p>!<a href=\"https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png\">UIWebKit Icon</a></p><p>Hello!</p><p>Good <code>day</code></p><p>This is an </p><img src=\"https://raw.githubusercontent.com/calebkleveter/UIWebKit/develop/icons/uiwebkit-icon-slim-sized.png\" alt=\"UIWebKit Icon\"><br/><h2>Oh my!</h2><br/><h2>Google Eyes</h2><br><p>This has <strong>bold</strong> and <em>italic</em> text</p>"
         do {
             let renderedText = try renderer.render(text)
             XCTAssertEqual(renderedText, html)
@@ -63,6 +72,19 @@ class SwiftMarkTests: XCTestCase {
         
         let md = "> HHHHHHHHH\n> GGGGGGGGGG\n> dskfjhdsfjkdf"
         let html = "<blockquote><p>HHHHHHHHH</p><p>GGGGGGGGGG</p><p>dskfjhdsfjkdf</p></blockquote>"
+        XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
+    }
+    
+    func testFollowingCodeBlock() {
+        let md = multiLine(
+            "    let string = String()",
+            "    func function() {",
+            "        print(\"Function\")",
+            "    }",
+            "",
+            "# Header 1"
+        )
+        let html = "<pre><code>let string = String&#40;&#41;\nfunc function&#40;&#41; &#123;\n    print&#40;&quot;Function&quot;&#41;\n&#125;\n</code></pre><br><h1>Header 1</h1>"
         XCTAssert(try renderer.render(md) == html, try! renderer.render(md))
     }
     
