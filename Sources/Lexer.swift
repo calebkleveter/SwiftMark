@@ -42,6 +42,7 @@ open class Lexer {
         ("\\d\\.\\s?([^\\n]+)", ["$1"], { return .orderedList($0[0].safetyHTMLEncoded())}),
         ("((\\-|\\_|\\*)[\\s]?){3,}", [], { _ in return .horizontalRule}),
         ("\\`(.*)\\`", ["$1"], { return .code($0[0].safetyHTMLEncoded())}),
+        ("\n{2}", [], { _ in return .break }),
         ("([^\\s]+)", ["$1"], { return .text($0[0].safetyHTMLEncoded())})
         
     ]
@@ -92,6 +93,7 @@ open class Lexer {
         case code(String)
         case escape(String)
         case text(String)
+        case `break`
         
         var html: String {
             switch self {
@@ -113,6 +115,7 @@ open class Lexer {
             case .code(let string): return "<code>\(string)</code>"
             case .escape(let string): return string
             case .text(let string): return string
+            case .break: return "<br>"
             }
         }
 
