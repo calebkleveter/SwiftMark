@@ -64,11 +64,7 @@ open class Parser {
                     html.append("<blockquote>\(blockQuote)</blockquote>")
                     blockQuote = ""
                 }
-                if codeBlock != "" {
-                    codeBlock.append(code.substring(from: code.characters.index(code.startIndex, offsetBy: 1)) + "\n")
-                } else {
-                    codeBlock.append(code + "\n")
-                }
+                codeBlock.append(code + "\n")
                 
             case .blockQuote(let quoteLine):
                 if paragraph != "" {
@@ -141,13 +137,17 @@ open class Parser {
         }
         if paragraph != "" {
             html.append("<p>\(paragraph)</p>")
-        } else if codeBlock != "" {
+        }
+        if codeBlock != "" {
             html.append("<pre><code>\(codeBlock)</code></pre>")
-        } else if orderedList != "" {
+        }
+        if orderedList != "" {
             html.append("<ol>\(orderedList)</ol>")
-        } else if unOrderedList != "" {
+        }
+        if unOrderedList != "" {
             html.append("<ul>\(unOrderedList)</ul>")
-        } else if blockQuote != "" {
+        }
+        if blockQuote != "" {
             html.append("<blockquote>\(blockQuote)</blockquote>")
         }
         
