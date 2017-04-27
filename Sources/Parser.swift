@@ -29,129 +29,103 @@ open class Parser {
         var codeBlock = ""
         var html = ""
         
+        func clearParagraph() {
+            if paragraph != "" {
+                html.append("<p>\(paragraph)</p>")
+                paragraph = ""
+            }
+        }
+        
+        func clearQuote() {
+            if blockQuote != "" {
+                html.append("<blockquote>\(blockQuote)</blockquote>")
+                blockQuote = ""
+            }
+        }
+        
+        func clearList() {
+            if orderedList != "" {
+                html.append("<ol>\(orderedList)</ol>")
+                orderedList = ""
+            }
+        }
+        
+        func clearUnorderedList() {
+            if unOrderedList != "" {
+                html.append("<ul>\(unOrderedList)</ul>")
+                unOrderedList = ""
+            }
+        }
+        
+        func clearCode() {
+            if codeBlock != "" {
+                html.append("<pre><code>\(codeBlock)</code></pre>")
+                codeBlock = ""
+            }
+        }
+        
         for token in tokens {
             switch token {
             case .escape(let escapedString): paragraph.append(escapedString)
             case .text(let textString):
-                if textString == "\n" {
-                    if paragraph != "" {
-                        html.append("<p>\(paragraph)</p>")
-                        paragraph = ""
-                    } else {
-                        if orderedList == "" && unOrderedList == "" && blockQuote == "" {
-                            html.append("<br/>")
-                        }
-                    }
+                clearList()
+                clearUnorderedList()
+                clearQuote()
+                clearCode()
+                if textString == "\r\n" {
+                    clearParagraph()
                 } else {
                     paragraph.append(textString)
                 }
-            case .code(let codeString): paragraph.append("<code>\(codeString)</code>")
-            case .link(text: let linkText, url: let url): paragraph.append("<a href=\"\(url)\">\(linkText)</a>")
-            case .bold(let boldText): paragraph.append("<strong>\(boldText)</strong>")
-            case .italic(let italicText): paragraph.append("<em>\(italicText)</em>")
+            case .code(_): paragraph.append(token.html)
+            case .link(_): paragraph.append(token.html)
+            case .bold(_): paragraph.append(token.html)
+            case .italic(_): paragraph.append(token.html)
                 
             case .codeBlock(let code):
-                if paragraph != "" {
-                    html.append("<p>\(paragraph)</p>")
-                    paragraph = ""
-                } else if orderedList != "" {
-                    html.append("<ol>\(orderedList)</ol>")
-                    orderedList = ""
-                } else if unOrderedList != "" {
-                    html.append("<ul>\(unOrderedList)</ul>")
-                    unOrderedList = ""
-                } else if blockQuote != "" {
-                    html.append("<blockquote>\(blockQuote)</blockquote>")
-                    blockQuote = ""
-                }
+                clearParagraph()
+                clearList()
+                clearUnorderedList()
+                clearQuote()
                 codeBlock.append(code + "\n")
                 
             case .blockQuote(let quoteLine):
-                if paragraph != "" {
-                    html.append("<p>\(paragraph)</p>")
-                    paragraph = ""
-                } else if codeBlock != "" {
-                    html.append("<pre><code>\(codeBlock)</code></pre>")
-                    codeBlock = ""
-                } else if orderedList != "" {
-                    html.append("<ol>\(orderedList)</ol>")
-                    orderedList = ""
-                } else if unOrderedList != "" {
-                    html.append("<ul>\(unOrderedList)</ul>")
-                    unOrderedList = ""
-                }
+                clearParagraph()
+                clearList()
+                clearUnorderedList()
+                clearCode()
                 blockQuote.append("<p>\(quoteLine)</p>")
                 
             case .orderedList(let listItem):
-                if paragraph != "" {
-                    html.append("<p>\(paragraph)</p>")
-                    paragraph = ""
-                } else if codeBlock != "" {
-                    html.append("<pre><code>\(codeBlock)</code></pre>")
-                    codeBlock = ""
-                } else if unOrderedList != "" {
-                    html.append("<ul>\(unOrderedList)</ul>")
-                    unOrderedList = ""
-                } else if blockQuote != "" {
-                    html.append("<blockquote>\(blockQuote)</blockquote>")
-                    blockQuote = ""
-                }
+                clearParagraph()
+                clearCode()
+                clearUnorderedList()
+                clearQuote()
                 orderedList.append("<li>\(listItem)</li>")
                 
             case .unOrderedList(let listItem):
-                if paragraph != "" {
-                    html.append("<p>\(paragraph)</p>")
-                    paragraph = ""
-                } else if codeBlock != "" {
-                    html.append("<pre><code>\(codeBlock)</code></pre>")
-                    codeBlock = ""
-                } else if orderedList != "" {
-                    html.append("<ol>\(orderedList)</ol>")
-                    orderedList = ""
-                } else if blockQuote != "" {
-                    html.append("<blockquote>\(blockQuote)</blockquote>")
-                    blockQuote = ""
-                }
+                clearParagraph()
+                clearList()
+                clearCode()
+                clearQuote()
                 unOrderedList.append("<li>\(listItem)</li>")
                 
             default:
-                if paragraph != "" {
-                    html.append("<p>\(paragraph)</p>")
-                    paragraph = ""
-                } else if codeBlock != "" {
-                    html.append("<pre><code>\(codeBlock)</code></pre>")
-                    codeBlock = ""
-                } else if orderedList != "" {
-                    html.append("<ol>\(orderedList)</ol>")
-                    orderedList = ""
-                } else if unOrderedList != "" {
-                    html.append("<ul>\(unOrderedList)</ul>")
-                    unOrderedList = ""
-                } else if blockQuote != "" {
-                    html.append("<blockquote>\(blockQuote)</blockquote>")
-                    blockQuote = ""
-                }
-
+                clearParagraph()
+                clearList()
+                clearUnorderedList()
+                clearQuote()
+                clearCode()
                 html.append(token.html)
             }
         }
-        if paragraph != "" {
-            html.append("<p>\(paragraph)</p>")
-        }
-        if codeBlock != "" {
-            html.append("<pre><code>\(codeBlock)</code></pre>")
-        }
-        if orderedList != "" {
-            html.append("<ol>\(orderedList)</ol>")
-        }
-        if unOrderedList != "" {
-            html.append("<ul>\(unOrderedList)</ul>")
-        }
-        if blockQuote != "" {
-            html.append("<blockquote>\(blockQuote)</blockquote>")
-        }
+        clearParagraph()
+        clearList()
+        clearUnorderedList()
+        clearQuote()
+        clearCode()
         
         return html
     }
-
+    
 }
