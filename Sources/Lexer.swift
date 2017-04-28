@@ -24,22 +24,23 @@ import Foundation
 
 open class Lexer {
     
-    let tokenGenerators: [(regex: String, templates: [String], tokenGenerator: ([String]) -> Token?)] = [
+    let tokenGenerators: [(regex: String, templates: [String], tokenGenerator: ([String])throws -> Token?)] = [
         ("\\\\(.)", ["$1"], { return .escape($0[0].safetyHTMLEncoded())}),
         ("( {4}|\\t)(.+)[\\n\\r]", ["$2"], { return .codeBlock($0[0].safetyHTMLEncoded())}),
-        ("\\#{6}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header6($0[0].safetyHTMLEncoded())}),
-        ("\\#{5}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header5($0[0].safetyHTMLEncoded())}),
-        ("\\#{4}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header4($0[0].safetyHTMLEncoded())}),
-        ("\\#{3}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header3($0[0].safetyHTMLEncoded())}),
-        ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-{2,})", ["$2", "$3"], { return .header2($0[0].safetyHTMLEncoded())}),
-        ("(\\#\\s?([^\\#\\n]+)\\#*|(.+)\\n\\=+)", ["$2", "$3"], { return .header1($0[0].safetyHTMLEncoded())}),
-        ("(\\_{2}|\\*{2})([^\\_\\*]+)(\\_{2}|\\*{2})", ["$2"], {return .bold($0[0].safetyHTMLEncoded())}),
-        ("(\\_|\\*)([^\\_\\*]+)(\\_|\\*)", ["$2"], { return .italic($0[0].safetyHTMLEncoded())}),
+        ("\\#{6}\\s?([^#\n]+)\\s?\\#*", ["$1"], {return .header6(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\#{5}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header5(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\#{4}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header4(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\#{3}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header3(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-{2,})", ["$2", "$3"], { return .header2(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("(\\#\\s?([^\\#\\n]+)\\#*|(.+)\\n\\=+)", ["$2", "$3"], { return .header1(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("(\\_{2}|\\*{2})([^\\_\\*]+)(\\_{2}|\\*{2})", ["$2"], {return .bold(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        // FIXME: Bad Regex
+        ("(\\_|\\*)([^\\_\\*]+)(\\_|\\*)", ["$2"], { return .italic(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\!\\[(.+)\\]\\((.+)\\)",  ["$1", "$2"], { return .image(text: $0[0].safetyHTMLEncoded(), url: $0[1])}),
-        ("\\[(.+)\\]\\((.+)\\)", ["$1", "$2"], { return .link(text: $0[0].safetyHTMLEncoded(), url: $0[1])}),
-        ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote($0[0])}),
-        ("(\\+|\\-|\\*)\\s?([^\\n(\\+|\\-|\\*)]+)", ["$2"], { return .unOrderedList($0[0].safetyHTMLEncoded())}),
-        ("\\d\\.\\s?([^\\n]+)", ["$1"], { return .orderedList($0[0].safetyHTMLEncoded())}),
+        ("\\[(.+)\\]\\((.+)\\)", ["$1", "$2"], { return .link(text: try Lexer().tokenize($0[0].safetyHTMLEncoded()), url: $0[1])}),
+        ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote(try Lexer().tokenize($0[0]))}),
+        ("(\\+|\\-|\\*)\\s?([^\\n(\\+|\\-|\\*)]+)", ["$2"], { return .unOrderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\d\\.\\s?([^\\n]+)", ["$1"], { return .orderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("((\\-|\\_|\\*)[\\s]?){3,}", [], { _ in return .horizontalRule}),
         ("\\`(.*)\\`", ["$1"], { return .code($0[0].safetyHTMLEncoded())}),
         ("\n{2}", [], { _ in return .break }),
@@ -56,7 +57,7 @@ open class Lexer {
             
             for (regex, template, generator) in tokenGenerators {
                 if let regexMatch = try input.match(regex: regex, with: template) {
-                    if let token = generator(regexMatch.0) {
+                    if let token = try generator(regexMatch.0) {
                         tokens.append(token)
                     }
                     input = input.substring(from: input.characters.index(input.startIndex, offsetBy: regexMatch.1.characters.count))
@@ -75,19 +76,19 @@ open class Lexer {
     }
     
     enum Token {
-        case header1(String)
-        case header2(String)
-        case header3(String)
-        case header4(String)
-        case header5(String)
-        case header6(String)
-        case bold(String)
-        case italic(String)
-        case link(text: String, url: String)
+        case header1([Token])
+        case header2([Token])
+        case header3([Token])
+        case header4([Token])
+        case header5([Token])
+        case header6([Token])
+        case bold([Token])
+        case italic([Token])
+        case link(text: [Token], url: String)
         case image(text: String, url: String)
-        case blockQuote(String)
-        case orderedList(String)
-        case unOrderedList(String)
+        case blockQuote([Token])
+        case orderedList([Token])
+        case unOrderedList([Token])
         case codeBlock(String)
         case horizontalRule
         case code(String)
@@ -118,6 +119,6 @@ open class Lexer {
             case .break: return "<br>"
             }
         }
-
+        
     }
 }
