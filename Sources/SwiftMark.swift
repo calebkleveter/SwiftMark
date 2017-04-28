@@ -54,6 +54,6 @@ open class MarkdownRenderer {
     /// - Throws: Any errors thrown when creating the RegEx to find the Markdown patterns in the string passed in.
     public func render(_ string: String)throws -> String {
         let tokens = try lexer.tokenize(string)
-        return parser.parse(tokens)
+        return parser.parse(tokens, level: .high, type: .normal)
     }
 }
