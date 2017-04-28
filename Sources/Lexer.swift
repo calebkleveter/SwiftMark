@@ -26,7 +26,7 @@ open class Lexer {
     
     let tokenGenerators: [(regex: String, templates: [String], tokenGenerator: ([String])throws -> Token?)] = [
         ("\\\\(.)", ["$1"], { return .escape($0[0].safetyHTMLEncoded())}),
-        ("( {4}|\\t)(.+)[\\n\\r]", ["$2"], { return .codeBlock($0[0].safetyHTMLEncoded())}),
+        ("( {4}|\\t)(.+)[\\n\\r]?", ["$2"], { return .codeBlock($0[0].safetyHTMLEncoded())}),
         ("\\#{6}\\s?([^#\n]+)\\s?\\#*", ["$1"], {return .header6(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\#{5}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header5(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\#{4}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header4(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
