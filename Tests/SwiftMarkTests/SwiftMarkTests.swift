@@ -2,7 +2,7 @@ import XCTest
 @testable import SwiftMark
 
 func multiLine(_ string: String...) -> String {
-    return string.joined(separator: "\n")
+    return string.joined(separator: "\r\n")
 }
 
 class SwiftMarkTests: XCTestCase {
