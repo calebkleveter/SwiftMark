@@ -38,7 +38,7 @@ open class Lexer {
         ("\\!\\[(.+)\\]\\((.+)\\)",  ["$1", "$2"], { return .image(text: $0[0].safetyHTMLEncoded(), url: $0[1])}),
         ("\\[(.+)\\]\\((.+)\\)", ["$1", "$2"], { return .link(text: try Lexer().tokenize($0[0].safetyHTMLEncoded()), url: $0[1])}),
         ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote(try Lexer().tokenize($0[0]))}),
-        ("(((\\-|\\_|\\*)[\\s]?){3,})$", [], { _ in return .horizontalRule}),
+        ("(((\\-|\\_|\\*)[\\s]?){3,})[\\r\\n]", [], { _ in return .horizontalRule}),
         ("(\\+|\\-|\\*)\\s?(.+)", ["$2"], { return .unOrderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\d+\\.\\s?([^\\n]+)", ["$1"], { return .orderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\`(.*)\\`", ["$1"], { return .code($0[0].safetyHTMLEncoded())}),
