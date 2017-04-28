@@ -33,9 +33,8 @@ open class Lexer {
         ("\\#{3}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header3(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-{2,})", ["$2", "$3"], { return .header2(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("(\\#\\s?([^\\#\\n]+)\\#*|(.+)\\n\\=+)", ["$2", "$3"], { return .header1(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
-        ("(\\_{2}|\\*{2})([^\\_\\*]+)(\\_{2}|\\*{2})", ["$2"], {return .bold(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
-        // FIXME: Bad Regex
-        ("(\\_|\\*)([^\\_\\*]+)(\\_|\\*)", ["$2"], { return .italic(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("(\\_{2}|\\*{2})(.+)(\\_{2}|\\*{2})", ["$2"], {return .bold(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("(\\_|\\*)(.+)(\\_|\\*)", ["$2"], { return .italic(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\!\\[(.+)\\]\\((.+)\\)",  ["$1", "$2"], { return .image(text: $0[0].safetyHTMLEncoded(), url: $0[1])}),
         ("\\[(.+)\\]\\((.+)\\)", ["$1", "$2"], { return .link(text: try Lexer().tokenize($0[0].safetyHTMLEncoded()), url: $0[1])}),
         ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote(try Lexer().tokenize($0[0]))}),
