@@ -22,17 +22,7 @@
 
 open class Parser {
     
-    enum ParserLevel {
-        case high
-        case low
-    }
-    
-    enum ParserType {
-        case normal
-        case styled
-    }
-    
-    func parse(_ tokens: [Lexer.Token], level: ParserLevel, type: ParserType) -> String {
+    func parse(_ tokens: [Lexer.Token]) -> String {
         var paragraph = ""
         var orderedList = ""
         var unOrderedList = ""
@@ -83,22 +73,15 @@ open class Parser {
                 clearUnorderedList()
                 clearQuote()
                 clearCode()
-                if textString == "\r\n" || textString == "\\r\\n" || textString == "\r" || textString == "\n" {
+                if textString == "\r\n" {
                     clearParagraph()
                 } else {
-                    switch level {
-                    case .high: paragraph.append(textString)
-                    case .low:
-                        switch type {
-                        case .normal: paragraph.append(textString)
-                        case .styled: html.append(textString)
-                        }
-                    }
+                    paragraph.append(textString)
                 }
             case .code(_): paragraph.append(token.html)
-            case .link(let text, let href): paragraph.append("<a href=\"\(href)\">\(parse(text, level: .low, type: .styled))</a>")
-            case .bold(let text): paragraph.append("<strong>\(parse(text, level: .low, type: .styled))</strong>")
-            case .italic(let text): paragraph.append("<em>\(parse(text, level: .low, type: .styled))</em>")
+            case .link(_): paragraph.append(token.html)
+            case .bold(_): paragraph.append(token.html)
+            case .italic(_): paragraph.append(token.html)
                 
             case .codeBlock(let code):
                 clearParagraph()
@@ -107,74 +90,26 @@ open class Parser {
                 clearQuote()
                 codeBlock.append(code + "\n")
                 
-            case .blockQuote(let quoteLine):
+            case .blockQuote(_):
                 clearParagraph()
                 clearList()
                 clearUnorderedList()
                 clearCode()
-                blockQuote.append(parse(quoteLine, level: .low, type: .normal))
+                blockQuote.append(token.html)
                 
-            case .orderedList(let listItem):
+            case .orderedList(_):
                 clearParagraph()
                 clearCode()
                 clearUnorderedList()
                 clearQuote()
-                orderedList.append("<li>\(parse(listItem, level: .low, type: .normal))</li>")
+                orderedList.append(token.html)
                 
-            case .unOrderedList(let listItem):
+            case .unOrderedList(_):
                 clearParagraph()
                 clearCode()
                 clearList()
                 clearQuote()
-                unOrderedList.append("<li>\(parse(listItem, level: .low, type: .normal))</li>")
-                
-            case .header1(let text):
-                clearParagraph()
-                clearList()
-                clearUnorderedList()
-                clearQuote()
-                clearCode()
-                html.append("<h1>\(parse(text, level: .low, type: .normal))</h1>")
-                
-            case .header2(let text):
-                clearParagraph()
-                clearList()
-                clearUnorderedList()
-                clearQuote()
-                clearCode()
-                html.append("<h2>\(parse(text, level: .low, type: .normal))</h2>")
-                
-            case .header3(let text):
-                clearParagraph()
-                clearList()
-                clearUnorderedList()
-                clearQuote()
-                clearCode()
-                html.append("<h3>\(parse(text, level: .low, type: .normal))</h3>")
-                
-            case .header4(let text):
-                clearParagraph()
-                clearList()
-                clearUnorderedList()
-                clearQuote()
-                clearCode()
-                html.append("<h4>\(parse(text, level: .low, type: .normal))</h4>")
-                
-            case .header5(let text):
-                clearParagraph()
-                clearList()
-                clearUnorderedList()
-                clearQuote()
-                clearCode()
-                html.append("<h5>\(parse(text, level: .low, type: .normal))</h5>")
-                
-            case .header6(let text):
-                clearParagraph()
-                clearList()
-                clearUnorderedList()
-                clearQuote()
-                clearCode()
-                html.append("<h6>\(parse(text, level: .low, type: .normal))</h6>")
+                unOrderedList.append(token.html)
                 
             default:
                 clearParagraph()
