@@ -119,5 +119,29 @@ open class Lexer {
             }
         }
         
+        var text: String {
+            switch self {
+            case .header1(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .header2(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .header3(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .header4(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .header5(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .header6(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .bold(let tokens): return "<strong>\(tokens.map({return $0.text}).joined(separator: " "))</strong>"
+            case .italic(let tokens): return "<em>\(tokens.map({return $0.text}).joined(separator: " "))</em>"
+            case .link(text: let tokens, url: let url): return "<a href=\"\(url)\">\(tokens.map({return $0.text}).joined(separator: " "))</a>"
+            case .image(_, _): return ""
+            case .blockQuote(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .orderedList(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .unOrderedList(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
+            case .codeBlock(let string): return string
+            case .horizontalRule: return ""
+            case .code(let string): return "<code>\(string)</code>"
+            case .escape(let string): return string
+            case .text(let string): return string
+            case .break: return ""
+            }
+        }
+        
     }
 }
