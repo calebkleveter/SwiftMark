@@ -128,4 +128,7 @@ open class Parser {
         return html
     }
     
+    func parseUnstyled(tokens: [Lexer.Token]) -> String {
+        return "<p>\(tokens.map({return $0.text}).joined(separator: " "))</p>"
+    }
 }
