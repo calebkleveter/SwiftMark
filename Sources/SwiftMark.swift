@@ -56,4 +56,14 @@ open class MarkdownRenderer {
         let tokens = try lexer.tokenize(string)
         return parser.parse(tokens)
     }
+    
+    /// Gets the text from markdown and removes all non-inline styles.
+    ///
+    /// - Parameter string: The Markdown string that the text will be extracted from.
+    /// - Returns: The text from the string passed in.
+    /// - Throws: Any errors thrown while creating the regex to recognize Markdown elements.
+    public func text(from string: String)throws -> String {
+        let tokens = try lexer.tokenize(string)
+        return parser.parseUnstyled(tokens: tokens)
+    }
 }
