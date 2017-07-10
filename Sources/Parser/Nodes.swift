@@ -21,3 +21,10 @@
 //SOFTWARE.
 
 protocol ElementNode: CustomStringConvertible {}
+
+public struct TextNode: ElementNode {
+    public let value: String
+    public var description: String {
+         return "TextNode(\(value))"
+    }
+}
