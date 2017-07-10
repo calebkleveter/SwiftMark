@@ -39,28 +39,28 @@ public struct HeaderOneNode: ElementNode {
 public struct HeaderTwoNode: ElementNode {
     public let content: [ElementNode]
     public var description: String {
-        return "HeaderOneNode(\(content))"
+        return "HeaderTwoNode(\(content))"
     }
 }
 
 public struct HeaderThreeNode: ElementNode {
     public let content: [ElementNode]
     public var description: String {
-        return "HeaderOneNode(\(content))"
+        return "HeaderThreeNode(\(content))"
     }
 }
 
 public struct HeaderFourNode: ElementNode {
     public let content: [ElementNode]
     public var description: String {
-        return "HeaderOneNode(\(content))"
+        return "HeaderFourNode(\(content))"
     }
 }
 
 public struct HeaderFiveNode: ElementNode {
     public let content: [ElementNode]
     public var description: String {
-        return "HeaderOneNode(\(content))"
+        return "HeaderFiveNode(\(content))"
     }
 }
 
