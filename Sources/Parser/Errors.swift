@@ -34,4 +34,5 @@ public enum ParserError: Error {
     case expectedImage
     case expectedHorizontalRule
     case expectedCode
+    case expectedBlockquote
 }
