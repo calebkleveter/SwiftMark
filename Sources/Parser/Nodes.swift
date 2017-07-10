@@ -28,3 +28,10 @@ public struct TextNode: ElementNode {
          return "TextNode(\(value))"
     }
 }
+
+public struct HeaderOneNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "HeaderOneNode(\(content))"
+    }
+}
