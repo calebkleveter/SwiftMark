@@ -46,6 +46,7 @@ open class Parser {
     private func parseToken(_ token: Lexer.Token)throws -> ElementNode {
         switch token {
         case .text(_): return parseText()
+        case .header1(_): return try parseHeaderOne()
         default: fatalError("Unsupported Token")
         }
     }
@@ -68,5 +69,14 @@ open class Parser {
         }
         
         return TextNode(value: text)
+    }
+    
+    public func parseHeaderOne()throws -> ElementNode {
+        guard case let Lexer.Token.header1(value) = popToken() else {
+            throw ParserError.expectedHeader1
+        }
+        let content = try value.map(parseToken)
+        
+        return HeaderOneNode(content: content)
     }
 }
