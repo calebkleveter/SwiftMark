@@ -68,13 +68,17 @@ open class Parser {
         var nodes: [ElementNode] = []
         
         getNodes: while true {
-            if case let Lexer.Token.text(value) = currentToken {
+            switch currentToken {
+            case let .text(value):
                 popToken()
                 if value == "\r\n" { break } else {
                     let node = TextNode(value: value)
                     nodes.append(node)
                 }
-            } else {
+            case let .escape(value):
+                let node = TextNode(value: value)
+                nodes.append(node)
+            default:
                 switch currentToken {
                 case .code, .italic, .link, .bold:
                     let node = try parseCurrentToken()
@@ -84,7 +88,6 @@ open class Parser {
                 }
             }
         }
-        
         return ParagraphNode(content: nodes)
     }
     
