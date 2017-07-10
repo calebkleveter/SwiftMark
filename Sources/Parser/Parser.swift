@@ -33,6 +33,7 @@ open class Parser {
         return tokens[currentTokenIndex]
     }
     
+    @discardableResult
     private func popToken() -> Lexer.Token {
         defer { currentTokenIndex += 1 }
         return currentToken
