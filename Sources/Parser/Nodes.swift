@@ -134,3 +134,10 @@ public struct OrderedListNode: ElementNode {
         return "OrderedListNode(\(content))"
     }
 }
+
+public struct UnorderedListNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "UnorderedListNode(\(content))"
+    }
+}
