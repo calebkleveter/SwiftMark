@@ -28,4 +28,8 @@ open class Parser {
     public init(tokens: [Lexer.Token]) {
         self.tokens = tokens
     }
+    
+    private var currentToken: Lexer.Token {
+        return tokens[currentTokenIndex]
+    }
 }
