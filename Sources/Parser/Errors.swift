@@ -33,4 +33,5 @@ public enum ParserError: Error {
     case expectedLink
     case expectedImage
     case expectedHorizontalRule
+    case expectedCode
 }
