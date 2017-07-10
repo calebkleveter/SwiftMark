@@ -39,8 +39,12 @@ open class Parser {
         return currentToken
     }
     
-    public func parseToken() -> ElementNode {
-        switch currentToken {
+    public func parseCurrentToken() -> ElementNode {
+        return parseToken(currentToken)
+    }
+    
+    private func parseToken(_ token: Lexer.Token) -> ElementNode {
+        switch token {
         case .text(_): return parseText()
         default: fatalError("Unsupported Token")
         }
