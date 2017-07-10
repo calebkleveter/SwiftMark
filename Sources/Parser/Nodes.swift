@@ -20,7 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-protocol ElementNode: CustomStringConvertible {}
+public protocol ElementNode: CustomStringConvertible {}
 
 public struct TextNode: ElementNode {
     public let value: String
