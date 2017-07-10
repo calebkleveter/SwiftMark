@@ -46,6 +46,18 @@ open class Parser {
         return try parseToken(currentToken)
     }
     
+    public func parseTokens()throws -> AST {
+        currentTokenIndex = 0
+        var nodes: AST = []
+        
+        while currentTokenIndex < tokens.count {
+            let currentNode = try parseCurrentToken()
+            nodes.append(currentNode)
+        }
+        
+        return nodes
+    }
+    
     private func parseToken(_ token: Lexer.Token)throws -> ElementNode {
         switch token {
         case .text(_): return try parseText()
