@@ -54,6 +54,7 @@ open class Parser {
         case .header6(_): return try parseHeaderSix()
         case .bold(_): return try parseBold()
         case .italic(_): return try parseItalic()
+        case .link(text: _, url: _): return try parseLink()
         default: fatalError("Unsupported Token")
         }
     }
@@ -148,5 +149,14 @@ open class Parser {
         let content = try tokens.map(parseToken)
         
         return ItalicNode(content: content)
+    }
+    
+    public func parseLink()throws -> ElementNode {
+        guard case let Lexer.Token.link(text: text, url: url) = popToken() else {
+            throw ParserError.expectedLink
+        }
+        let linkText = try text.map(parseToken)
+        
+        return LinkNode(text: linkText, url: url)
     }
 }
