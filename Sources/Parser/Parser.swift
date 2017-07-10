@@ -23,6 +23,7 @@ import Lexer
 
 open class Parser {
     private let tokens: [Lexer.Token]
+    private var currentTokenIndex = 0
     
     public init(tokens: [Lexer.Token]) {
         self.tokens = tokens
