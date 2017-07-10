@@ -59,6 +59,7 @@ open class Parser {
         case .horizontalRule: return try parseHorizontalRule()
         case .code(_): return try parseCode()
         case .blockQuote(_): return try parseBlockquote()
+        case .orderedList(_): return try parseOrderedList()
         default: fatalError("Unsupported Token")
         }
     }
@@ -210,5 +211,21 @@ open class Parser {
         }
         
         return BlockquoteNode(content: content)
+    }
+    
+    public func parseOrderedList()throws -> ElementNode {
+        var content: [ElementNode] = []
+        
+        while true {
+            if case let Lexer.Token.orderedList(tokens) = currentToken {
+                popToken()
+                let nodes = try tokens.map(parseToken)
+                content.append(contentsOf: nodes)
+            } else {
+                break
+            }
+        }
+        
+        return OrderedListNode(content: content)
     }
 }
