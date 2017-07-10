@@ -56,3 +56,10 @@ public struct HeaderFourNode: ElementNode {
         return "HeaderOneNode(\(content))"
     }
 }
+
+public struct HeaderFiveNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "HeaderOneNode(\(content))"
+    }
+}
