@@ -37,4 +37,21 @@ open class Parser {
         defer { currentTokenIndex += 1 }
         return currentToken
     }
+    
+    // MARK: - Token Parsers
+    
+    public func parseText() -> ElementNode {
+        var text = ""
+        
+        while true {
+            if case let Lexer.Token.text(value) = currentToken {
+                popToken()
+                text += value
+            } else {
+                break
+            }
+        }
+        
+        return TextNode(value: text)
+    }
 }
