@@ -49,3 +49,10 @@ public struct HeaderThreeNode: ElementNode {
         return "HeaderOneNode(\(content))"
     }
 }
+
+public struct HeaderFourNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "HeaderOneNode(\(content))"
+    }
+}
