@@ -32,4 +32,5 @@ public enum ParserError: Error {
     case expectedItalic
     case expectedLink
     case expectedImage
+    case expectedHorizontalRule
 }
