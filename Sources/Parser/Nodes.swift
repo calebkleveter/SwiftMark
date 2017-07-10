@@ -106,3 +106,10 @@ public struct HorizontalRuleNode: ElementNode {
         return "HorizontalRuleNode"
     }
 }
+
+public struct CodeNode: ElementNode {
+    public let value: String
+    public var description: String {
+        return "CodeNode(\(value))"
+    }
+}
