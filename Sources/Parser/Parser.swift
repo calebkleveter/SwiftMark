@@ -61,6 +61,7 @@ open class Parser {
         case .blockQuote(_): return try parseBlockquote()
         case .orderedList(_): return try parseOrderedList()
         case .unOrderedList(_): return try parseUnorderedList()
+        case .codeBlock(_): return try parseCodeBlock()
         default: fatalError("Unsupported Token")
         }
     }
@@ -196,6 +197,13 @@ open class Parser {
             throw ParserError.expectedCode
         }
         return CodeNode(value: value)
+    }
+    
+    public func parseCodeBlock()throws -> ElementNode {
+        guard case let Lexer.Token.codeBlock(code) = popToken() else {
+            throw ParserError.expectedCode
+        }
+        return CodeBlockNode(code: code)
     }
     
     public func parseBlockquote()throws -> ElementNode {
