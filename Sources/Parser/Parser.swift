@@ -45,7 +45,7 @@ open class Parser {
     
     private func parseToken(_ token: Lexer.Token)throws -> ElementNode {
         switch token {
-        case .text(_): return parseText()
+        case .text(_): return try parseText()
         case .header1(_): return try parseHeaderOne()
         case .header2(_): return try parseHeaderTwo()
         case .header3(_): return try parseHeaderThree()
@@ -62,19 +62,9 @@ open class Parser {
     
     // MARK: - Token Parsers
     
-    public func parseText() -> ElementNode {
-        var text = ""
-        
-        while true {
-            if case let Lexer.Token.text(value) = currentToken {
-                popToken()
-                text += value
-            } else if case let Lexer.Token.escape(value) = currentToken {
-                popToken()
-                text += value
-            } else {
-                break
-            }
+    public func parseText()throws -> ElementNode {
+        guard case let Lexer.Token.text(text) = popToken() else {
+            throw ParserError.expectedText
         }
         
         return TextNode(value: text)

@@ -21,6 +21,7 @@
 //SOFTWARE.
 
 public enum ParserError: Error {
+    case expectedText
     case expectedHeader1
     case expectedHeader2
     case expectedHeader3
