@@ -100,3 +100,9 @@ public struct ImageNode: ElementNode {
         return "LinkNode(text: \(text), url: \(url))"
     }
 }
+
+public struct HorizontalRuleNode: ElementNode {
+    public var description: String {
+        return "HorizontalRuleNode"
+    }
+}
