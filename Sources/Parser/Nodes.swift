@@ -120,3 +120,10 @@ public struct ParagraphNode: ElementNode {
         return "ParagraphNode(\(content))"
     }
 }
+
+public struct BlockquoteNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "BlockquoteNode(\(content))"
+    }
+}
