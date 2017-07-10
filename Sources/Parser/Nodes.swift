@@ -63,3 +63,10 @@ public struct HeaderFiveNode: ElementNode {
         return "HeaderOneNode(\(content))"
     }
 }
+
+public struct HeaderSixNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "HeaderSixNode(\(content))"
+    }
+}
