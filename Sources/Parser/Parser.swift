@@ -56,6 +56,7 @@ open class Parser {
         case .italic(_): return try parseItalic()
         case .link(text: _, url: _): return try parseLink()
         case .image(text: _, url: _): return try parseImage()
+        case .horizontalRule: return try parseHorizontalRule()
         default: fatalError("Unsupported Token")
         }
     }
@@ -156,5 +157,13 @@ open class Parser {
             throw ParserError.expectedImage
         }
         return ImageNode(text: text, url: url)
+    }
+    
+    public func parseHorizontalRule()throws -> ElementNode {
+        guard case Lexer.Token.horizontalRule = popToken() else {
+            throw ParserError.expectedHorizontalRule
+        }
+        
+        return HorizontalRuleNode()
     }
 }
