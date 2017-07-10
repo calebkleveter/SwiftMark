@@ -84,3 +84,11 @@ public struct ItalicNode: ElementNode {
         return "ItalicNode(\(content))"
     }
 }
+
+public struct LinkNode: ElementNode {
+    public let text: [ElementNode]
+    public let url: String
+    public var description: String {
+        return "LinkNode(text: \(text), url: \(url))"
+    }
+}
