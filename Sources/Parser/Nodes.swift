@@ -127,3 +127,10 @@ public struct BlockquoteNode: ElementNode {
         return "BlockquoteNode(\(content))"
     }
 }
+
+public struct OrderedListNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "OrderedListNode(\(content))"
+    }
+}
