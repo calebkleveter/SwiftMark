@@ -30,4 +30,5 @@ public enum ParserError: Error {
     case expectedBold
     case expectedItalic
     case expectedLink
+    case expectedImage
 }
