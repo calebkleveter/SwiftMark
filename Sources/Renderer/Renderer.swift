@@ -23,5 +23,9 @@
 import Parser
 
 open class Renderer {
+    private let ast: AST
     
+    public init(ast: AST) {
+        self.ast = ast
+    }
 }
