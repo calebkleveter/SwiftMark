@@ -113,3 +113,10 @@ public struct CodeNode: ElementNode {
         return "CodeNode(\(value))"
     }
 }
+
+public struct ParagraphNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "ParagraphNode(\(content))"
+    }
+}
