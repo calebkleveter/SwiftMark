@@ -92,3 +92,11 @@ public struct LinkNode: ElementNode {
         return "LinkNode(text: \(text), url: \(url))"
     }
 }
+
+public struct ImageNode: ElementNode {
+    public let text: String
+    public let url: String
+    public var description: String {
+        return "LinkNode(text: \(text), url: \(url))"
+    }
+}
