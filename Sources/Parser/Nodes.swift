@@ -42,3 +42,10 @@ public struct HeaderTwoNode: ElementNode {
         return "HeaderOneNode(\(content))"
     }
 }
+
+public struct HeaderThreeNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "HeaderOneNode(\(content))"
+    }
+}
