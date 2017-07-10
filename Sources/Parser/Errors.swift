@@ -27,4 +27,5 @@ public enum ParserError: Error {
     case expectedHeader4
     case expectedHeader5
     case expectedHeader6
+    case expectedBold
 }
