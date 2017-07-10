@@ -19,10 +19,13 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
+import Lexer
 
 open class Parser {
     
-    func parse(_ tokens: [Lexer.Token]) -> String {
+    public init() {}
+    
+    public func parse(_ tokens: [Lexer.Token]) -> String {
         var paragraph = ""
         var orderedList = ""
         var unOrderedList = ""
@@ -128,7 +131,7 @@ open class Parser {
         return html
     }
     
-    func parseUnstyled(tokens: [Lexer.Token]) -> String {
+    public func parseUnstyled(tokens: [Lexer.Token]) -> String {
         return "<p>\(tokens.map({return $0.text}).joined(separator: " "))</p>"
     }
 }

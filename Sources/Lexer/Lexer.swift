@@ -24,6 +24,8 @@ import Foundation
 
 open class Lexer {
     
+    public init() {}
+    
     let tokenGenerators: [(regex: String, templates: [String], tokenGenerator: ([String])throws -> Token?)] = [
         ("\\\\(.)", ["$1"], { return .escape($0[0].safetyHTMLEncoded())}),
         ("( {4}|\\t)(.+)[\\n\\r]?", ["$2"], { return .codeBlock($0[0].safetyHTMLEncoded())}),
@@ -47,7 +49,7 @@ open class Lexer {
         
     ]
     
-    func tokenize(_ string: String)throws -> [Token] {
+    public func tokenize(_ string: String)throws -> [Token] {
         var tokens: [Token] = []
         var input = string
         
@@ -74,7 +76,7 @@ open class Lexer {
         return tokens
     }
     
-    enum Token {
+    public enum Token {
         case header1([Token])
         case header2([Token])
         case header3([Token])
@@ -95,7 +97,7 @@ open class Lexer {
         case text(String)
         case `break`
         
-        var html: String {
+        public var html: String {
             switch self {
             case .header1(let tokens): return "<h1>\(tokens.map({return $0.html}).joined(separator: " "))</h1>"
             case .header2(let tokens): return "<h2>\(tokens.map({return $0.html}).joined(separator: " "))</h2>"
@@ -119,7 +121,7 @@ open class Lexer {
             }
         }
         
-        var text: String {
+        public var text: String {
             switch self {
             case .header1(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
             case .header2(let tokens): return tokens.map({return $0.text}).joined(separator: " ")
