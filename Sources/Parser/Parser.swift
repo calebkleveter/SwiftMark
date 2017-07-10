@@ -77,6 +77,7 @@ open class Parser {
                     nodes.append(node)
                 }
             case let .escape(value):
+                popToken()
                 let node = TextNode(value: value)
                 nodes.append(node)
             default:
