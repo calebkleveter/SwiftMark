@@ -58,6 +58,7 @@ open class Parser {
         case .image(text: _, url: _): return try parseImage()
         case .horizontalRule: return try parseHorizontalRule()
         case .code(_): return try parseCode()
+        case .blockQuote(_): return try parseBlockquote()
         default: fatalError("Unsupported Token")
         }
     }
@@ -192,5 +193,21 @@ open class Parser {
             throw ParserError.expectedCode
         }
         return CodeNode(value: value)
+    }
+    
+    public func parseBlockquote()throws -> ElementNode {
+        var content: [ElementNode] = []
+        
+        while true {
+            if case let Lexer.Token.blockQuote(tokens) = currentToken {
+                popToken()
+                let nodes = try tokens.map(parseToken)
+                content.append(contentsOf: nodes)
+            } else {
+                break
+            }
+        }
+        
+        return BlockquoteNode(content: content)
     }
 }
