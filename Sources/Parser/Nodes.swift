@@ -77,3 +77,10 @@ public struct BoldNode: ElementNode {
         return "BoldNode(\(content))"
     }
 }
+
+public struct ItalicNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "ItalicNode(\(content))"
+    }
+}
