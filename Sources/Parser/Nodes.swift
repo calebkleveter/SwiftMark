@@ -141,3 +141,11 @@ public struct UnorderedListNode: ElementNode {
         return "UnorderedListNode(\(content))"
     }
 }
+
+public struct CodeBlockNode: ElementNode {
+    public let code: String
+    public var description: String {
+        return "CodeBlockNode(\(code))"
+    }
+    
+}
