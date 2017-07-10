@@ -70,3 +70,10 @@ public struct HeaderSixNode: ElementNode {
         return "HeaderSixNode(\(content))"
     }
 }
+
+public struct BoldNode: ElementNode {
+    public let content: [ElementNode]
+    public var description: String {
+        return "BoldNode(\(content))"
+    }
+}
