@@ -52,6 +52,7 @@ open class Parser {
         case .header4(_): return try parseHeaderFour()
         case .header5(_): return try parseHeaderFive()
         case .header6(_): return try parseHeaderSix()
+        case .bold(_): return try parseBold()
         default: fatalError("Unsupported Token")
         }
     }
@@ -128,5 +129,14 @@ open class Parser {
         let content = try value.map(parseToken)
         
         return HeaderSixNode(content: content)
+    }
+    
+    public func parseBold()throws -> ElementNode {
+        guard case let Lexer.Token.bold(tokens) = popToken() else {
+            throw ParserError.expectedBold
+        }
+        let content = try tokens.map(parseToken)
+        
+        return BoldNode(content: content)
     }
 }
