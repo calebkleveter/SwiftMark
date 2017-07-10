@@ -55,6 +55,7 @@ open class Parser {
         case .bold(_): return try parseBold()
         case .italic(_): return try parseItalic()
         case .link(text: _, url: _): return try parseLink()
+        case .image(text: _, url: _): return try parseImage()
         default: fatalError("Unsupported Token")
         }
     }
@@ -158,5 +159,12 @@ open class Parser {
         let linkText = try text.map(parseToken)
         
         return LinkNode(text: linkText, url: url)
+    }
+    
+    public func parseImage()throws -> ElementNode {
+        guard case let Lexer.Token.image(text: text, url: url) = popToken() else {
+            throw ParserError.expectedImage
+        }
+        return ImageNode(text: text, url: url)
     }
 }
