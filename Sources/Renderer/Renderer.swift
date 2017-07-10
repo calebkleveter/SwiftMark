@@ -29,6 +29,10 @@ open class Renderer {
         self.ast = ast
     }
     
+    public func renderAST()throws -> String {
+        return try ast.map(renderNode).joined()
+    }
+    
     private func renderText(_ node: ParagraphNode, withParagraph: Bool)throws -> String {
         let text = try node.content.map(renderNode).joined()
         if withParagraph {
