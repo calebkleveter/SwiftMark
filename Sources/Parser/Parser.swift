@@ -109,7 +109,7 @@ open class Parser {
         }
         let content = try value.map(parseToken)
         
-        return HeaderThreeNode(content: content)
+        return HeaderFourNode(content: content)
     }
     
     public func parseHeaderFive()throws -> ElementNode {
@@ -118,7 +118,7 @@ open class Parser {
         }
         let content = try value.map(parseToken)
         
-        return HeaderThreeNode(content: content)
+        return HeaderFiveNode(content: content)
     }
     
     public func parseHeaderSix()throws -> ElementNode {
