@@ -55,6 +55,9 @@ open class Parser {
             if case let Lexer.Token.text(value) = currentToken {
                 popToken()
                 text += value
+            } else if case let Lexer.Token.escape(value) = currentToken {
+                popToken()
+                text += value
             } else {
                 break
             }
