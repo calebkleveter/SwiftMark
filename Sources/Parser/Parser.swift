@@ -65,11 +65,27 @@ open class Parser {
     // MARK: - Token Parsers
     
     public func parseText()throws -> ElementNode {
-        guard case let Lexer.Token.text(text) = popToken() else {
-            throw ParserError.expectedText
+        var nodes: [ElementNode] = []
+        
+        getNodes: while true {
+            if case let Lexer.Token.text(value) = currentToken {
+                popToken()
+                if value == "\r\n" { break } else {
+                    let node = TextNode(value: value)
+                    nodes.append(node)
+                }
+            } else {
+                switch currentToken {
+                case .code, .italic, .link, .bold:
+                    let node = try parseCurrentToken()
+                    nodes.append(node)
+                    popToken()
+                default: break getNodes
+                }
+            }
         }
         
-        return TextNode(value: text)
+        return ParagraphNode(content: nodes)
     }
     
     public func parseHeaderOne()throws -> ElementNode {
