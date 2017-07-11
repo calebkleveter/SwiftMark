@@ -24,8 +24,8 @@ class SwiftMarkTests: XCTestCase {
         var html = "<a href=\"https://stackoverflow.com/\">Stack Overflow</a>"
         test(markdown: md, isEqualTo: html)
         
-        md = "[What does `code` do in an *italic* link?](https://stackoverflow.com/)"
-        html = "<a href=\"https://stackoverflow.com/\">What does <code>code</code> do in an <em>italic</em> link?</a>"
+        md = "[What does `code` do in an *italic* link and not **bold**?](https://stackoverflow.com/)"
+        html = "<a href=\"https://stackoverflow.com/\">What does <code>code</code> do in an <em>italic</em> link and not <strong>bold</strong>?</a>"
         test(markdown: md, isEqualTo: html)
     }
     
