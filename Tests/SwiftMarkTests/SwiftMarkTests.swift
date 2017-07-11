@@ -95,12 +95,40 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testHeaders() {
+        let md = """
+        # Header 1
+        Plain text goes here
+        #### header 4
+
+        HEader2
+        -----
+
+        More plain text here
+        Another line under it
+
+        Header with a **bold *italic***
+        =======
+
+        ### Header 3
+        ##### Header 5
+        ###### Header 6
+
+        # Header 1
+        """
+        
+        let html = "<h1>Header 1</h1><p>Plain text goes here</p><h4>header 4</h4><br/><h2>HEader2</h2><br/><p>More plain text here</p><p>Another line under it</p><br/><h1>Header with a <strong>bold <em>italic</em></strong></h1><br/><h3>Header 3</h3><h5>Header 5</h5><h6>Header 6</h6><br/><h1>Header 1</h1>"
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
                 ("TestImageRender", testImageRender),
                 ("TestLinkRender", testLinkRender),
                 ("TestParagraph", testParagraph),
-                ("TestCodeBlock", testCodeBlock)
+                ("TestCodeBlock", testCodeBlock),
+                ("TestHeaders", testHeaders)
         ]
     }
 }
