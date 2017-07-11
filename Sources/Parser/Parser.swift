@@ -71,13 +71,13 @@ open class Parser {
         case .header4(_): return try parseHeaderFour()
         case .header5(_): return try parseHeaderFive()
         case .header6(_): return try parseHeaderSix()
-        case .bold(_): return try parseBold()
-        case .italic(_): return try parseItalic()
-        case .link(text: _, url: _): return try parseLink()
+        case .bold(_): return try parseText()
+        case .italic(_): return try parseText()
+        case .link(text: _, url: _): return try parseText()
         case .image(text: _, url: _): return try parseImage()
         case .horizontalRule: return try parseHorizontalRule()
         case .break: return try parseBreak()
-        case .code(_): return try parseCode()
+        case .code(_): return try parseText()
         case .blockQuote(_): return try parseBlockquote()
         case .orderedList(_): return try parseOrderedList()
         case .unOrderedList(_): return try parseUnorderedList()
@@ -113,8 +113,17 @@ open class Parser {
                 nodes.append(node)
             default:
                 switch currentToken {
-                case .code, .italic, .link, .bold:
-                    let node = try parseCurrentToken()
+                case .code:
+                    let node = try parseCode()
+                    nodes.append(node)
+                case .italic:
+                    let node = try parseItalic()
+                    nodes.append(node)
+                case .link:
+                    let node = try parseLink()
+                    nodes.append(node)
+                case .bold:
+                    let node = try parseBold()
                     nodes.append(node)
                 default: break getNodes
                 }
@@ -270,17 +279,20 @@ open class Parser {
     
     public func parseBlockquote()throws -> ElementNode {
         var content: [ElementNode] = []
-        
         while true {
             if case let Lexer.Token.blockQuote(tokens) = currentToken {
                 popToken()
-                let nodes = try tokens.map(parseToken)
+                stripNewline()
+                
+                let quoteParser = Parser(tokens: tokens)
+                let nodes = try quoteParser.parseTokens()
+                
                 content.append(contentsOf: nodes)
             } else {
                 break
             }
         }
-        
+        print(content)
         return BlockquoteNode(content: content)
     }
     
