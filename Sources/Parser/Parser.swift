@@ -76,12 +76,13 @@ open class Parser {
         case .link(text: _, url: _): return try parseLink()
         case .image(text: _, url: _): return try parseImage()
         case .horizontalRule: return try parseHorizontalRule()
+        case .break: return try parseBreak()
         case .code(_): return try parseCode()
         case .blockQuote(_): return try parseBlockquote()
         case .orderedList(_): return try parseOrderedList()
         case .unOrderedList(_): return try parseUnorderedList()
         case .codeBlock(_): return try parseCodeBlock()
-        default: fatalError("Unsupported Token")
+        default: fatalError("Unsupported Token: \(token)")
         }
     }
     
@@ -211,6 +212,14 @@ open class Parser {
         }
         
         return HorizontalRuleNode()
+    }
+    
+    public func parseBreak()throws -> ElementNode {
+        guard case Lexer.Token.break = popToken() else {
+            throw ParserError.expectedBreak
+        }
+        
+        return BreakNode()
     }
     
     public func parseCode()throws -> ElementNode {
