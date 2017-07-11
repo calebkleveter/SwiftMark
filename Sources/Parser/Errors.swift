@@ -33,6 +33,7 @@ public enum ParserError: Error {
     case expectedLink
     case expectedImage
     case expectedHorizontalRule
+    case expectedBreak
     case expectedCode
     case expectedBlockquote
 }
