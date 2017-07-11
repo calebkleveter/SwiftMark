@@ -55,24 +55,43 @@ class SwiftMarkTests: XCTestCase {
     
     func testCodeBlock() {
         var md = """
-            class Person {
-                let name: String
-
-                init(name: String) {
-                    self.name = name
-                }
-            }
-        """
-        
-        var html = """
-        <pre><code>class Person {
+        ```
+        class Person {
             let name: String
 
             init(name: String) {
                 self.name = name
             }
-        }</code></pre>
+        }
+        ```
         """
+        
+        var html =
+        "<pre><code>\n" +
+        """
+        class Person {
+            let name: String
+
+            init(name: String) {
+                self.name = name
+            }
+        }
+        """.safetyHTMLEncoded() + "\n</code></pre>"
+        test(markdown: md, isEqualTo: html)
+        
+        md = """
+        ```
+        Hello *World*!
+        Great day **isn't* it?
+        ```
+        """
+        
+        html =
+        "<pre><code>\n" +
+        """
+        Hello *World*!
+        Great day **isn't* it?
+        """.safetyHTMLEncoded() + "\n</code></pre>"
         test(markdown: md, isEqualTo: html)
     }
     
@@ -80,7 +99,8 @@ class SwiftMarkTests: XCTestCase {
         return [
                 ("TestImageRender", testImageRender),
                 ("TestLinkRender", testLinkRender),
-                ("TestParagraph", testParagraph)
+                ("TestParagraph", testParagraph),
+                ("TestCodeBlock", testCodeBlock)
         ]
     }
 }
