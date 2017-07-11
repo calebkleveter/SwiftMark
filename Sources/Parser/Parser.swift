@@ -107,7 +107,6 @@ open class Parser {
                 case .code, .italic, .link, .bold:
                     let node = try parseCurrentToken()
                     nodes.append(node)
-                    popToken()
                 default: break getNodes
                 }
             }
