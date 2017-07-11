@@ -22,33 +22,10 @@
 
 import Lexer
 import Parser
+import Renderer
 
 /// Renders Markdown to HTML
 open class MarkdownRenderer {
-    
-    /// The Lexer used to convert the text to tokens so it can parsed.
-    public let lexer: Lexer
-    
-    /// The parser used to cnovert the tokens from the lexer to HTML.
-    public let parser: Parser
-    
-    /// Creates a Markdown renderer with a custom lexer and parser
-    ///
-    /// - Parameters:
-    ///   - lexer: The lexer that will be used during rendering to convert the Markdown to tokens.
-    ///   - parser: The parser that will be used during rendering to convert the lexer tokens to HTML.
-    public init(with lexer: Lexer, and parser: Parser) {
-        self.lexer = lexer
-        self.parser = parser
-    }
-    
-    /// Creats a Markdown renderer with a default lexer and parser.
-    public convenience init() {
-        let newLexer = Lexer()
-        let newParser = Parser()
-        
-        self.init(with: newLexer, and: newParser)
-    }
     
     /// Renders Markdown to HTML.
     ///
@@ -56,17 +33,13 @@ open class MarkdownRenderer {
     /// - Returns: HTML created from the string passed in.
     /// - Throws: Any errors thrown when creating the RegEx to find the Markdown patterns in the string passed in.
     public func render(_ string: String)throws -> String {
+        let lexer = Lexer()
         let tokens = try lexer.tokenize(string)
-        return parser.parse(tokens)
-    }
-    
-    /// Gets the text from markdown and removes all non-inline styles.
-    ///
-    /// - Parameter string: The Markdown string that the text will be extracted from.
-    /// - Returns: The text from the string passed in.
-    /// - Throws: Any errors thrown while creating the regex to recognize Markdown elements.
-    public func text(from string: String)throws -> String {
-        let tokens = try lexer.tokenize(string)
-        return parser.parseUnstyled(tokens: tokens)
+        
+        let parser = Parser(tokens: tokens)
+        let ast = try parser.parseTokens()
+        
+        let renderer = Renderer(ast: ast)
+        return try renderer.renderAST()
     }
 }
