@@ -172,9 +172,10 @@ open class Parser {
         guard case let Lexer.Token.bold(tokens) = popToken() else {
             throw ParserError.expectedBold
         }
-        let content = try tokens.map(parseToken)
+        let boldTextParser = Parser(tokens: tokens)
+        let textNodes = try boldTextParser.parseTokens()
         
-        return BoldNode(content: content)
+        return BoldNode(content: textNodes)
     }
     
     public func parseItalic()throws -> ElementNode {
