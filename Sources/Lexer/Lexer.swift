@@ -43,7 +43,7 @@ open class Lexer {
         ("\\>\\s?([^\\n\\>]+)", ["$1"], { return .blockQuote(try Lexer().tokenize($0[0]))}),
         ("(\\+|\\-|\\*)\\s?(.+)", ["$2"], { return .unOrderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\d+\\.\\s([^\\n]+)", ["$1"], { return .orderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
-        ("\\`(.*)\\`", ["$1"], { return .code($0[0].safetyHTMLEncoded())}),
+        ("\\`([^\\`]*)\\`", ["$1"], { return .code($0[0].safetyHTMLEncoded())}),
         ("\n{2}", [], { _ in return .break }),
         ("([^\\s]+)", ["$1"], { return .text($0[0].safetyHTMLEncoded())})
         
