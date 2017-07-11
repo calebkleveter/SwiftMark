@@ -158,6 +158,30 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testList() {
+        let md = """
+        Opening paragraph here
+
+        - First item
+        - Second *item here*. Next:
+        - Another `one`
+        - __Bold__ items make a run for it.
+
+        Ordered list blow:
+
+        1. Item number *one*.
+        3. Item **number two**
+        3. `Last` item in the list.
+
+        * Try another!
+        + Does this work?
+        """
+        
+        let html = "<p>Opening paragraph here</p><br/><ul><li>First item</li><li>Second <em>item here</em>. Next:</li><li>Another <code>one</code></li><li><strong>Bold</strong> items make a run for it.</li></ul><br/><p>Ordered list blow:</p><br/><ol><li>Item number <em>one</em>.</li><li>Item <strong>number two</strong></li><li><code>Last</code> item in the list.</li></ol><br/><ul><li>Try another!</li><li>Does this work?</li></ul>"
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
                 ("TestImageRender", testImageRender),
@@ -165,7 +189,8 @@ class SwiftMarkTests: XCTestCase {
                 ("TestParagraph", testParagraph),
                 ("TestCodeBlock", testCodeBlock),
                 ("TestHeaders", testHeaders),
-                ("TestBlockquotes", testBlockquote)
+                ("TestBlockquotes", testBlockquote),
+                ("TestLists", testList)
         ]
     }
 }
