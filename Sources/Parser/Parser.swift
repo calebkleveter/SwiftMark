@@ -181,9 +181,10 @@ open class Parser {
         guard case let Lexer.Token.italic(tokens) = popToken() else {
             throw ParserError.expectedItalic
         }
-        let content = try tokens.map(parseToken)
+        let italicTextParser = Parser(tokens: tokens)
+        let textNodes = try italicTextParser.parseTokens()
         
-        return ItalicNode(content: content)
+        return ItalicNode(content: textNodes)
     }
     
     public func parseLink()throws -> ElementNode {
