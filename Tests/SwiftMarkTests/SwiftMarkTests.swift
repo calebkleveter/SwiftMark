@@ -130,13 +130,42 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testBlockquote() {
+        var md = """
+        This a a pragraph
+        > This is a blockquote.
+        > With multiple lines.
+        > And a third for good measure
+        Paragraph here again
+        """
+        
+        var html = """
+        <p>This a a pragraph</p><blockquote><p>This is a blockquote.</p><p>With multiple lines.</p><p>And a third for good measure</p></blockquote><p>Paragraph here again</p>
+        """
+        test(markdown: md, isEqualTo: html)
+        
+        md = """
+        This a a `pragraph`
+        > This *is a* blockquote.
+        > `With multiple` lines.
+        > And a third **for good measure**
+        Paragraph here again
+        """
+        
+        html = """
+        <p>This a a <code>pragraph</code></p><blockquote><p>This <em>is a</em> blockquote.</p><p><code>With multiple</code> lines.</p><p>And a third <strong>for good measure</strong></p></blockquote><p>Paragraph here again</p>
+        """
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
                 ("TestImageRender", testImageRender),
                 ("TestLinkRender", testLinkRender),
                 ("TestParagraph", testParagraph),
                 ("TestCodeBlock", testCodeBlock),
-                ("TestHeaders", testHeaders)
+                ("TestHeaders", testHeaders),
+                ("TestBlockquotes", testBlockquote)
         ]
     }
 }
