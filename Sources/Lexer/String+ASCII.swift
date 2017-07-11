@@ -36,7 +36,7 @@ extension String {
     /// Encodes a string to pervent direct HTML injection to a web page.
     ///
     /// - Returns: The encoded string.
-    func safetyHTMLEncoded() -> String {
+    public func safetyHTMLEncoded() -> String {
         let htmlAsciiCodes: [String: String] = ["<": "&lt;", ">": "&gt;", "/": "&#47;", "(": "&#40;", ")": "&#41;", "{": "&#123;", "}": "&#125;", "\"": "&quot;"]
         var finalString = ""
         _ = self.characters.map {
