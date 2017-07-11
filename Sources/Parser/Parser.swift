@@ -32,6 +32,10 @@ open class Parser {
         self.tokens = tokens
     }
     
+    private var areTokensLeft: Bool {
+        return currentTokenIndex < tokens.count
+    }
+    
     private var currentToken: Lexer.Token {
         return tokens[currentTokenIndex]
     }
@@ -86,7 +90,7 @@ open class Parser {
     public func parseText()throws -> ElementNode {
         var nodes: [ElementNode] = []
         
-        getNodes: while true {
+        getNodes: while true && areTokensLeft {
             switch currentToken {
             case let .text(value):
                 popToken()
@@ -187,9 +191,10 @@ open class Parser {
         guard case let Lexer.Token.link(text: text, url: url) = popToken() else {
             throw ParserError.expectedLink
         }
-        let linkText = try text.map(parseToken)
+        let linkTextParser = Parser(tokens: text)
+        let textNode = try linkTextParser.parseTokens()
         
-        return LinkNode(text: linkText, url: url)
+        return LinkNode(text: textNode, url: url)
     }
     
     public func parseImage()throws -> ElementNode {
