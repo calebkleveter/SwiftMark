@@ -107,6 +107,12 @@ public struct HorizontalRuleNode: ElementNode {
     }
 }
 
+public struct BreakNode: ElementNode {
+    public var description: String {
+        return "BreakNode"
+    }
+}
+
 public struct CodeNode: ElementNode {
     public let value: String
     public var description: String {
