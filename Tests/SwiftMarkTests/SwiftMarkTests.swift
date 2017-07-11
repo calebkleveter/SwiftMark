@@ -9,7 +9,7 @@ class SwiftMarkTests: XCTestCase {
             let renderedMd = try markdown.render(md)
             XCTAssertEqual(html, renderedMd)
         } catch {
-            XCTFail(error.localizedDescription)
+            XCTFail("\(error)")
         }
     }
     
