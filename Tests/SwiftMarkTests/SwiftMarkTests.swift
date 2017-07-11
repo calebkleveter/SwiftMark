@@ -195,6 +195,16 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testEscape() {
+        let md = """
+        \\![Stack Overflow](https://stackoverflow.com/)
+        \\## H1
+        """
+        let html = "<p>!<a href=\"https://stackoverflow.com/\">Stack Overflow</a></p><p>#</p><h1>H1</h1>"
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
                 ("TestImageRender", testImageRender),
@@ -204,7 +214,8 @@ class SwiftMarkTests: XCTestCase {
                 ("TestHeaders", testHeaders),
                 ("TestBlockquotes", testBlockquote),
                 ("TestLists", testList),
-                ("TestHorizontalRule", testHorizontalRule)
+                ("TestHorizontalRule", testHorizontalRule),
+                ("TestEscape", testEscape)
         ]
     }
 }
