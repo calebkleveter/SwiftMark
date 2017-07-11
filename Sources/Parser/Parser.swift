@@ -280,6 +280,7 @@ open class Parser {
     public func parseBlockquote()throws -> ElementNode {
         var content: [ElementNode] = []
         while true {
+            if !areTokensLeft { break }
             if case let Lexer.Token.blockQuote(tokens) = currentToken {
                 popToken()
                 stripNewline()
@@ -292,7 +293,7 @@ open class Parser {
                 break
             }
         }
-        print(content)
+        
         return BlockquoteNode(content: content)
     }
     
