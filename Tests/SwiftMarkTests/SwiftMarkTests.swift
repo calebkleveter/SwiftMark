@@ -21,11 +21,11 @@ class SwiftMarkTests: XCTestCase {
     
     func testLinkRender() {
         var md = "[Stack Overflow](https://stackoverflow.com/)"
-        var html = "<a href=\"https://stackoverflow.com/\">Stack Overflow</a>"
+        var html = "<p><a href=\"https://stackoverflow.com/\">Stack Overflow</a></p>"
         test(markdown: md, isEqualTo: html)
         
         md = "[What does `code` do in an *italic* link and not **bold**?](https://stackoverflow.com/)"
-        html = "<a href=\"https://stackoverflow.com/\">What does <code>code</code> do in an <em>italic</em> link and not <strong>bold</strong>?</a>"
+        html = "<p><a href=\"https://stackoverflow.com/\">What does <code>code</code> do in an <em>italic</em> link and not <strong>bold</strong>?</a></p>"
         test(markdown: md, isEqualTo: html)
     }
     
