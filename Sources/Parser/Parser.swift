@@ -86,6 +86,14 @@ open class Parser {
         }
     }
     
+    private func stripNewline() {
+        if areTokensLeft {
+            if case Lexer.Token.text("\n") = currentToken {
+                popToken()
+            }
+        }
+    }
+    
     // MARK: - Token Parsers
     
     public func parseText()throws -> ElementNode {
@@ -95,7 +103,7 @@ open class Parser {
             switch currentToken {
             case let .text(value):
                 popToken()
-                if value == "\r\n" { break } else {
+                if value == "\r\n" || value == "\n" { break getNodes } else {
                     let node = TextNode(value: value)
                     nodes.append(node)
                 }
@@ -119,54 +127,72 @@ open class Parser {
         guard case let Lexer.Token.header1(value) = popToken() else {
             throw ParserError.expectedHeader1
         }
-        let content = try value.map(parseToken)
+        let headerTextParser = Parser(tokens: value)
+        let textNodes = try headerTextParser.parseTokens()
         
-        return HeaderOneNode(content: content)
+        stripNewline()
+        
+        return HeaderOneNode(content: textNodes)
     }
     
     public func parseHeaderTwo()throws -> ElementNode {
         guard case let Lexer.Token.header2(value) = popToken() else {
             throw ParserError.expectedHeader2
         }
-        let content = try value.map(parseToken)
+        let headerTextParser = Parser(tokens: value)
+        let textNodes = try headerTextParser.parseTokens()
         
-        return HeaderTwoNode(content: content)
+        stripNewline()
+        
+        return HeaderTwoNode(content: textNodes)
     }
     
     public func parseHeaderThree()throws -> ElementNode {
         guard case let Lexer.Token.header3(value) = popToken() else {
             throw ParserError.expectedHeader3
         }
-        let content = try value.map(parseToken)
+        let headerTextParser = Parser(tokens: value)
+        let textNodes = try headerTextParser.parseTokens()
         
-        return HeaderThreeNode(content: content)
+        stripNewline()
+        
+        return HeaderThreeNode(content: textNodes)
     }
     
     public func parseHeaderFour()throws -> ElementNode {
-        guard case let Lexer.Token.header3(value) = popToken() else {
-            throw ParserError.expectedHeader3
+        guard case let Lexer.Token.header4(value) = popToken() else {
+            throw ParserError.expectedHeader4
         }
-        let content = try value.map(parseToken)
+        let headerTextParser = Parser(tokens: value)
+        let textNodes = try headerTextParser.parseTokens()
         
-        return HeaderFourNode(content: content)
+        stripNewline()
+        
+        return HeaderFourNode(content: textNodes)
     }
     
     public func parseHeaderFive()throws -> ElementNode {
-        guard case let Lexer.Token.header3(value) = popToken() else {
-            throw ParserError.expectedHeader3
+        guard case let Lexer.Token.header5(value) = popToken() else {
+            throw ParserError.expectedHeader5
         }
-        let content = try value.map(parseToken)
+        let headerTextParser = Parser(tokens: value)
+        let textNodes = try headerTextParser.parseTokens()
         
-        return HeaderFiveNode(content: content)
+        stripNewline()
+        
+        return HeaderFiveNode(content: textNodes)
     }
     
     public func parseHeaderSix()throws -> ElementNode {
         guard case let Lexer.Token.header6(value) = popToken() else {
             throw ParserError.expectedHeader6
         }
-        let content = try value.map(parseToken)
+        let headerTextParser = Parser(tokens: value)
+        let textNodes = try headerTextParser.parseTokens()
         
-        return HeaderSixNode(content: content)
+        stripNewline()
+        
+        return HeaderSixNode(content: textNodes)
     }
     
     public func parseBold()throws -> ElementNode {
