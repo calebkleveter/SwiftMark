@@ -53,6 +53,29 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testCodeBlock() {
+        var md = """
+            class Person {
+                let name: String
+
+                init(name: String) {
+                    self.name = name
+                }
+            }
+        """
+        
+        var html = """
+        <pre><code>class Person {
+            let name: String
+
+            init(name: String) {
+                self.name = name
+            }
+        }</code></pre>
+        """
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
                 ("TestImageRender", testImageRender),
