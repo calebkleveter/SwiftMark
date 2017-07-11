@@ -30,10 +30,10 @@ open class Lexer {
         ("\\\\(.)", ["$1"], { return .escape($0[0].safetyHTMLEncoded())}),
         ("\\`\\`\\`((.|\n|\n\r|\r)*)\\`\\`\\`", ["$1"], {return .codeBlock($0[0].safetyHTMLEncoded())}),
         ("( {4}|\\t)(.+)[\\n\\r]?", ["$2"], { return .codeBlock($0[0].safetyHTMLEncoded())}),
-        ("\\#{6}\\s?([^#\n]+)\\s?\\#*", ["$1"], {return .header6(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
-        ("\\#{5}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header5(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
-        ("\\#{4}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header4(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
-        ("\\#{3}\\s?([^#\n]+)\\s?\\#*", ["$1"], { return .header3(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\#{6}\\s?([^#\n]+)\\s??\\#*", ["$1"], {return .header6(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\#{5}\\s?([^#\n]+)\\s??\\#*", ["$1"], { return .header5(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\#{4}\\s?([^#\n]+)\\s??\\#*", ["$1"], { return .header4(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
+        ("\\#{3}\\s?([^#\n]+)\\s??\\#*", ["$1"], { return .header3(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("(\\#{2}\\s?([^\\#\n]+)\\#*|(.+)\\n\\-{2,})", ["$2", "$3"], { return .header2(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("(\\#\\s?([^\\#\\n]+)\\#*|(.+)\\n\\=+)", ["$2", "$3"], { return .header1(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("(\\_{2}|\\*{2})(.+)(\\_{2}|\\*{2})", ["$2"], {return .bold(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
@@ -45,7 +45,7 @@ open class Lexer {
         ("(\\+|\\-|\\*)\\s?(.+)", ["$2"], { return .unOrderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\d+\\.\\s([^\\n]+)", ["$1"], { return .orderedList(try Lexer().tokenize($0[0].safetyHTMLEncoded()))}),
         ("\\`([^\\`]*)\\`", ["$1"], { return .code($0[0].safetyHTMLEncoded())}),
-        ("\n{2}", [], { _ in return .break }),
+        ("(\n{2}|(\n\r){2})", [], { _ in return .break }),
         ("([^\\s]+)", ["$1"], { return .text($0[0].safetyHTMLEncoded())})
         
     ]
