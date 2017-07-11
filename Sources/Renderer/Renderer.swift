@@ -100,12 +100,12 @@ open class Renderer {
         case let node as OrderedListNode:
             let elements = try node.content.map({ element in
                 return "<li>\(try renderText(element as! ParagraphNode, withParagraph: false))</li>"
-            })
+            }).joined()
             return "<ol>\(elements)</ol>"
         case let node as UnorderedListNode:
             let elements = try node.content.map({ element in
                 return "<li>\(try renderText(element as! ParagraphNode, withParagraph: false))</li>"
-            })
+            }).joined()
             return "<ul>\(elements)</ul>"
         case let node as BlockquoteNode:
             let elements = try node.content.map({return try renderText($0 as! ParagraphNode, withParagraph: true)}).joined()
