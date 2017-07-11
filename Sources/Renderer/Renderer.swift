@@ -68,6 +68,7 @@ open class Renderer {
             return "<a href=\"\(node.url)\">\(text)</a>"
         case let node as ImageNode: return "<img src=\"\(node.url)\" alt=\"\(node.text)\"/>"
         case _ as HorizontalRuleNode: return "<hr/>"
+        case _ as BreakNode: return "<br/>"
         case let node as CodeNode: return "<code>\(node.value)</code>"
         case let node as ParagraphNode: return "<p>\(try node.content.map(renderNode).joined())</p>"
         case let node as CodeBlockNode: return "<pre><code>\(node.code)</code></pre>"
