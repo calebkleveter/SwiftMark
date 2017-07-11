@@ -182,6 +182,19 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testHorizontalRule() {
+        let md = """
+        Paragraph here to start
+
+        ---
+        
+        More text
+        """
+        
+        let html = "<p>Paragraph here to start</p><br/><hr/><br/><p>More text</p>"
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
                 ("TestImageRender", testImageRender),
@@ -190,7 +203,8 @@ class SwiftMarkTests: XCTestCase {
                 ("TestCodeBlock", testCodeBlock),
                 ("TestHeaders", testHeaders),
                 ("TestBlockquotes", testBlockquote),
-                ("TestLists", testList)
+                ("TestLists", testList),
+                ("TestHorizontalRule", testHorizontalRule)
         ]
     }
 }
