@@ -33,7 +33,7 @@ open class MarkdownRenderer {
     ///
     /// - Parameter string: The Markdown that will be rendered
     /// - Returns: HTML created from the string passed in.
-    /// - Throws: Any errors thrown when creating the RegEx to find the Markdown patterns in the string passed in.
+    /// - Throws: Any errors thrown when creating the RegEx to find the Markdown patterns in the string passed in, or errors while parsing.
     public func render(_ string: String)throws -> String {
         let lexer = Lexer()
         let tokens = try lexer.tokenize(string)
