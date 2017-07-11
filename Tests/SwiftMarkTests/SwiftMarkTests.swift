@@ -29,10 +29,17 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testParagraph() {
+        let md = "If your iOS version is lower then the Xcode version on the other hand, you can change the deployment target for a lower version of iOS by going to the General Settings and under Deployment set your Deployment Target:"
+        let html = "<p>If your iOS version is lower then the Xcode version on the other hand, you can change the deployment target for a lower version of iOS by going to the General Settings and under Deployment set your Deployment Target:</p>"
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
                 ("TestImageRender", testImageRender),
-                ("TestLinkRender", testLinkRender)
+                ("TestLinkRender", testLinkRender),
+                ("TestParagraph", testParagraph)
         ]
     }
 }
