@@ -71,7 +71,7 @@ open class Renderer {
         case _ as BreakNode: return "<br/>"
         case let node as CodeNode: return "<code>\(node.value)</code>"
         case let node as ParagraphNode: return "<p>\(try node.content.map(renderNode).joined())</p>"
-        case let node as CodeBlockNode: return "<pre><code>\(node.code)</code></pre>"
+        case let node as CodeBlockNode: return "<pre><code>\(node.code.joined(separator: "\n"))</code></pre>"
         case let node as OrderedListNode:
             let elements = try node.content.map({ element in
                 return "<li>\(try renderText(element as! ParagraphNode, withParagraph: false))</li>"
