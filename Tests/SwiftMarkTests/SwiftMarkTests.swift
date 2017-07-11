@@ -20,8 +20,12 @@ class SwiftMarkTests: XCTestCase {
     }
     
     func testLinkRender() {
-        let md = "[Stack Overflow](https://stackoverflow.com/)"
-        let html = "<a href=\"https://stackoverflow.com/\">Stack Overflow</a>"
+        var md = "[Stack Overflow](https://stackoverflow.com/)"
+        var html = "<a href=\"https://stackoverflow.com/\">Stack Overflow</a>"
+        test(markdown: md, isEqualTo: html)
+        
+        md = "[What does `code` do in an *italic* link?](https://stackoverflow.com/)"
+        html = "<a href=\"https://stackoverflow.com/\">What does <code>code</code> do in an <em>italic</em> link?</a>"
         test(markdown: md, isEqualTo: html)
     }
     
