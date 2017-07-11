@@ -230,10 +230,16 @@ open class Parser {
     }
     
     public func parseCodeBlock()throws -> ElementNode {
-        guard case let Lexer.Token.codeBlock(code) = popToken() else {
-            throw ParserError.expectedCode
+        var codeLines: [String] = []
+        
+        while true && areTokensLeft {
+            if case let Lexer.Token.codeBlock(code) = currentToken {
+                popToken()
+                codeLines.append(code)
+            } else { break }
         }
-        return CodeBlockNode(code: code)
+        
+        return CodeBlockNode(code: codeLines)
     }
     
     public func parseBlockquote()throws -> ElementNode {
