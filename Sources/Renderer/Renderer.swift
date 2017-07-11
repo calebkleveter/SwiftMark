@@ -42,15 +42,40 @@ open class Renderer {
         }
     }
     
+    // FIXME: - Get a mop and dry this method up.
     public func renderNode(_ node: ElementNode)throws -> String {
         switch node {
         case let node as TextNode: return node.value
-        case let node as HeaderOneNode: return "<h1>\(try node.content.map(renderNode).joined())</h1>"
-        case let node as HeaderTwoNode: return "<h2>\(try node.content.map(renderNode).joined())</h2>"
-        case let node as HeaderThreeNode: return "<h3>\(try node.content.map(renderNode).joined())</h3>"
-        case let node as HeaderFourNode: return "<h4>\(try node.content.map(renderNode).joined())</h4>"
-        case let node as HeaderFiveNode: return "<h5>\(try node.content.map(renderNode).joined())</h5>"
-        case let node as HeaderSixNode: return "<h6>\(try node.content.map(renderNode).joined())</h6>"
+        case let node as HeaderOneNode:
+            let text = try node.content.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<h1>\(text)</h1>"
+        case let node as HeaderTwoNode:
+            let text = try node.content.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<h2>\(text)</h2>"
+        case let node as HeaderThreeNode:
+            let text = try node.content.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<h3>\(text)</h3>"
+        case let node as HeaderFourNode:
+            let text = try node.content.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<h4>\(text)</h4>"
+        case let node as HeaderFiveNode:
+            let text = try node.content.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<h5>\(text)</h5>"
+        case let node as HeaderSixNode:
+            let text = try node.content.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<h6>\(text)</h6>"
         case let node as BoldNode:
             let text = try node.content.map({ element in
                 return try renderText(element as! ParagraphNode, withParagraph: false)
