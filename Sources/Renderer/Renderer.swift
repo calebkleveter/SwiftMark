@@ -51,7 +51,11 @@ open class Renderer {
         case let node as HeaderFourNode: return "<h4>\(try node.content.map(renderNode).joined())</h4>"
         case let node as HeaderFiveNode: return "<h5>\(try node.content.map(renderNode).joined())</h5>"
         case let node as HeaderSixNode: return "<h6>\(try node.content.map(renderNode).joined())</h6>"
-        case let node as BoldNode: return "<strong>\(try node.content.map(renderNode).joined())</strong>"
+        case let node as BoldNode:
+            let text = try node.content.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<strong>\(text)</strong>"
         case let node as ItalicNode:
             let text = try node.content.map({ element in
                 return try renderText(element as! ParagraphNode, withParagraph: false)
