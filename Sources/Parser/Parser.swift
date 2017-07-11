@@ -82,7 +82,7 @@ open class Parser {
         case .orderedList(_): return try parseOrderedList()
         case .unOrderedList(_): return try parseUnorderedList()
         case .codeBlock(_): return try parseCodeBlock()
-        default: fatalError("Unsupported Token: \(token)")
+        case .escape: return try parseText()
         }
     }
     
