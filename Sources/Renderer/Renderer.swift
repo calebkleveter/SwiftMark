@@ -53,7 +53,11 @@ open class Renderer {
         case let node as HeaderSixNode: return "<h6>\(try node.content.map(renderNode).joined())</h6>"
         case let node as BoldNode: return "<strong>\(try node.content.map(renderNode).joined())</strong>"
         case let node as ItalicNode: return "<em>\(try node.content.map(renderNode).joined())</em>"
-        case let node as LinkNode: return "<a href=\"\(node.url)\">\(try node.text.map(renderNode).joined())</a>"
+        case let node as LinkNode:
+            let text = try node.text.map({ element in
+                return try renderText(element as! ParagraphNode, withParagraph: false)
+            }).joined()
+            return "<a href=\"\(node.url)\">\(text)</a>"
         case let node as ImageNode: return "<img src=\"\(node.url)\" alt=\"\(node.text)\"/>"
         case _ as HorizontalRuleNode: return "<hr/>"
         case let node as CodeNode: return "<code>\(node.value)</code>"
