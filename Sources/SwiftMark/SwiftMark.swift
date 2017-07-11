@@ -24,6 +24,8 @@ import Lexer
 import Parser
 import Renderer
 
+public typealias Markdown = MarkdownRenderer
+
 /// Renders Markdown to HTML
 open class MarkdownRenderer {
     
