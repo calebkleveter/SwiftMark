@@ -300,9 +300,14 @@ open class Parser {
         var content: [ElementNode] = []
         
         while true {
+            if !areTokensLeft { break }
             if case let Lexer.Token.orderedList(tokens) = currentToken {
                 popToken()
-                let nodes = try tokens.map(parseToken)
+                stripNewline()
+                
+                let listParser = Parser(tokens: tokens)
+                let nodes = try listParser.parseTokens()
+                
                 content.append(contentsOf: nodes)
             } else {
                 break
@@ -316,9 +321,14 @@ open class Parser {
         var content: [ElementNode] = []
         
         while true {
+            if !areTokensLeft { break }
             if case let Lexer.Token.unOrderedList(tokens) = currentToken {
                 popToken()
-                let nodes = try tokens.map(parseToken)
+                stripNewline()
+                
+                let listParser = Parser(tokens: tokens)
+                let nodes = try listParser.parseTokens()
+                
                 content.append(contentsOf: nodes)
             } else {
                 break
