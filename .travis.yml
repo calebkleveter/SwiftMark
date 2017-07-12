@@ -6,4 +6,4 @@ sudo: required
 dist: trusty
 osx_image: xcode8
 script:
-  - eval "$(curl -sL https://gist.githubusercontent.com/calebkleveter/adbc184c15d25a15914d91b7497bdcd4/raw/a2beda20255a59d872d95d6254e032f4f138296b/TravisPodLint.sh)"
+  - eval "$(curl -sL https://gist.githubusercontent.com/calebkleveter/adbc184c15d25a15914d91b7497bdcd4/raw/09cf02e9a58a1bbecaaaf0ef55905cd74f41359f/TravisPodLint.sh)"
