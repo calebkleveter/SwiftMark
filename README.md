@@ -27,7 +27,3 @@ The whole SwiftMark package is under the MIT license agreement.
 ## Attribution
 
 Thanks to @matthewcheok and his tutorial on [Writing a Lexer in Swift](http://blog.matthewcheok.com/writing-a-lexer-in-swift/).
-
-## TODO:
-
-Update Podspec.
