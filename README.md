@@ -21,7 +21,7 @@ let renderer = MarkdownRenderer()
 let html = renderer.render(markdownText)
 ```
 
-The result of the `.render()` method is the HTML form of the Markdown teext passed in.
+The result of the `.render()` method is the HTML form of the Markdown text passed in.
 
 ## License
 
