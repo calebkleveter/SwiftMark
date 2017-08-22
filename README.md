@@ -17,8 +17,12 @@ Package(url: "https://github.com/calebkleveter/SwiftMark.git", majorVersion: 1)
 Using SwiftMark is very simple. Just create a renderer, call `render`, and pass in the Markdown text.
 
 ```swift
-let renderer = MarkdownRenderer()
-let html = renderer.render(markdownText)
+do {
+   let renderer = MarkdownRenderer()
+   let html = try renderer.render(markdownText)
+} catch let rror {
+    print(error)
+}
 ```
 
 The result of the `.render()` method is the HTML form of the Markdown text passed in.
