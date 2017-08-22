@@ -68,112 +68,112 @@ open class Renderer {
         }
     }
     
-    func renderText(node: TextNode) -> String {
+    private func renderText(node: TextNode) -> String {
         return node.value
     }
     
-    func renderHeaderOne(node: HeaderOneNode) -> String {
+    private func renderHeaderOne(node: HeaderOneNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h1>\(text)</h1>"
     }
     
-    func renderHeaderTwo(node: HeaderTwoNode) -> String {
+    private func renderHeaderTwo(node: HeaderTwoNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h2>\(text)</h2>"
     }
     
-    func renderHeaderThree(node: HeaderThreeNode) -> String {
+    private func renderHeaderThree(node: HeaderThreeNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h3>\(text)</h3>"
     }
     
-    func renderHeaderFour(node: HeaderFourNode) -> String {
+    private func renderHeaderFour(node: HeaderFourNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h4>\(text)</h4>"
     }
     
-    func renderHeaderFive(node: HeaderFiveNode) -> String {
+    private func renderHeaderFive(node: HeaderFiveNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h5>\(text)</h5>"
     }
     
-    func renderHeaderSix(node: HeaderSixNode) -> String {
+    private func renderHeaderSix(node: HeaderSixNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h6>\(text)</h6>"
     }
     
-    func renderBold(node: BoldNode) -> String {
+    private func renderBold(node: BoldNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<strong>\(text)</strong>"
     }
     
-    func renderItalic(node: ItalicNode) -> String {
+    private func renderItalic(node: ItalicNode) -> String {
         let text =  node.content.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<em>\(text)</em>"
     }
     
-    func renderLink(node: LinkNode) -> String {
+    private func renderLink(node: LinkNode) -> String {
         let text =  node.text.map({ element in
             return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<a href=\"\(node.url)\">\(text)</a>"
     }
     
-    func renderImage(node: ImageNode) -> String {
+    private func renderImage(node: ImageNode) -> String {
         return "<img src=\"\(node.url)\" alt=\"\(node.text)\"/>"
     }
     
-    func renderHorizontalRule(node: HorizontalRuleNode) -> String {
+    private func renderHorizontalRule(node: HorizontalRuleNode) -> String {
         return "<hr/>"
     }
     
-    func renderBreak(node: BreakNode) -> String {
+    private func renderBreak(node: BreakNode) -> String {
         return "<br/>"
     }
     
-    func renderCode(node: CodeNode) -> String {
+    private func renderCode(node: CodeNode) -> String {
         return "<code>\(node.value)</code>"
     }
     
-    func renderParagraph(node: ParagraphNode) -> String {
+    private func renderParagraph(node: ParagraphNode) -> String {
         return "<p>\( node.content.map(renderNode).joined())</p>"
     }
     
-    func renderCodeBlock(node: CodeBlockNode) -> String {
+    private func renderCodeBlock(node: CodeBlockNode) -> String {
         return "<pre><code>\(node.code.joined(separator: "\n"))</code></pre>"
     }
     
-    func renderOrderedList(node: OrderedListNode) -> String {
+    private func renderOrderedList(node: OrderedListNode) -> String {
         let elements =  node.content.map({ element in
             return "<li>\( renderText(element as! ParagraphNode, withParagraph: false))</li>"
         }).joined()
         return "<ol>\(elements)</ol>"
     }
     
-    func renderUnorderedList(node: UnorderedListNode) -> String {
+    private func renderUnorderedList(node: UnorderedListNode) -> String {
         let elements =  node.content.map({ element in
             return "<li>\( renderText(element as! ParagraphNode, withParagraph: false))</li>"
         }).joined()
         return "<ul>\(elements)</ul>"
     }
     
-    func renderBlockquote(node: BlockquoteNode) -> String {
+    private func renderBlockquote(node: BlockquoteNode) -> String {
         let elements =  node.content.map({
             return  renderText($0 as! ParagraphNode, withParagraph: true)
         }).joined()
