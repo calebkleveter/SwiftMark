@@ -2,11 +2,17 @@
 
 [![Build Status](https://travis-ci.org/calebkleveter/SwiftMark.svg?branch=master)](https://travis-ci.org/calebkleveter/SwiftMark)
 
-SwiftMark is a Markdown renderer built in swift.
+SwiftMark is a Markdown to HTML renderer built in Swift.
+
+\#pureswift
 
 ## Usage
 
-SwiftMark is a SwiftPM package, but if you want to add it manually to a project, you can just add the files.
+SwiftMark is a SwiftPM package (though versions 1.0.0 to 1.3.0 also work as a CocoaPod). Add this line to your dependencies array in your `Package.swift`:
+
+```swift
+Package(url: "https://github.com/calebkleveter/SwiftMark.git", majorVersion: 1)
+```
 
 Using SwiftMark is very simple. Just create a renderer, call `render`, and pass in the Markdown text.
 
@@ -14,11 +20,8 @@ Using SwiftMark is very simple. Just create a renderer, call `render`, and pass 
 let renderer = MarkdownRenderer()
 let html = renderer.render(markdownText)
 ```
-If you only want the inline styles, you can use the `text(from: string)` method:
 
-```swift
-let html = renderer.text(from: string)
-```
+The result of the `.render()` method is the HTML form of the Markdown text passed in.
 
 ## License
 
