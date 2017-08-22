@@ -31,11 +31,11 @@ open class Renderer {
     }
     
     public func renderAST()throws -> String {
-        return try ast.map(renderNode).joined()
+        return  ast.map(renderNode).joined()
     }
     
-    private func renderText(_ node: ParagraphNode, withParagraph: Bool)throws -> String {
-        let text = try node.content.map(renderNode).joined()
+    private func renderText(_ node: ParagraphNode, withParagraph: Bool) -> String {
+        let text =  node.content.map(renderNode).joined()
         if withParagraph {
             return "<p>\(text)</p>"
         } else {
@@ -43,27 +43,27 @@ open class Renderer {
         }
     }
     
-    public func renderNode(_ node: ElementNode)throws -> String {
+    public func renderNode(_ node: ElementNode) -> String {
         switch node {
         case let node as TextNode: return renderText(node: node)
-        case let node as HeaderOneNode: return try renderHeaderOne(node: node)
-        case let node as HeaderTwoNode: return try renderHeaderTwo(node: node)
-        case let node as HeaderThreeNode: return try renderHeaderThree(node: node)
-        case let node as HeaderFourNode: return try renderHeaderFour(node: node)
-        case let node as HeaderFiveNode: return try renderHeaderFive(node: node)
-        case let node as HeaderSixNode: return try renderHeaderSix(node: node)
-        case let node as BoldNode: return try renderBold(node: node)
-        case let node as ItalicNode: return try renderItalic(node: node)
-        case let node as LinkNode: return try renderLink(node: node)
+        case let node as HeaderOneNode: return  renderHeaderOne(node: node)
+        case let node as HeaderTwoNode: return  renderHeaderTwo(node: node)
+        case let node as HeaderThreeNode: return  renderHeaderThree(node: node)
+        case let node as HeaderFourNode: return  renderHeaderFour(node: node)
+        case let node as HeaderFiveNode: return  renderHeaderFive(node: node)
+        case let node as HeaderSixNode: return  renderHeaderSix(node: node)
+        case let node as BoldNode: return  renderBold(node: node)
+        case let node as ItalicNode: return  renderItalic(node: node)
+        case let node as LinkNode: return  renderLink(node: node)
         case let node as ImageNode: return renderImage(node: node)
         case let node as HorizontalRuleNode: return renderHorizontalRule(node: node)
         case let node as BreakNode: return renderBreak(node: node)
         case let node as CodeNode: return renderCode(node: node)
-        case let node as ParagraphNode: return try renderParagraph(node: node)
+        case let node as ParagraphNode: return  renderParagraph(node: node)
         case let node as CodeBlockNode: return renderCodeBlock(node: node)
-        case let node as OrderedListNode: return try renderOrderedList(node: node)
-        case let node as UnorderedListNode: return try renderUnorderedList(node: node)
-        case let node as BlockquoteNode: return try renderBlockquote(node: node)
+        case let node as OrderedListNode: return  renderOrderedList(node: node)
+        case let node as UnorderedListNode: return  renderUnorderedList(node: node)
+        case let node as BlockquoteNode: return  renderBlockquote(node: node)
         default: fatalError("Unsupported Node")
         }
     }
@@ -72,65 +72,65 @@ open class Renderer {
         return node.value
     }
     
-    func renderHeaderOne(node: HeaderOneNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderHeaderOne(node: HeaderOneNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h1>\(text)</h1>"
     }
     
-    func renderHeaderTwo(node: HeaderTwoNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderHeaderTwo(node: HeaderTwoNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h2>\(text)</h2>"
     }
     
-    func renderHeaderThree(node: HeaderThreeNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderHeaderThree(node: HeaderThreeNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h3>\(text)</h3>"
     }
     
-    func renderHeaderFour(node: HeaderFourNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderHeaderFour(node: HeaderFourNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h4>\(text)</h4>"
     }
     
-    func renderHeaderFive(node: HeaderFiveNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderHeaderFive(node: HeaderFiveNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h5>\(text)</h5>"
     }
     
-    func renderHeaderSix(node: HeaderSixNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderHeaderSix(node: HeaderSixNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<h6>\(text)</h6>"
     }
     
-    func renderBold(node: BoldNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderBold(node: BoldNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<strong>\(text)</strong>"
     }
     
-    func renderItalic(node: ItalicNode)throws -> String {
-        let text = try node.content.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderItalic(node: ItalicNode) -> String {
+        let text =  node.content.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<em>\(text)</em>"
     }
     
-    func renderLink(node: LinkNode)throws -> String {
-        let text = try node.text.map({ element in
-            return try renderText(element as! ParagraphNode, withParagraph: false)
+    func renderLink(node: LinkNode) -> String {
+        let text =  node.text.map({ element in
+            return  renderText(element as! ParagraphNode, withParagraph: false)
         }).joined()
         return "<a href=\"\(node.url)\">\(text)</a>"
     }
@@ -151,31 +151,31 @@ open class Renderer {
         return "<code>\(node.value)</code>"
     }
     
-    func renderParagraph(node: ParagraphNode)throws -> String {
-        return "<p>\(try node.content.map(renderNode).joined())</p>"
+    func renderParagraph(node: ParagraphNode) -> String {
+        return "<p>\( node.content.map(renderNode).joined())</p>"
     }
     
     func renderCodeBlock(node: CodeBlockNode) -> String {
         return "<pre><code>\(node.code.joined(separator: "\n"))</code></pre>"
     }
     
-    func renderOrderedList(node: OrderedListNode)throws -> String {
-        let elements = try node.content.map({ element in
-            return "<li>\(try renderText(element as! ParagraphNode, withParagraph: false))</li>"
+    func renderOrderedList(node: OrderedListNode) -> String {
+        let elements =  node.content.map({ element in
+            return "<li>\( renderText(element as! ParagraphNode, withParagraph: false))</li>"
         }).joined()
         return "<ol>\(elements)</ol>"
     }
     
-    func renderUnorderedList(node: UnorderedListNode)throws -> String {
-        let elements = try node.content.map({ element in
-            return "<li>\(try renderText(element as! ParagraphNode, withParagraph: false))</li>"
+    func renderUnorderedList(node: UnorderedListNode) -> String {
+        let elements =  node.content.map({ element in
+            return "<li>\( renderText(element as! ParagraphNode, withParagraph: false))</li>"
         }).joined()
         return "<ul>\(elements)</ul>"
     }
     
-    func renderBlockquote(node: BlockquoteNode)throws -> String {
-        let elements = try node.content.map({
-            return try renderText($0 as! ParagraphNode, withParagraph: true)
+    func renderBlockquote(node: BlockquoteNode) -> String {
+        let elements =  node.content.map({
+            return  renderText($0 as! ParagraphNode, withParagraph: true)
         }).joined()
         return "<blockquote>\(elements)</blockquote>"
     }
