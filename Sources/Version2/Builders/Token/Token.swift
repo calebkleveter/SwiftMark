@@ -23,12 +23,15 @@
 /// A token containing the data for an HTML element that was taken from Markdown.
 public indirect enum Token {
     
-    /// The tokens data stored as a String.
+    /// The token's data stored as a String.
     case string(String)
     
-    /// The tokens data stored as another Token.
+    /// The token's data stored as another Token.
     case token(Token)
     
-    /// The tokens data stored as an array of Tokens.
+    /// The token's data stored as an array of Tokens.
     case array([Token])
+    
+    /// The token's data stored as a dictionary (String -> Token).
+    case object([String: Token])
 }
