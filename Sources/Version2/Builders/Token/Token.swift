@@ -28,4 +28,7 @@ public indirect enum Token {
     
     /// The tokens data stored as another Token.
     case token(Token)
+    
+    /// The tokens data stored as an array of Tokens.
+    case array([Token])
 }
