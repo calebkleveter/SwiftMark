@@ -21,8 +21,11 @@
 //SOFTWARE.
 
 /// A token containing the data for an HTML element that was taken from Markdown.
-public enum Token {
+public indirect enum Token {
     
     /// The tokens data stored as a String.
     case string(String)
+    
+    /// The tokens data stored as another Token.
+    case token(Token)
 }
