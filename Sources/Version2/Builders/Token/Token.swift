@@ -20,7 +20,9 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-/// A token containing the data for an HTML element that was taken from Markdown
+/// A token containing the data for an HTML element that was taken from Markdown.
 public enum Token {
     
+    /// The tokens data stored as a String.
+    case string(String)
 }
