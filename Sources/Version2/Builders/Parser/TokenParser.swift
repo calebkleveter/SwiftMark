@@ -25,4 +25,9 @@ public protocol TokenParser {
     
     /// The `Parser` being used to convert a `Token` to a `Node`.
     var parser: Parser { get }
+    
+    /// Creates a `TokenParser` with a `Parser`.
+    ///
+    /// - Parameter parser: The `Parser` that will be used to convert a `Token` to a `Node`.
+    init(parser: Parser)
 }
