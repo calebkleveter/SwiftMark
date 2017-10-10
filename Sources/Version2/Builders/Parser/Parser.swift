@@ -27,5 +27,5 @@ public protocol Parser {
     var tokens: [Token] { get set }
     
     /// Returns the index of the next `Token` to parse.
-    var currentTokenIndex: Token { get }
+    var currentTokenIndex: Int { get }
 }
