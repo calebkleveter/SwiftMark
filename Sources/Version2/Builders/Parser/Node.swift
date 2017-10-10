@@ -28,4 +28,7 @@ public indirect enum Node {
     
     /// A Node which contains data in the string formmat.
     case string(value: String, metadata: NodeMetadata)
+    
+    /// A Node which holds data as an array of Nodes
+    case array(value: [Node], metadata: NodeMetadata)
 }
