@@ -21,17 +21,11 @@
 //SOFTWARE.
 
 /// A token containing the data for an HTML element that was taken from Markdown.
-public indirect enum Token {
+public enum Token {
     
-    /// The token's data stored as a String.
-    case string(String)
+    /// A token without any extra data.
+    case null(metadata: Metadata)
     
-    /// The token's data stored as another Token.
-    case token(Token)
-    
-    /// The token's data stored as an array of Tokens.
-    case array([Token])
-    
-    /// The token's data stored as a dictionary (String -> Token).
-    case object([String: Token])
+    /// A token with data stored as a String.
+    case string(value: String, metadata: Metadata)
 }
