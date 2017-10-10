@@ -27,5 +27,5 @@ public protocol Lexer {
     ///
     /// - Parameter string: The text to tokenize.
     /// - Returns: An array of tokens that contain the for the resulting text.
-    func tokenize(_ string: String) -> [Token]
+    func tokenize(_ string: String)throws -> [Token]
 }
