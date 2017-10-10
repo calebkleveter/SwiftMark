@@ -32,6 +32,9 @@ public protocol TokenGenerator {
     /// The regular expression pattern for the end of the syntax (This is assumed to exist if `startPattern` does.)
     var endPattern: RegEx? { get }
     
+    /// The template strings to save from matching and pass into `tokenize`.
+    var templates: [String] { get }
+    
     /// Takes in a match for the given pattern(s) and creates a token from it.
     func tokenize(_ string: String) -> Token
 }
