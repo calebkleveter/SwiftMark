@@ -28,6 +28,10 @@ public class TokenLexer: Lexer {
         self.generators.append(generator)
     }
     
+    public func addGenerators(_ newGenerators: [TokenGenerator]) {
+        self.generators.append(contentsOf: newGenerators)
+    }
+    
     public func tokenize(_ string: String) -> [Token] {
         return []
     }
