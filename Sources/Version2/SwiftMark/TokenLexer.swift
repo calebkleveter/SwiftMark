@@ -32,7 +32,32 @@ public class TokenLexer: Lexer {
         self.generators.append(contentsOf: newGenerators)
     }
     
-    public func tokenize(_ string: String) -> [Token] {
-        return []
+    public func tokenize(_ string: String)throws -> [Token] {
+        var input = string
+        var tokens: [Token] = []
+        
+        while input.count > 0 {
+            var matched = false
+            
+            for generator in self.generators {
+                if let match = try input.match(regex: generator.pattern, with: generator.templates) {
+                    let token = try generator.tokenize(match.0, position: .middle)
+                    
+                    tokens.append(token)
+                    matched = true
+                    break
+                }
+            }
+            
+            if !matched {
+                let index = input.characters.index(input.startIndex, offsetBy: 1)
+                let autoMetadata: Metadata = (rendererName: "auto", position: .middle, other: [:])
+                
+                tokens.append(.string(value: String(describing: input[..<index]), metadata: autoMetadata))
+                input = String(describing: input[index...])
+            }
+        }
+        
+        return tokens
     }
 }
