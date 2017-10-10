@@ -34,4 +34,4 @@ public enum TokenPositions {
 }
 
 /// Represents a tokens metadata (which renderer it belongs to and whether it is an opening closing token)
-public typealias Metadata = (rendererName: String, position: TokenPositions)
+public typealias Metadata = (rendererName: String, position: TokenPositions, other: [String: Any])
