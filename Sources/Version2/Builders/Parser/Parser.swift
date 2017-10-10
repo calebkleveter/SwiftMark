@@ -34,4 +34,7 @@ public protocol Parser {
     
     /// Returns the current `Token` and removes it from the stack.
     @discardableResult func popCurrent() -> Token
+    
+    /// Parses the tokens in the stack to an AST made of `Node`s.
+    func parseTokens() -> [Node]
 }
