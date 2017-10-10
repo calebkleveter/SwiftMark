@@ -31,4 +31,7 @@ public indirect enum Node {
     
     /// A Node which holds data as an array of Nodes
     case array(values: [Node], metadata: NodeMetadata)
+    
+    /// A Node which holds data as a dictionary of types `<String,Node>`.
+    case object(values: [String: Node], metadata: NodeMetadata)
 }
