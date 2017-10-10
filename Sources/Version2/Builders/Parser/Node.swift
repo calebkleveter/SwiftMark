@@ -25,4 +25,7 @@ public indirect enum Node {
     
     /// A Node does not use dynamic data.
     case null(metadata: NodeMetadata)
+    
+    /// A Node which contains data in the string formmat.
+    case string(value: String, metadata: NodeMetadata)
 }
