@@ -22,6 +22,8 @@
 
 public class TokenLexer: Lexer {
     
+    private var generators: [TokenGenerator] = []
+    
     public func tokenize(_ string: String) -> [Token] {
         return []
     }
