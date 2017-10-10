@@ -23,4 +23,12 @@
 /// A simple String to Token converter.
 public protocol TokenGenerator {
     
+    /// The pattern for the whole syntax (This is assumed to exist if `startPattern` is nil.)
+    var pattern: RegEx? { get }
+    
+    /// The regular expression pattern for the start of the syntax.
+    var startPattern: RegEx? { get }
+    
+    /// The regular expression pattern for the end of the syntax (This is assumed to exist if `startPattern` does.)
+    var endPattern: RegEx? { get }
 }
