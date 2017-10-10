@@ -30,4 +30,7 @@ public protocol TokenParser {
     ///
     /// - Parameter parser: The `Parser` that will be used to convert a `Token` to a `Node`.
     init(parser: Parser)
+    
+    /// Creates a portion of the AST from the `parser`'s array of `Token`s.
+    func parse() -> Node
 }
