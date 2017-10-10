@@ -30,5 +30,5 @@ public indirect enum Node {
     case string(value: String, metadata: NodeMetadata)
     
     /// A Node which holds data as an array of Nodes
-    case array(value: [Node], metadata: NodeMetadata)
+    case array(values: [Node], metadata: NodeMetadata)
 }
