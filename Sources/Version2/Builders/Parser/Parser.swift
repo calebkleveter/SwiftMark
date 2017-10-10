@@ -31,4 +31,7 @@ public protocol Parser {
     
     /// Returns the `Token` at the `currentTokenIndex`.
     var currentToken: Token { get }
+    
+    /// Returns the current `Token` and removes it from the stack.
+    @discardableResult func popCurrent() -> Token
 }
