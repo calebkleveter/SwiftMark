@@ -25,4 +25,7 @@ public protocol Parser {
     
     /// The tokens that will be parsed into an AST.
     var tokens: [Token] { get set }
+    
+    /// Returns the index of the next `Token` to parse.
+    var currentTokenIndex: Token { get }
 }
