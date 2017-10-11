@@ -21,10 +21,14 @@
 //SOFTWARE.
 
 public class SwiftMarkParser: Parser {
-    public var tokens: [Token] = []
+    public let tokens: [Token]
     public var currentTokenIndex: Int = 0
     public var currentToken: Token {
         return tokens[0]
+    }
+    
+    public init(tokens: [Token]) {
+        self.tokens = tokens
     }
     
     public func popCurrent() -> Token {
