@@ -21,13 +21,13 @@
 //SOFTWARE.
 
 public class SMRenderer: Renderer {
-    private var renderers: [Renderer] = []
+    private var renderers: [NodeRenderer] = []
     
-    public func addRenderer(_ renderer: Renderer) {
+    public func addRenderer(_ renderer: NodeRenderer) {
         self.renderers.append(renderer)
     }
     
-    public func addRenderers(_ newRenderers: [Renderer]) {
+    public func addRenderers(_ newRenderers: [NodeRenderer]) {
         self.renderers.append(contentsOf: newRenderers)
     }
     
