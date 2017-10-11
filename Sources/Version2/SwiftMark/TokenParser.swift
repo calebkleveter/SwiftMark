@@ -24,7 +24,7 @@ public class SwiftMarkParser: Parser {
     public let tokens: [Token]
     public var currentTokenIndex: Int = 0
     public var currentToken: Token {
-        return tokens[0]
+        return tokens[currentTokenIndex]
     }
     
     public init(tokens: [Token]) {
