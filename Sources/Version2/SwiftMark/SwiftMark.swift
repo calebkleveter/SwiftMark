@@ -21,5 +21,5 @@
 //SOFTWARE.
 
 public class Markdown {
-    
+    let lexer = TokenLexer()
 }
