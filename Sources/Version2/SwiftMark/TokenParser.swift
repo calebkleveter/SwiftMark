@@ -21,6 +21,7 @@
 //SOFTWARE.
 
 public class SwiftMarkParser: Parser {
+    private var parsers: [TokenParser] = []
     public let tokens: [Token]
     public var currentTokenIndex: Int = 0
     public var currentToken: Token {
