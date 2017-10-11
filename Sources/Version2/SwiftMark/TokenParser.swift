@@ -31,7 +31,8 @@ public class SwiftMarkParser: Parser {
         self.tokens = tokens
     }
     
-    public func popCurrent() -> Token {
+    @discardableResult public func popCurrent() -> Token {
+        defer { currentTokenIndex += 1 }
         return currentToken
     }
     
