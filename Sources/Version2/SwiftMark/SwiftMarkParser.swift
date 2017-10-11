@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 public class SwiftMarkParser: Parser {
-    private var parsers: [TokenParser] = []
+    private var parsers: [TokenParser.Type] = []
     public let tokens: [Token]
     public var currentTokenIndex: Int = 0
     public var currentToken: Token {
@@ -32,11 +32,11 @@ public class SwiftMarkParser: Parser {
         self.tokens = tokens
     }
     
-    public func addParser(_ parser: TokenParser) {
+    public func addParser(_ parser: TokenParser.Type) {
         self.parsers.append(parser)
     }
     
-    public func addParsers(_ newParsers: [TokenParser]) {
+    public func addParsers(_ newParsers: [TokenParser.Type]) {
         self.parsers.append(contentsOf: newParsers)
     }
     
