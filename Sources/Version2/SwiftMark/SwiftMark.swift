@@ -24,4 +24,8 @@ public class Markdown {
     let lexer = TokenLexer()
     let parser = SwiftMarkParser.self
     let renderer = SMRenderer()
+    
+    public func addGenerators(_ generators: TokenGenerator...) {
+        self.lexer.addGenerators(generators)
+    }
 }
