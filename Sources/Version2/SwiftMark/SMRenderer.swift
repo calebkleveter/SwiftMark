@@ -32,6 +32,24 @@ public class SMRenderer: Renderer {
     }
     
     public func render(_ ast: [Node]) -> String {
-        return ""
+        var html = ""
+        
+        for node in ast {
+            let nodeMetadata: NodeMetadata
+            switch node {
+            case let .null(metadata: metadata): nodeMetadata = metadata
+            case let .string(value: _, metadata: metadata): nodeMetadata = metadata
+            case let .array(values: _, metadata: metadata): nodeMetadata = metadata
+            case let .object(values: _, metadata: metadata): nodeMetadata = metadata
+            }
+            
+            if let renderer = self.renderers.filter({ (renderer) -> Bool in
+                return String.init(describing: renderer) == nodeMetadata.rendererName
+            }).first {
+                html.append(renderer.render(node))
+            }
+        }
+        
+        return html
     }
 }
