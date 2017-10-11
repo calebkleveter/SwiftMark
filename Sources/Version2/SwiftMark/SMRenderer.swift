@@ -23,6 +23,10 @@
 public class SMRenderer: Renderer {
     private var renderers: [Renderer] = []
     
+    public func addRenderer(_ renderer: Renderer) {
+        self.renderers.append(renderer)
+    }
+    
     public func render(_ ast: [Node]) -> String {
         return ""
     }
