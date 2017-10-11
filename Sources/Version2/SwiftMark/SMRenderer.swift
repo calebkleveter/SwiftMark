@@ -21,6 +21,8 @@
 //SOFTWARE.
 
 public class SMRenderer: Renderer {
+    private var renderers: [Renderer] = []
+    
     public func render(_ ast: [Node]) -> String {
         return ""
     }
