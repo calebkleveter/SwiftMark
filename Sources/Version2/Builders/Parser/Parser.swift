@@ -32,6 +32,9 @@ public protocol Parser {
     /// Returns the `Token` at the `currentTokenIndex`.
     var currentToken: Token { get }
     
+    /// Returns a `Bool` with wheather there are more `Token`s to parse.
+    var tokensAvailable: Bool { get }
+    
     /// Returns the current `Token` and removes it from the stack.
     @discardableResult func popCurrent() -> Token
     
