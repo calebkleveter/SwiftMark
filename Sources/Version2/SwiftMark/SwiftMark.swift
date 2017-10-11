@@ -30,4 +30,8 @@ public class Markdown {
     public func addGenerators(_ generators: TokenGenerator...) {
         self.lexer.addGenerators(generators)
     }
+    
+    public func addParsers(_ newParsers: TokenParser...) {
+        self.parsers.append(contentsOf: newParsers)
+    }
 }
