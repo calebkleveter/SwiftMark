@@ -31,7 +31,7 @@ public class SwiftMarkParser: Parser {
         return currentTokenIndex < tokens.count
     }
     
-    public init(tokens: [Token]) {
+    public required init(tokens: [Token]) {
         self.tokens = tokens
     }
     
