@@ -22,4 +22,5 @@
 
 public class Markdown {
     let lexer = TokenLexer()
+    let parser = SwiftMarkParser.self
 }
