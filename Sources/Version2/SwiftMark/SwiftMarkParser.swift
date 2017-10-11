@@ -27,6 +27,9 @@ public class SwiftMarkParser: Parser {
     public var currentToken: Token {
         return tokens[currentTokenIndex]
     }
+    public var tokensAvailable: Bool {
+        return currentTokenIndex < tokens.count
+    }
     
     public init(tokens: [Token]) {
         self.tokens = tokens
