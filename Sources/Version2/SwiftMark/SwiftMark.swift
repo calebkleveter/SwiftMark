@@ -34,4 +34,8 @@ public class Markdown {
     public func addParsers(_ newParsers: TokenParser...) {
         self.parsers.append(contentsOf: newParsers)
     }
+    
+    public func addRenderers(_ renderers: NodeRenderer...) {
+        self.renderer.addRenderers(renderers)
+    }
 }
