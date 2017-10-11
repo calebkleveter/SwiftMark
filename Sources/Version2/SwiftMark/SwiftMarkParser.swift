@@ -49,7 +49,24 @@ public class SwiftMarkParser: Parser {
     }
     
     public func parseTokens() -> [Node] {
-        return []
+        let tokenParsers = self.parsers.map({ $0.init(parser: self) })
+        var nodes: [Node] = []
+        
+        while tokensAvailable {
+            let currentMetadata: Metadata
+            switch currentToken {
+            case let .null(metadata: metadata): currentMetadata = metadata
+            case let .string(value: _, metadata: metadata): currentMetadata = metadata
+            }
+            
+            if let parser = tokenParsers.filter({ (parser) -> Bool in
+                return String.init(describing: parser) == currentMetadata.rendererName
+            }).first {
+                nodes.append(parser.parse())
+            }
+        }
+        
+        return nodes
     }
     
     
