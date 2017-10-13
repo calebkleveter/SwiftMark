@@ -36,5 +36,5 @@ public protocol NodeRenderer {
     ///
     /// - Parameter node: The `Node` to render.
     /// - Returns: The text from the `Node` passed in.
-    func render(_ node: Node) -> String
+    func render(_ node: Node)throws -> String
 }
