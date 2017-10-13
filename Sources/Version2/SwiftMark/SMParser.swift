@@ -64,7 +64,13 @@ extension Markdown: Parser {
             }
             
             if let parser = self.syntaxRenderers.filter({ (parser) -> Bool in
-                return String.init(describing: parser) == currentMetadata.rendererName
+                let parserName: String
+                if let name = String.init(describing: parser).split(separator: ".").last {
+                    parserName = String(describing: name)
+                } else {
+                    parserName = String.init(describing: parser)
+                }
+                return parserName == currentMetadata.rendererName
             }).first {
                 try nodes.append(parser.parse())
             }
