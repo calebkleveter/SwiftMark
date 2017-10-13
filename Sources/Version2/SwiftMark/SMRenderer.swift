@@ -20,17 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-public class SMRenderer: Renderer {
-    private var renderers: [NodeRenderer] = []
-    
-    public func addRenderer(_ renderer: NodeRenderer.Type) {
-        self.renderers.append(renderer.init(renderer: self))
-    }
-    
-    public func addRenderers(_ newRenderers: [NodeRenderer.Type]) {
-        self.renderers.append(contentsOf: newRenderers.map({ $0.init(renderer: self) }))
-    }
-    
+extension Markdown: Renderer {
     public func render(_ ast: [Node]) -> String {
         var html = ""
         

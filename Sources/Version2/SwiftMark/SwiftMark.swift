@@ -23,21 +23,16 @@
 public class Markdown {
     var generators: [TokenGenerator] = []
     var parsers: [TokenParser] = []
-    
-    let renderer = SMRenderer()
+    var renderers: [NodeRenderer] = []
     
     public func addParsers(_ newParsers: TokenParser...) {
         self.parsers.append(contentsOf: newParsers)
-    }
-    
-    public func addRenderers(_ renderers: NodeRenderer.Type...) {
-        self.renderer.addRenderers(renderers)
     }
     
     public func render(_ string: String)throws -> String {
         let input = string.replacingOccurrences(of: "\u{0000}", with: "\u{FFFD}")
         parserTokens = try self.tokenize(input)
         let ast = self.parseTokens()
-        return renderer.render(ast)
+        return self.render(ast)
     }
 }
