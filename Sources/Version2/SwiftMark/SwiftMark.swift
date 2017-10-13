@@ -24,7 +24,6 @@ public class Markdown {
     var generators: [TokenGenerator] = []
     var parsers: [TokenParser] = []
     
-    let parser = SwiftMarkParser.self
     let renderer = SMRenderer()
     
     public func addParsers(_ newParsers: TokenParser...) {
@@ -37,8 +36,8 @@ public class Markdown {
     
     public func render(_ string: String)throws -> String {
         let input = string.replacingOccurrences(of: "\u{0000}", with: "\u{FFFD}")
-        let tokens = try self.tokenize(input)
-        let ast = parser.init(tokens: tokens).parseTokens()
+        parserTokens = try self.tokenize(input)
+        let ast = self.parseTokens()
         return renderer.render(ast)
     }
 }
