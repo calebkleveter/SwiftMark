@@ -44,3 +44,14 @@ public protocol Parser {
     /// Parses the tokens in the stack to an AST made of `Node`s.
     func parseTokens() -> [Node]
 }
+
+/// An artaficial `Parser` to the `parser` property to in the `SyntaxRenderer.init(renderer: Renderer)` method.
+public class MockParser: Parser {
+    public var tokens: [Token] = []
+    public var currentTokenIndex: Int = 0
+    public var currentToken: Token = .string(value: "", metadata: (rendererName: "", other: [:]))
+    public var tokensAvailable: Bool = false
+    public required init(tokens: [Token]) {}
+    public func popCurrent() -> Token { return currentToken }
+    public func parseTokens() -> [Node] { return [] }
+}
