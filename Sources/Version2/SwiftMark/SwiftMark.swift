@@ -23,7 +23,7 @@
 public class Markdown: TextRenderer {
     var syntaxRenderers: [SyntaxRenderer] = []
     
-    public func addRenderer(_ syntaxRenderers: SyntaxRenderer.Type...) {
+    public func addRenderers(_ syntaxRenderers: SyntaxRenderer.Type...) {
         self.syntaxRenderers.append(contentsOf: syntaxRenderers.map({ $0.init(renderer: self) }))
     }
     
