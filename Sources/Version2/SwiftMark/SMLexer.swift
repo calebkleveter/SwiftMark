@@ -29,6 +29,7 @@ extension Markdown: Lexer {
             var matched = false
             
             for generator in self.syntaxRenderers {
+                if generator.pattern == "" { continue }
                 if let match = try input.match(regex: generator.pattern, with: generator.templates) {
                     let token = try generator.tokenize(match.0)
                     
