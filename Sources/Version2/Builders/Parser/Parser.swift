@@ -35,9 +35,6 @@ public protocol Parser {
     /// Returns a `Bool` with wheather there are more `Token`s to parse.
     var tokensAvailable: Bool { get }
     
-    /// Creates a `Parser` with the `Token`s to parse.
-    init(tokens: [Token])
-    
     /// Returns the current `Token` and removes it from the stack.
     @discardableResult func popCurrent() -> Token
     
