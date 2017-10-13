@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 extension Markdown: Renderer {
-    public func render(_ ast: [Node]) -> String {
+    public func render(_ ast: [Node])throws -> String {
         var html = ""
         
         for node in ast {
@@ -36,7 +36,7 @@ extension Markdown: Renderer {
             if let renderer = self.syntaxRenderers.filter({ (renderer) -> Bool in
                 return String.init(describing: renderer) == nodeMetadata.rendererName
             }).first {
-                html.append(renderer.render(node))
+                try html.append(renderer.render(node))
             }
         }
         
