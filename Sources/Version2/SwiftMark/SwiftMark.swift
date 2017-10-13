@@ -22,11 +22,10 @@
 
 public class Markdown {
     var generators: [TokenGenerator] = []
+    var parsers: [TokenParser] = []
     
     let parser = SwiftMarkParser.self
     let renderer = SMRenderer()
-    
-    private var parsers: [TokenParser] = []
     
     public func addParsers(_ newParsers: TokenParser...) {
         self.parsers.append(contentsOf: newParsers)

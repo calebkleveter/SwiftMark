@@ -20,29 +20,34 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-public class SwiftMarkParser: Parser {
-    private var parsers: [TokenParser] = []
-    public let tokens: [Token]
-    public var currentTokenIndex: Int = 0
+fileprivate var currentIndex: Int = 0
+internal var parserTokens: [Token] = []
+
+extension Markdown: Parser {
+    
+    // MARK: - Properties
+    public var tokens: [Token] {
+        return parserTokens
+    }
+    
+    public var currentTokenIndex: Int {
+        get {
+            return currentIndex
+        }
+        set {
+            currentIndex = newValue
+        }
+    }
+    
     public var currentToken: Token {
         return tokens[currentTokenIndex]
     }
+    
     public var tokensAvailable: Bool {
         return currentTokenIndex < tokens.count
     }
     
-    public required init(tokens: [Token]) {
-        self.tokens = tokens
-    }
-    
-    public func addParser(_ parser: TokenParser.Type) {
-        self.parsers.append(parser.init(parser: self))
-    }
-    
-    public func addParsers(_ newParsers: [TokenParser.Type]) {
-        self.parsers.append(contentsOf: newParsers.map({ $0.init(parser: self) }))
-    }
-    
+    // MARK: - Methods
     @discardableResult public func popCurrent() -> Token {
         defer { currentTokenIndex += 1 }
         return currentToken
@@ -67,6 +72,4 @@ public class SwiftMarkParser: Parser {
         
         return nodes
     }
-    
-    
 }
