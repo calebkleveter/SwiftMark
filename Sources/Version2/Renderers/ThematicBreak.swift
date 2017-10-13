@@ -38,7 +38,7 @@ public class ThematicBreak: SyntaxRenderer {
     }
     
     public func render(_ node: Node) -> String {
-        return ""
+        return "<hr />"
     }
     
     
