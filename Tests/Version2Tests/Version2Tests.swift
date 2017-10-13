@@ -13,8 +13,97 @@ class SwiftMarkTests: XCTestCase {
         }
     }
     
+    func testThematicBreak() {
+        let md = """
+        ***
+        ---
+        ___
+        +++
+        ===
+        --
+        **
+        __
+         ***
+          ***
+           ***
+            ***
+        Foo
+            ***
+        _____________________________________
+         - - -
+         **  * ** * ** * **
+        -     -      -      -
+        - - - -
+        _ _ _ _ a
+
+        a------
+
+        ---a---
+         *-*
+        - foo
+        ***
+        - bar
+        Foo
+        ***
+        bar
+        Foo
+        ---
+        bar
+        * Foo
+        * * *
+        * Bar
+        - Foo
+        - * * *
+        """
+        
+        let html = """
+        <hr />
+        <hr />
+        <hr />
+        +++
+        ===
+        --
+        **
+        __
+        <hr />
+        <hr />
+        <hr />
+            ***
+        Foo
+            ***
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+        _ _ _ _ a
+
+        a------
+
+        ---a---
+         *-*
+        - foo
+        <hr />
+        - bar
+        Foo
+        ***
+        bar
+        Foo
+        <hr />
+        bar
+        * Foo
+        * * *
+        * Bar
+        - Foo
+        - <hr />
+        """
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
+            ("testThematicBreak", testThematicBreak)
         ]
     }
 }
