@@ -35,7 +35,7 @@ public class Markdown {
         self.parsers.append(contentsOf: newParsers)
     }
     
-    public func addRenderers(_ renderers: NodeRenderer...) {
+    public func addRenderers(_ renderers: NodeRenderer.Type...) {
         self.renderer.addRenderers(renderers)
     }
     
