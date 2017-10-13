@@ -30,7 +30,7 @@ public class ThematicBreak: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String]) throws -> Token {
-        return .null(metadata: (rendererName: "", other: [:]))
+        return .null(metadata: (rendererName: "ThematicBreak", other: [:]))
     }
     
     public func parse() -> Node {
