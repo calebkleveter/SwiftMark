@@ -20,18 +20,5 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-/// The position of the token relative to where it goes in the syntax it belongs to.
-public enum TokenPositions {
-    
-    /// The token is at the start of the syntax block.
-    case opening
-    
-    /// The token is somewhere in the middle of the syntax block.
-    case middle
-    
-    /// The token is at the end of the syntax block.
-    case closing
-}
-
 /// Represents a tokens metadata (which renderer it belongs to and whether it is an opening closing token)
-public typealias Metadata = (rendererName: String, position: TokenPositions, other: [String: Any])
+public typealias Metadata = (rendererName: String, other: [String: Any])

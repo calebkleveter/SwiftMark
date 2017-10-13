@@ -41,7 +41,7 @@ public class TokenLexer: Lexer {
             
             for generator in self.generators {
                 if let match = try input.match(regex: generator.pattern, with: generator.templates) {
-                    let token = try generator.tokenize(match.0, position: .middle)
+                    let token = try generator.tokenize(match.0)
                     
                     tokens.append(token)
                     matched = true
@@ -51,7 +51,7 @@ public class TokenLexer: Lexer {
             
             if !matched {
                 let index = input.characters.index(input.startIndex, offsetBy: 1)
-                let autoMetadata: Metadata = (rendererName: "auto", position: .middle, other: [:])
+                let autoMetadata: Metadata = (rendererName: "auto", other: [:])
                 
                 tokens.append(.string(value: String(describing: input[..<index]), metadata: autoMetadata))
                 input = String(describing: input[index...])

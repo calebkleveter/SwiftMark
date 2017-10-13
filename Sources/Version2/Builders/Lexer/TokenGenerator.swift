@@ -30,5 +30,5 @@ public protocol TokenGenerator {
     var templates: [String] { get }
     
     /// Takes in a match for the given pattern(s) and creates a token from it.
-    func tokenize(_ strings: [String], position: TokenPositions)throws -> Token
+    func tokenize(_ strings: [String])throws -> Token
 }
