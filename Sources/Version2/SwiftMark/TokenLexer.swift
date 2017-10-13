@@ -20,18 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-public class TokenLexer: Lexer {
-    
-    private var generators: [TokenGenerator] = []
-    
-    public func addGenerator(_ generator: TokenGenerator) {
-        self.generators.append(generator)
-    }
-    
-    public func addGenerators(_ newGenerators: [TokenGenerator]) {
-        self.generators.append(contentsOf: newGenerators)
-    }
-    
+extension Markdown: Lexer {
     public func tokenize(_ string: String)throws -> [Token] {
         var input = string
         var tokens: [Token] = []

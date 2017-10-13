@@ -21,15 +21,12 @@
 //SOFTWARE.
 
 public class Markdown {
-    let lexer = TokenLexer()
+    var generators: [TokenGenerator] = []
+    
     let parser = SwiftMarkParser.self
     let renderer = SMRenderer()
     
     private var parsers: [TokenParser] = []
-    
-    public func addGenerators(_ generators: TokenGenerator...) {
-        self.lexer.addGenerators(generators)
-    }
     
     public func addParsers(_ newParsers: TokenParser...) {
         self.parsers.append(contentsOf: newParsers)
@@ -41,7 +38,7 @@ public class Markdown {
     
     public func render(_ string: String)throws -> String {
         let input = string.replacingOccurrences(of: "\u{0000}", with: "\u{FFFD}")
-        let tokens = try lexer.tokenize(input)
+        let tokens = try self.tokenize(input)
         let ast = parser.init(tokens: tokens).parseTokens()
         return renderer.render(ast)
     }
