@@ -20,7 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-public class Markdown {
+public class Markdown: TextRenderer {
     var syntaxRenderers: [SyntaxRenderer] = []
     
     public func addRenderer(_ syntaxRenderers: SyntaxRenderer...) {
