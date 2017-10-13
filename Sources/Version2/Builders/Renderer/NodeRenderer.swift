@@ -23,6 +23,9 @@
 /// Renders a single `Node` of an AST to a `String`.
 public protocol NodeRenderer {
     
+    /// The `Renderer` that is running the `NodeRenderer`.
+    var renderer: Renderer { get }
+    
     /// Renders an AST `Node` to a `String`.
     ///
     /// - Parameter node: The `Node` to render.
