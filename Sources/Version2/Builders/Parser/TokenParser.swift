@@ -24,12 +24,12 @@
 public protocol TokenParser {
     
     /// The `Parser` being used to convert a `Token` to a `Node`.
-    var parser: Parser { get }
+    var renderer: TextRenderer { get }
     
     /// Creates a `TokenParser` with a `Parser`.
     ///
     /// - Parameter parser: The `Parser` that will be used to convert a `Token` to a `Node`.
-    init(parser: Parser)
+    init(renderer: TextRenderer)
     
     /// Creates a portion of the AST from the `parser`'s array of `Token`s.
     func parse() -> Node
