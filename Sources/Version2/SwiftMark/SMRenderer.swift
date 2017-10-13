@@ -34,7 +34,13 @@ extension Markdown: Renderer {
             }
             
             if let renderer = self.syntaxRenderers.filter({ (renderer) -> Bool in
-                return String.init(describing: renderer) == nodeMetadata.rendererName
+                let parserName: String
+                if let name = String.init(describing: renderer).split(separator: ".").last {
+                    parserName = String(describing: name)
+                } else {
+                    parserName = String.init(describing: renderer)
+                }
+                return parserName == nodeMetadata.rendererName
             }).first {
                 try html.append(renderer.render(node))
             }
