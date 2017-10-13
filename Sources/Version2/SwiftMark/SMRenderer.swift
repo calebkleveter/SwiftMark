@@ -33,7 +33,7 @@ extension Markdown: Renderer {
             case let .object(values: _, metadata: metadata): nodeMetadata = metadata
             }
             
-            if let renderer = self.renderers.filter({ (renderer) -> Bool in
+            if let renderer = self.syntaxRenderers.filter({ (renderer) -> Bool in
                 return String.init(describing: renderer) == nodeMetadata.rendererName
             }).first {
                 html.append(renderer.render(node))

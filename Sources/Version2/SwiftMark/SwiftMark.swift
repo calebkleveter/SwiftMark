@@ -21,12 +21,10 @@
 //SOFTWARE.
 
 public class Markdown {
-    var generators: [TokenGenerator] = []
-    var parsers: [TokenParser] = []
-    var renderers: [NodeRenderer] = []
+    var syntaxRenderers: [SyntaxRenderer] = []
     
-    public func addParsers(_ newParsers: TokenParser...) {
-        self.parsers.append(contentsOf: newParsers)
+    public func addRenderer(_ syntaxRenderers: SyntaxRenderer...) {
+        self.syntaxRenderers.append(contentsOf: syntaxRenderers)
     }
     
     public func render(_ string: String)throws -> String {

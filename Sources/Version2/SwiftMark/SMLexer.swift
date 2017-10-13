@@ -28,7 +28,7 @@ extension Markdown: Lexer {
         while input.count > 0 {
             var matched = false
             
-            for generator in self.generators {
+            for generator in self.syntaxRenderers {
                 if let match = try input.match(regex: generator.pattern, with: generator.templates) {
                     let token = try generator.tokenize(match.0)
                     

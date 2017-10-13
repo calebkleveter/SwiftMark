@@ -63,7 +63,7 @@ extension Markdown: Parser {
             case let .string(value: _, metadata: metadata): currentMetadata = metadata
             }
             
-            if let parser = parsers.filter({ (parser) -> Bool in
+            if let parser = self.syntaxRenderers.filter({ (parser) -> Bool in
                 return String.init(describing: parser) == currentMetadata.rendererName
             }).first {
                 nodes.append(parser.parse())
