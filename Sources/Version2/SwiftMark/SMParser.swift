@@ -53,7 +53,7 @@ extension Markdown: Parser {
         return currentToken
     }
     
-    public func parseTokens() -> [Node] {
+    public func parseTokens()throws -> [Node] {
         var nodes: [Node] = []
         
         while tokensAvailable {
@@ -66,7 +66,7 @@ extension Markdown: Parser {
             if let parser = self.syntaxRenderers.filter({ (parser) -> Bool in
                 return String.init(describing: parser) == currentMetadata.rendererName
             }).first {
-                nodes.append(parser.parse())
+                try nodes.append(parser.parse())
             }
         }
         
