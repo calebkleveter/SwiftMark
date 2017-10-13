@@ -23,12 +23,12 @@
 public class SMRenderer: Renderer {
     private var renderers: [NodeRenderer] = []
     
-    public func addRenderer(_ renderer: NodeRenderer) {
-        self.renderers.append(renderer)
+    public func addRenderer(_ renderer: NodeRenderer.Type) {
+        self.renderers.append(renderer.init(renderer: self))
     }
     
-    public func addRenderers(_ newRenderers: [NodeRenderer]) {
-        self.renderers.append(contentsOf: newRenderers)
+    public func addRenderers(_ newRenderers: [NodeRenderer.Type]) {
+        self.renderers.append(contentsOf: newRenderers.map({ $0.init(renderer: self) }))
     }
     
     public func render(_ ast: [Node]) -> String {
