@@ -32,6 +32,7 @@ extension Markdown: Lexer {
                 if generator.pattern == "" { continue }
                 if let match = try input.match(regex: generator.pattern, with: generator.templates) {
                     let token = try generator.tokenize(match.0)
+                    input = String(describing: input[match.1.endIndex...])
                     
                     tokens.append(token)
                     matched = true
