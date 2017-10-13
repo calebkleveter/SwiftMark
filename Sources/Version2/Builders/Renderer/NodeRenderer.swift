@@ -24,13 +24,13 @@
 public protocol NodeRenderer {
     
     /// The `Renderer` that is running the `NodeRenderer`.
-    var renderer: Renderer { get }
+    var renderer: TextRenderer { get }
     
     
     /// Creates a `NodeRenderer` with the parent `Renderer`.
     ///
     /// - Parameter renderer: The `Renderer  that is running the `NodeRenderer`.
-    init(renderer: Renderer)
+    init(renderer: TextRenderer)
     
     /// Renders an AST `Node` to a `String`.
     ///
