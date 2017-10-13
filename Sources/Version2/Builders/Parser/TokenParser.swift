@@ -32,5 +32,5 @@ public protocol TokenParser {
     init(renderer: TextRenderer)
     
     /// Creates a portion of the AST from the `parser`'s array of `Token`s.
-    func parse() -> Node
+    func parse()throws -> Node
 }
