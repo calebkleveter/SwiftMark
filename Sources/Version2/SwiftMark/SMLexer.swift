@@ -40,7 +40,7 @@ extension Markdown: Lexer {
             
             if !matched {
                 let index = input.characters.index(input.startIndex, offsetBy: 1)
-                let autoMetadata: Metadata = (rendererName: "auto", other: [:])
+                let autoMetadata: Metadata = (rendererName: "Auto", other: [:])
                 
                 tokens.append(.string(value: String(describing: input[..<index]), metadata: autoMetadata))
                 input = String(describing: input[index...])
