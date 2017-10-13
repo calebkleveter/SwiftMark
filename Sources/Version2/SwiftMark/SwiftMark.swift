@@ -28,6 +28,8 @@ public class Markdown: TextRenderer {
     }
     
     public func render(_ string: String)throws -> String {
+        
+        // https://github.github.com/gfm/#insecure-characters
         let input = string.replacingOccurrences(of: "\u{0000}", with: "\u{FFFD}")
         parserTokens = try self.tokenize(input)
         let ast = self.parseTokens()
