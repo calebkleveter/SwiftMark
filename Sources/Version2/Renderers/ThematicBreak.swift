@@ -34,6 +34,7 @@ public class ThematicBreak: SyntaxRenderer {
     }
     
     public func parse() -> Node {
+        defer { renderer.popCurrent() }
         return .null(metadata: (rendererName: "ThematicBreak", other: [:]))
     }
     
