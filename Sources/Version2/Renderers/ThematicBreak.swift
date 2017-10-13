@@ -23,17 +23,10 @@
 public class ThematicBreak: SyntaxRenderer {
     public var pattern: RegEx = " {0,3}((_ *){3,}|(- *){3,}|(\\* *){3,}) *(?m:$)"
     public var templates: [String] = []
-    public var parser: Parser
-    public var renderer: Renderer
+    public var renderer: TextRenderer
     
-    public required init(parser: Parser) {
-        self.parser = parser
-        self.renderer = MockRenderer()
-    }
-    
-    public required init(renderer: Renderer) {
+    public required init(renderer: TextRenderer) {
         self.renderer = renderer
-        self.parser = MockParser(tokens: [])
     }
     
     public func tokenize(_ strings: [String]) throws -> Token {
