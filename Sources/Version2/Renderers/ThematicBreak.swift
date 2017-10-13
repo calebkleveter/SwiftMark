@@ -34,7 +34,7 @@ public class ThematicBreak: SyntaxRenderer {
     }
     
     public func parse() -> Node {
-        return .null(metadata: (rendererName: "", other: [:]))
+        return .null(metadata: (rendererName: "ThematicBreak", other: [:]))
     }
     
     public func render(_ node: Node) -> String {
