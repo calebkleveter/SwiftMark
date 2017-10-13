@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 public class SwiftMarkParser: Parser {
-    private var parsers: [TokenParser.Type] = []
+    private var parsers: [TokenParser] = []
     public let tokens: [Token]
     public var currentTokenIndex: Int = 0
     public var currentToken: Token {
@@ -36,11 +36,11 @@ public class SwiftMarkParser: Parser {
     }
     
     public func addParser(_ parser: TokenParser.Type) {
-        self.parsers.append(parser)
+        self.parsers.append(parser.init(parser: self))
     }
     
     public func addParsers(_ newParsers: [TokenParser.Type]) {
-        self.parsers.append(contentsOf: newParsers)
+        self.parsers.append(contentsOf: newParsers.map({ $0.init(parser: self) }))
     }
     
     @discardableResult public func popCurrent() -> Token {
@@ -49,7 +49,6 @@ public class SwiftMarkParser: Parser {
     }
     
     public func parseTokens() -> [Node] {
-        let tokenParsers = self.parsers.map({ $0.init(parser: self) })
         var nodes: [Node] = []
         
         while tokensAvailable {
