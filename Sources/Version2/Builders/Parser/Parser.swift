@@ -39,7 +39,7 @@ public protocol Parser {
     @discardableResult func popCurrent() -> Token
     
     /// Parses the tokens in the stack to an AST made of `Node`s.
-    func parseTokens() -> [Node]
+    func parseTokens()throws -> [Node]
 }
 
 /// An artaficial `Parser` to the `parser` property to in the `SyntaxRenderer.init(renderer: Renderer)` method.
