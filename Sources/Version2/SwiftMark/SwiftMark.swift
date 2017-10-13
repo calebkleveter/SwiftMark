@@ -40,7 +40,8 @@ public class Markdown {
     }
     
     public func render(_ string: String)throws -> String {
-        let tokens = try lexer.tokenize(string)
+        let input = string.replacingOccurrences(of: "\u{0000}", with: "\u{FFFD}")
+        let tokens = try lexer.tokenize(input)
         let ast = parser.init(tokens: tokens).parseTokens()
         return renderer.render(ast)
     }
