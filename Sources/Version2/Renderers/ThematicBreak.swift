@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 public class ThematicBreak: SyntaxRenderer {
-    public var pattern: RegEx = " {0,3}((_ *){3,}|(- *){3,}|(\\* *){3,}) *"
+    public var pattern: RegEx = " {0,3}((_ *){3,}|(- *){3,}|(\\* *){3,}) *(?m:$)"
     public var templates: [String] = []
     public var parser: Parser
     public var renderer: Renderer
