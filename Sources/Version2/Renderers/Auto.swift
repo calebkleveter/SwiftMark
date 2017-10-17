@@ -29,7 +29,7 @@ public class Auto: SyntaxRenderer {
         self.renderer = renderer
     }
     
-    public func tokenize(_ strings: [String]) throws -> Token {
+    public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
         return .null(metadata: (rendererName: "Auto", other: [:]))
     }
     
