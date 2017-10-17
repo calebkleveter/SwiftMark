@@ -30,6 +30,7 @@ public class Markdown: TextRenderer {
     public func render(_ string: String)throws -> String {
         self.addRenderers(
                 Auto.self,
+                EOL.self,
                 ThematicBreak.self
             )
         // https://github.github.com/gfm/#insecure-characters
