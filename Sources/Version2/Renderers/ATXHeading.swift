@@ -89,7 +89,19 @@ public class ATXHeading: SyntaxRenderer {
     }
     
     public func render(_ node: Node) throws -> String {
-        return ""
+        guard case let Node.array(values: subNodes, metadata: metadata) = node else {
+            throw RendererError.incompatibleNode(renderer: "ATXHeading", actualNode: node)
+        }
+        
+        let headerDepth: Int = metadata.other["headerDepth"] as? Int ?? 1
+        let subElements: String = try subNodes.map({ (node) -> String in
+            guard let syntaxRenderer = self.renderer.syntaxRenderer(forName: metadata.rendererName) else {
+                throw RendererError.unknownRenderer(renderer: metadata.rendererName)
+            }
+            return try syntaxRenderer.render(node)
+        }).joined()
+        
+        return "<h\(headerDepth)>\(subElements)</h\(headerDepth)>"
     }
     
     
