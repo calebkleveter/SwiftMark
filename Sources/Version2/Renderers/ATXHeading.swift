@@ -77,11 +77,12 @@ public class ATXHeading: SyntaxRenderer {
                 subnodes.append(node)
                 renderer.popCurrent()
             } else {
-                if let syntaxRenderer = self.renderer.syntaxRenderer(forName: metadata.rendererName) {
-                    let node = try syntaxRenderer.parse()
-                    subnodes.append(node)
-                    renderer.popCurrent()
+                guard let syntaxRenderer = self.renderer.syntaxRenderer(forName: metadata.rendererName) else {
+                    throw ParserError.unknownParser(parser: metadata.rendererName)
                 }
+                let node = try syntaxRenderer.parse()
+                subnodes.append(node)
+                renderer.popCurrent()
             }
         }
         
