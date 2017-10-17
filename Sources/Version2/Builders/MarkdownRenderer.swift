@@ -20,4 +20,6 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-public protocol TextRenderer: Lexer, Parser, Renderer {}
+public protocol TextRenderer: Lexer, Parser, Renderer {
+    var syntaxRenderers: [SyntaxRenderer] { get }
+}
