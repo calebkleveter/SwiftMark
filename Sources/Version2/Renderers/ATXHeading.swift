@@ -30,7 +30,16 @@ public class ATXHeading: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, other: [:]))
+        var headerDepth = 0
+        for character in match {
+            if character != "#" {
+                if headerDepth > 0 { break }
+            } else {
+                headerDepth += 1
+            }
+        }
+        
+        return .null(metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, other: ["headerDepth": headerDepth]))
     }
     
     public func parse() throws -> Node {
