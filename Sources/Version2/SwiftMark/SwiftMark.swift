@@ -46,7 +46,8 @@ public class Markdown: TextRenderer {
         self.addRenderers(
                 Auto.self,
                 EOL.self,
-                ThematicBreak.self
+                ThematicBreak.self,
+                ATXHeading.self
             )
         // https://github.github.com/gfm/#insecure-characters
         let input = string.replacingOccurrences(of: "\u{0000}", with: "\u{FFFD}")
