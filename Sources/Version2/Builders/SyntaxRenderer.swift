@@ -20,5 +20,10 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
+/// Specefies wheather a renderer is for inline syntax, leaf block, or a container block.
+public enum SyntaxRendererType {
+    
+}
+
 /// Encompasses all the required methods and preperties required to render a syntax element to a different syntax element (i.e. Markdown to HTML.)
 public protocol SyntaxRenderer: TokenGenerator, TokenParser, NodeRenderer {}
