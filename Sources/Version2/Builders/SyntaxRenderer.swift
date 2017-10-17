@@ -25,6 +25,9 @@ public enum SyntaxRendererType {
     
     /// Designates a `SyntaxRenderer` is for rendering a leaf block (https://github.github.com/gfm/#leaf-blocks)
     case leafBlock
+    
+    /// Designates a `SyntaxRenderer` is for rendering a container block (https://github.github.com/gfm/#container-blocks)
+    case containerBlock
 }
 
 /// Encompasses all the required methods and preperties required to render a syntax element to a different syntax element (i.e. Markdown to HTML.)
