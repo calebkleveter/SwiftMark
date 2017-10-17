@@ -30,7 +30,7 @@ public class Text: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "Text", rendererType: .inline, fullMatch: match, other: [:]))
+        return .string(value: match, metadata: (rendererName: "Text", rendererType: .inline, fullMatch: match, other: [:]))
     }
     
     public func parse() throws -> Node {
