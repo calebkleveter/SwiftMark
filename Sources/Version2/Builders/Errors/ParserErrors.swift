@@ -22,4 +22,5 @@
 
 public enum ParserError: Error {
     case incompatibleToken(renderer: String, actualToken: Token)
+    case unknownParser(parser: String)
 }
