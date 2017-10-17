@@ -30,7 +30,7 @@ public class Auto: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "Auto", rendererType: .inline, other: [:]))
+        return .null(metadata: (rendererName: "Auto", rendererType: .inline, fullMatch: match, other: [:]))
     }
     
     public func parse()throws -> Node {

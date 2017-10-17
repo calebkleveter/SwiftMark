@@ -30,12 +30,12 @@ public class ThematicBreak: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "ThematicBreak", rendererType: .leafBlock, other: [:]))
+        return .null(metadata: (rendererName: "ThematicBreak", rendererType: .leafBlock, fullMatch: match, other: [:]))
     }
     
     public func parse() -> Node {
         defer { renderer.popCurrent() }
-        return .null(metadata: (rendererName: "ThematicBreak", rendererType: .leafBlock, other: [:]))
+        return .null(metadata: (rendererName: "ThematicBreak", rendererType: .leafBlock, fullMatch: "", other: [:]))
     }
     
     public func render(_ node: Node) -> String {

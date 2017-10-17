@@ -21,4 +21,4 @@
 //SOFTWARE.
 
 /// Represents a tokens metadata (which renderer it belongs to and whether it is an opening closing token)
-public typealias Metadata = (rendererName: String, rendererType: SyntaxRendererType, other: [String: Any])
+public typealias Metadata = (rendererName: String, rendererType: SyntaxRendererType, fullMatch: String, other: [String: Any])

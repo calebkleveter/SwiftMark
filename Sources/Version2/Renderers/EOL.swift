@@ -30,11 +30,11 @@ public class EOL: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "EOL", rendererType: .inline, other: [:]))
+        return .null(metadata: (rendererName: "EOL", rendererType: .inline, fullMatch: "", other: [:]))
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "EOL", rendererType: .inline, other: [:]))
+        return .null(metadata: (rendererName: "EOL", rendererType: .inline, fullMatch: "", other: [:]))
     }
     
     public func render(_ node: Node) throws -> String {

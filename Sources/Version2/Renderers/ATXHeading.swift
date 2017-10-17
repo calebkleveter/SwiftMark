@@ -47,7 +47,7 @@ public class ATXHeading: SyntaxRenderer {
             }
         }
         
-        return .null(metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, other: ["headerDepth": headerDepth, "leadingSpaceCount": leadingSpaceCount, "trailingSpaceCount": trailingSpaceCount]))
+        return .null(metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, fullMatch: match, other: ["headerDepth": headerDepth]))
     }
     
     public func parse() throws -> Node {
