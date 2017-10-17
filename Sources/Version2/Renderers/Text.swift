@@ -34,7 +34,10 @@ public class Text: SyntaxRenderer {
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "Text", rendererType: .inline, fullMatch: "", other: [:]))
+        guard case let Token.string(value: value, metadata: metadata) = renderer.popCurrent() else {
+            throw ParserError.incompatibleToken(renderer: "Text", actualToken: renderer.currentToken)
+        }
+        return .string(value: value, metadata: metadata)
     }
     
     public func render(_ node: Node) throws -> String {
