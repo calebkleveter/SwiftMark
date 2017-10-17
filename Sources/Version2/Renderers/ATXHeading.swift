@@ -51,7 +51,41 @@ public class ATXHeading: SyntaxRenderer {
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, other: [:]))
+        guard case let Token.null(metadata: (rendererName: _, rendererType: _, fullMatch: match, other: data)) = renderer.popCurrent() else {
+            throw ParserError.incompatibleToken(renderer: "ATXHeading", actualToken: renderer.currentToken)
+        }
+        
+        var subnodes: [Node] = []
+        
+        while true {
+            let metadata: Metadata
+            
+            switch renderer.currentToken {
+            case let .null(metadata: currentMetadata):
+                metadata = currentMetadata
+            case let .string(value: _, metadata: currentMetadata):
+                metadata = currentMetadata
+            }
+            
+            if metadata.rendererName == "EOL" {
+                renderer.popCurrent()
+                break
+            }
+            
+            if metadata.rendererType != .inline {
+                let node = Node.string(value: metadata.fullMatch, metadata: (rendererName: "Text", rendererType: .inline, fullMatch: metadata.fullMatch, other: [:]))
+                subnodes.append(node)
+                renderer.popCurrent()
+            } else {
+                if let syntaxRenderer = self.renderer.syntaxRenderer(forName: metadata.rendererName) {
+                    let node = try syntaxRenderer.parse()
+                    subnodes.append(node)
+                    renderer.popCurrent()
+                }
+            }
+        }
+        
+        return Node.array(values: subnodes, metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, fullMatch: match, other: data))
     }
     
     public func render(_ node: Node) throws -> String {
