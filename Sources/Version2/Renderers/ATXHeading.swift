@@ -30,16 +30,24 @@ public class ATXHeading: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
+        var leadingSpaceCount = 0
         var headerDepth = 0
+        var trailingSpaceCount = 0
+        var appendToTrailing = false
+        
         for character in match {
-            if character != "#" {
-                if headerDepth > 0 { break }
-            } else {
+            if character == " " {
+                switch appendToTrailing {
+                case true: trailingSpaceCount += 1
+                case false: leadingSpaceCount += 1
+                }
+            } else if character == "#" {
+                appendToTrailing = true
                 headerDepth += 1
             }
         }
         
-        return .null(metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, other: ["headerDepth": headerDepth]))
+        return .null(metadata: (rendererName: "ATXHeading", rendererType: .leafBlock, other: ["headerDepth": headerDepth, "leadingSpaceCount": leadingSpaceCount, "trailingSpaceCount": trailingSpaceCount]))
     }
     
     public func parse() throws -> Node {
