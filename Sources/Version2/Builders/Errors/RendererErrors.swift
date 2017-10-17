@@ -22,5 +22,6 @@
 
 public enum RendererError: Error {
     case incompatibleNode(renderer: String, actualNode: Node)
+    case unknownRenderer(renderer: String)
 }
 
