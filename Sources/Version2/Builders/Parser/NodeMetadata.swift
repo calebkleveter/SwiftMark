@@ -22,4 +22,4 @@
 
 // TODO: - Change name to `Metadata` after project structure is organized for v2.
 /// Metadata that is held by a Node case.
-public typealias NodeMetadata = (rendererName: String, other: [String: Any])
+public typealias NodeMetadata = (rendererName: String, rendererType: SyntaxRendererType, other: [String: Any])

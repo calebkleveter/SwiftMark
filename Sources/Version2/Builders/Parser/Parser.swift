@@ -46,7 +46,7 @@ public protocol Parser {
 public class MockParser: Parser {
     public var tokens: [Token] = []
     public var currentTokenIndex: Int = 0
-    public var currentToken: Token = .string(value: "", metadata: (rendererName: "", other: [:]))
+    public var currentToken: Token = .string(value: "", metadata: (rendererName: "", rendererType: .inline, other: [:]))
     public var tokensAvailable: Bool = false
     public required init(tokens: [Token]) {}
     public func popCurrent() -> Token { return currentToken }
