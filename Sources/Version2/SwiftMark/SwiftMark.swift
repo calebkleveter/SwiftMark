@@ -28,6 +28,20 @@ public class Markdown: TextRenderer {
         self.syntaxRenderers.append(contentsOf: syntaxRenderers.map({ $0.init(renderer: self) }))
     }
     
+    public func syntaxRenderer(forName name: String) -> SyntaxRenderer? {
+        let renderer = self.syntaxRenderers.filter({ (renderer) -> Bool in
+            let parserName: String
+            if let name = String.init(describing: renderer).split(separator: ".").last {
+                parserName = String(describing: name)
+            } else {
+                parserName = String.init(describing: renderer)
+            }
+            return parserName == name
+        }).first
+        
+        return renderer
+    }
+    
     public func render(_ string: String)throws -> String {
         self.addRenderers(
                 Auto.self,

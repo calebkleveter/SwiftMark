@@ -22,4 +22,6 @@
 
 public protocol TextRenderer: Lexer, Parser, Renderer {
     var syntaxRenderers: [SyntaxRenderer] { get }
+    
+    func syntaxRenderer(forName name: String) -> SyntaxRenderer?
 }
