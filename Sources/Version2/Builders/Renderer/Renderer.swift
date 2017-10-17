@@ -29,8 +29,3 @@ public protocol Renderer {
     /// - Returns: The text that was rendered from the AST.
     func render(_ ast: [Node])throws -> String
 }
-
-/// An artaficial `Renderer` to the `renderer` property to in the `SyntaxRenderer.init(parser: Parser)` method.
-public class MockRenderer: Renderer {
-    public func render(_ ast: [Node]) -> String { return "" }
-}
