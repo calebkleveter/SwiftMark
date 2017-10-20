@@ -30,19 +30,10 @@ public class ATXHeading: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        var leadingSpaceCount = 0
         var headerDepth = 0
-        var trailingSpaceCount = 0
-        var appendToTrailing = false
         
-        for character in match {
-            if character == " " {
-                switch appendToTrailing {
-                case true: trailingSpaceCount += 1
-                case false: leadingSpaceCount += 1
-                }
-            } else if character == "#" {
-                appendToTrailing = true
+        match.forEach { character in
+            if character == "#" {
                 headerDepth += 1
             }
         }
