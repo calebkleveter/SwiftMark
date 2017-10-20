@@ -34,4 +34,14 @@ public indirect enum Node {
     
     /// A Node which holds data as a dictionary of types `<String,Node>`.
     case object(values: [String: Node], metadata: NodeMetadata)
+    
+    /// The metadata for the current `Node`.
+    public var metadata: Metadata {
+        switch self {
+        case let .null(metadata: metadata): return metadata
+        case let .string(value: _, metadata: (metadata)): return metadata
+        case let .array(values: _, metadata: metadata): return metadata
+        case let .object(values: _, metadata: (metadata)): return metadata
+        }
+    }
 }
