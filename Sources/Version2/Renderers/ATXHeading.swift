@@ -58,11 +58,6 @@ public class ATXHeading: SyntaxRenderer {
                 metadata = currentMetadata
             }
             
-            if metadata.rendererName == "EOL" {
-                renderer.popCurrent()
-                break
-            }
-            
             if metadata.rendererType != .inline {
                 let node = Node.string(value: metadata.fullMatch, metadata: (rendererName: "Text", rendererType: .inline, fullMatch: metadata.fullMatch, other: [:]))
                 subnodes.append(node)
@@ -73,7 +68,8 @@ public class ATXHeading: SyntaxRenderer {
                 }
                 let node = try syntaxRenderer.parse()
                 subnodes.append(node)
-                renderer.popCurrent()
+                
+                if metadata.rendererName == "EOL" { break }
             }
         }
         
