@@ -82,14 +82,29 @@ public class ATXHeading: SyntaxRenderer {
         }
         
         let headerDepth: Int = metadata.other["headerDepth"] as? Int ?? 1
-        let subElements: String = try subNodes.map({ (node) -> String in
-            guard let syntaxRenderer = self.renderer.syntaxRenderer(forName: metadata.rendererName) else {
+        var subElements: String = ""
+        var trailingElements: String = ""
+        
+        try subNodes.enumerated().forEach({ (index, node) in
+            guard let syntaxRenderer = self.renderer.syntaxRenderer(forName: node.metadata.rendererName) else {
                 throw RendererError.unknownRenderer(renderer: metadata.rendererName)
             }
-            return try syntaxRenderer.render(node)
-        }).joined()
+            if node.metadata.rendererName == "EOL" {
+                try trailingElements.append(syntaxRenderer.render(node))
+            } else {
+                try subElements.append(syntaxRenderer.render(node))
+            }
+        })
         
-        return "<h\(headerDepth)>\(subElements)</h\(headerDepth)>"
+        // Trim trailing hashes and whitespace
+        subElements = subElements.trimmingCharacters(in: .whitespaces)
+        subElements = subElements.replacingOccurrences(of: " #+$", with: "", options: .regularExpression)
+        subElements = subElements.trimmingCharacters(in: .whitespaces)
+        
+        // Wipe header contents if it contains only hashes
+        subElements = subElements.replacingOccurrences(of: "^#+$", with: "", options: .regularExpression)
+        
+        return "<h\(headerDepth)>\(subElements)</h\(headerDepth)>\(trailingElements)"
     }
     
     
