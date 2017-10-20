@@ -48,7 +48,7 @@ public class ATXHeading: SyntaxRenderer {
         
         var subnodes: [Node] = []
         
-        while true {
+        while renderer.tokensAvailable {
             let metadata: Metadata
             
             switch renderer.currentToken {
