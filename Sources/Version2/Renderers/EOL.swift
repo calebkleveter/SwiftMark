@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 public class EOL: SyntaxRenderer {
-    public var pattern: RegEx = "(?m:$)"
+    public var pattern: RegEx = "((?m:$\\n))"
     public var templates: [String] = []
     public var renderer: TextRenderer
     
