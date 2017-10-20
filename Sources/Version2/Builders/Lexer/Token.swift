@@ -28,4 +28,12 @@ public enum Token {
     
     /// A token with data stored as a String.
     case string(value: String, metadata: Metadata)
+    
+    /// Returns that metadata for the current `Token`.
+    var metadata: Metadata {
+        switch self {
+        case let .null(metadata: metadata): return metadata
+        case let .string(value: _, metadata: metadata): return metadata
+        }
+    }
 }
