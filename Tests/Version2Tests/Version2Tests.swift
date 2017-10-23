@@ -348,11 +348,245 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testFencedCodeBlock() {
+        let md = """
+        ```
+        <
+        >
+        ```
+
+        ~~~
+        <
+         >
+        ~~~
+
+        ``
+        foo
+        ``
+
+        ```
+        aaa
+        ~~~
+        ```
+
+        ~~~
+        aaa
+        ```
+        ~~~
+
+        ````
+        aaa
+        ```
+        ``````
+
+        ~~~~
+        aaa
+        ~~~
+        ~~~~
+
+        ```
+
+        ```
+
+        \u{0020}\u{0020}
+        ```
+
+          
+        ```
+
+         ```
+         aaa
+        aaa
+        ```
+
+          ```
+        aaa
+          aaa
+        aaa
+          ```
+
+           ```
+           aaa
+            aaa
+          aaa
+           ```
+
+            ```
+            aaa
+            ```
+
+        ```
+        aaa
+          ```
+
+           ```
+        aaa
+          ```
+
+        ```
+        aaa
+            ```
+
+        ``` ```
+        aaa
+
+        ~~~~~~
+        aaa
+        ~~~ ~~
+
+        foo
+        ```
+        bar
+        ```
+        baz
+
+        foo
+        ---
+        ~~~
+        bar
+        ~~~
+        # baz
+
+        ```ruby
+        def foo(x)
+          return 3
+        end
+        ```
+
+        ~~~~    ruby startline=3 $%@#$
+        def foo(x)
+          return 3
+        end
+        ~~~~~~~
+
+        ````;
+        ````
+
+        ``` aa ```
+        foo
+
+        ```
+        ``` aaa
+        ```
+        """
+        
+        let html = """
+        <pre><code>&lt;
+         &gt;
+        </code></pre>
+
+        <pre><code>&lt;
+         &gt;
+        </code></pre>
+
+        <p><code>foo</code></p>
+
+        <pre><code>aaa
+        ~~~
+        </code></pre>
+
+        <pre><code>aaa
+        ```
+        </code></pre>
+
+        <pre><code>aaa
+        ```
+        </code></pre>
+
+        <pre><code>aaa
+        ~~~
+        </code></pre>
+
+        <pre><code></code></pre>
+
+        <pre><code></code></pre>
+
+        <blockquote>
+        <pre><code>aaa
+        </code></pre>
+        </blockquote>
+        <p>bbb</p>
+
+        <pre><code>
+          
+        </code></pre>
+
+        <pre><code></code></pre>
+
+        <pre><code>aaa
+        aaa
+        </code></pre>
+
+        <pre><code>aaa
+        aaa
+        aaa
+        </code></pre>
+
+        <pre><code>aaa
+         aaa
+        aaa
+        </code></pre>
+
+        <pre><code>```
+        aaa
+        ```
+        </code></pre>
+
+        <pre><code>aaa
+        </code></pre>
+
+        <pre><code>aaa
+        </code></pre>
+
+        <pre><code>aaa
+            ```
+        </code></pre>
+
+        <p><code></code>
+        aaa</p>
+
+        <pre><code>aaa
+        ~~~ ~~
+        </code></pre>
+
+        <p>foo</p>
+        <pre><code>bar
+        </code></pre>
+        <p>baz</p>
+
+        <h2>foo</h2>
+        <pre><code>bar
+        </code></pre>
+        <h1>baz</h1>
+
+        <pre><code class="language-ruby">def foo(x)
+          return 3
+        end
+        </code></pre>
+
+        <pre><code class="language-ruby">def foo(x)
+          return 3
+        end
+        </code></pre>
+
+        <pre><code class="language-;"></code></pre>
+
+        <p><code>aa</code>
+        foo</p>
+
+        <pre><code>``` aaa
+        </code></pre>
+        """
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
             ("testThematicBreak", testThematicBreak),
             ("testATXHeading", testATXHeading),
-            ("testIndentedCodeBlock", testIndentedCodeBlock)
+            ("testIndentedCodeBlock", testIndentedCodeBlock),
+            ("testFencedCodeBlock", testFencedCodeBlock)
         ]
     }
 }
