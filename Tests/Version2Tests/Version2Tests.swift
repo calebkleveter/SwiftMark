@@ -68,9 +68,11 @@ class SwiftMarkTests: XCTestCase {
         <hr />
         <hr />
         <hr />
-            ***
+        <pre><code>***
+        </code></pre>
         Foo
-            ***
+        <pre><code>***
+        </code></pre>
         <hr />
         <hr />
         <hr />
@@ -184,10 +186,12 @@ class SwiftMarkTests: XCTestCase {
         <h2>foo</h2>
         <h1>foo</h1>
         
-            # foo
+       <pre><code># foo
+        </code></pre>
         
         foo
-            # bar
+        <pre><code># bar
+        </code></pre>
         
         <h2>foo</h2>
         <h3>bar</h3>
