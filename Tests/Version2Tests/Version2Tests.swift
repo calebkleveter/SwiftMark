@@ -186,7 +186,7 @@ class SwiftMarkTests: XCTestCase {
         <h2>foo</h2>
         <h1>foo</h1>
         
-       <pre><code># foo
+        <pre><code># foo
         </code></pre>
         
         foo
@@ -225,10 +225,134 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testIndentedCodeBlock() {
+        let md = """
+            a simple
+              indented code block
+
+          - foo
+
+            bar
+
+        1.  foo
+
+            - bar
+
+            <a/>
+            *hi*
+
+            - one
+
+            chunk1
+
+            chunk2
+          
+         
+         
+            chunk3
+
+            chunk1
+              
+              chunk2
+
+        Foo
+            bar
+
+            foo
+        bar
+
+        # Heading
+            foo
+        Heading
+        ------
+            foo
+        ----
+
+            foo
+        bar
+
+
+            
+            foo
+            
+            foo
+        """
+        
+        let html = """
+        <pre><code>a simple
+          indented code block
+        </code></pre>
+
+        <ul>
+        <li>
+        <p>foo</p>
+        <p>bar</p>
+        </li>
+        </ul>
+
+        <ol>
+        <li>
+        <p>foo</p>
+        <ul>
+        <li>bar</li>
+        </ul>
+        </li>
+        </ol>
+
+        <pre><code>&lt;a/&gt;
+        *hi*
+
+        - one
+        </code></pre>
+
+        <pre><code>chunk1
+
+        chunk2
+
+
+
+        chunk3
+        </code></pre>
+
+        <pre><code>chunk1
+          
+          chunk2
+        </code></pre>
+
+        <p>Foo
+        bar</p>
+        
+        <pre><code>foo
+        </code></pre>
+        <p>bar</p>
+
+        <h1>Heading</h1>
+        <pre><code>foo
+        </code></pre>
+        <h2>Heading</h2>
+        <pre><code>foo
+        </code></pre>
+        <hr />
+
+        <pre><code>    foo
+        bar
+        </code></pre>
+
+        <pre><code>foo
+        </code></pre>
+
+        <pre><code>foo
+        </code></pre>
+        """
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
             ("testThematicBreak", testThematicBreak),
-            ("testATXHeading", testATXHeading)
+            ("testATXHeading", testATXHeading),
+            ("testIndentedCodeBlock", testIndentedCodeBlock)
         ]
     }
 }
