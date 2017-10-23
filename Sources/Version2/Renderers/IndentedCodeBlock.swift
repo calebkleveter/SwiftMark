@@ -38,7 +38,35 @@ public class IndentedCodeBlock: SyntaxRenderer {
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "IndentedCodeBlock", rendererType: .leafBlock, fullMatch: "match", other: [:]))
+        var codeLines: [Node] = []
+        
+        while renderer.tokensAvailable {
+            let value: String
+            let metadata: Metadata
+            
+            switch renderer.currentToken {
+            case let .null(metadata: tokenMetadata):
+                value = ""
+                metadata = tokenMetadata
+            case let .string(value: tokenValue, metadata: tokenMetadata):
+                value = tokenValue
+                metadata = tokenMetadata
+            }
+            
+            if metadata.rendererName == "IndentedCodeBlock" {
+                let node = Node.string(value: value, metadata: (rendererName: "IndentedCodeBlock", rendererType: .leafBlock, fullMatch: "", other: [:]))
+                codeLines.append(node)
+                renderer.popCurrent()
+            } else if metadata.rendererName == "EOL" {
+                let node = Node.string(value: "\n", metadata: (rendererName: "IndentedCodeBlock", rendererType: .leafBlock, fullMatch: "", other: [:]))
+                codeLines.append(node)
+                renderer.popCurrent()
+            } else {
+                break
+            }
+        }
+        
+        return Node.array(values: codeLines, metadata: (rendererName: "IndentedCodeBlock", rendererType: .leafBlock, fullMatch: "", other: [:]))
     }
     
     public func render(_ node: Node) throws -> String {
