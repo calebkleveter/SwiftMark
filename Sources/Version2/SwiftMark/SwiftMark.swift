@@ -48,6 +48,7 @@ public class Markdown: TextRenderer {
                 EOL.self,
                 ThematicBreak.self,
                 ATXHeading.self,
+                IndentedCodeBlock.self,
                 Text.self
             )
         // https://github.github.com/gfm/#insecure-characters
