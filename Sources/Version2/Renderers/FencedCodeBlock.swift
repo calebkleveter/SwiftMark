@@ -43,7 +43,13 @@ public class FencedCodeBlock: SyntaxRenderer {
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "FencedCodeBlock", rendererType: .leafBlock, fullMatch: "match", other: [:]))
+        defer { renderer.popCurrent() }
+        guard case let Token.string(value: value, metadata: metadata) = renderer.currentToken else {
+            throw ParserError.incompatibleToken(renderer: "FencedCodeBlock", actualToken: renderer.currentToken)
+        }
+        let newMetadata: Metadata = (rendererName: "FencedCodeBlock", rendererType: .leafBlock, fullMatch: metadata.fullMatch, other: ["language": metadata.other["language"] ?? ""])
+        
+        return .string(value: value, metadata: newMetadata)
     }
     
     public func render(_ node: Node) throws -> String {
