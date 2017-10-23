@@ -70,7 +70,19 @@ public class IndentedCodeBlock: SyntaxRenderer {
     }
     
     public func render(_ node: Node) throws -> String {
-        return ""
+        guard case let Node.array(values: nodes, metadata: _) = node else {
+            throw RendererError.incompatibleNode(renderer: "IndentedCodeBlock", actualNode: node)
+        }
+        var text = ""
+        
+        try nodes.forEach { (node) in
+            guard case let Node.string(value: value, metadata: _) = node else {
+                throw RendererError.incompatibleNode(renderer: "IndentedCodeBlock", actualNode: node)
+            }
+            text.append(value)
+        }
+        
+        return "<pre><code>\(text)</code></pre>"
     }
     
     
