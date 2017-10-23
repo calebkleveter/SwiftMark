@@ -30,7 +30,16 @@ public class FencedCodeBlock: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "FencedCodeBlock", rendererType: .leafBlock, fullMatch: match, other: [:]))
+        let code = strings.first ?? ""
+        var language: String {
+            if strings.count < 2 {
+                return ""
+            } else {
+                return strings.last!
+            }
+        }
+        
+        return .string(value: code, metadata: (rendererName: "FencedCodeBlock", rendererType: .leafBlock, fullMatch: match, other: ["language": language]))
     }
     
     public func parse() throws -> Node {
