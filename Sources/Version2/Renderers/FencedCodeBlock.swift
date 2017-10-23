@@ -53,6 +53,18 @@ public class FencedCodeBlock: SyntaxRenderer {
     }
     
     public func render(_ node: Node) throws -> String {
-        return ""
+        guard case let Node.string(value: value, metadata: metadata) = node else {
+            throw RendererError.incompatibleNode(renderer: "FencedCodeBlock", actualNode: node)
+        }
+        let language: String = metadata.other["language"] as? String ?? ""
+        let languageClass: String
+        
+        if language != "" {
+            languageClass = " class=\"language-\(language)\""
+        } else {
+            languageClass = ""
+        }
+        
+        return "<pre><code\(languageClass)>\(value)</code></pre>"
     }
 }
