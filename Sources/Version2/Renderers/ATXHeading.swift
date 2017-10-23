@@ -85,7 +85,7 @@ public class ATXHeading: SyntaxRenderer {
         var subElements: String = ""
         var trailingElements: String = ""
         
-        try subNodes.enumerated().forEach({ (index, node) in
+        try subNodes.forEach({ (node) in
             guard let syntaxRenderer = self.renderer.syntaxRenderer(forName: node.metadata.rendererName) else {
                 throw RendererError.unknownRenderer(renderer: metadata.rendererName)
             }
