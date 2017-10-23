@@ -21,5 +21,5 @@
 //SOFTWARE.
 
 public enum LexerError: Error {
-    
+    case missingTemplateValue(renderer: String)
 }
