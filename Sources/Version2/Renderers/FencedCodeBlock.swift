@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 public class FencedCodeBlock: SyntaxRenderer {
-    public var pattern: RegEx = ""
+    public var pattern: RegEx = " {0,3}(`{3,}|~{3,}) *(\\w*)?(\n.*?)? {0,3}((`{3,}|~{3,})|$)"
     public var templates: [String] = []
     public var renderer: TextRenderer
     
