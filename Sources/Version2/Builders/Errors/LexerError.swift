@@ -22,4 +22,5 @@
 
 public enum LexerError: Error {
     case missingTemplateValue(renderer: String)
+    case unexpectedMatch(renderer: String, match: String)
 }
