@@ -30,7 +30,11 @@ public class IndentedCodeBlock: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "IndentedCodeBlock", rendererType: .leafBlock, fullMatch: match, other: [:]))
+        guard let code = strings.first else {
+            throw LexerError.missingTemplateValue(renderer: "IndentedCodeBlock")
+        }
+        
+        return .string(value: code, metadata: (rendererName: "IndentedCodeBlock", rendererType: .leafBlock, fullMatch: match, other: [:]))
     }
     
     public func parse() throws -> Node {
