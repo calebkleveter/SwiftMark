@@ -54,6 +54,14 @@ public class BackslashEscape: SyntaxRenderer {
     }
     
     public func render(_ node: Node) throws -> String {
-        return ""
+        guard case let Node.string(value: value, metadata: metadata) = node else {
+            throw RendererError.incompatibleNode(renderer: "BackslashEscape", actualNode: node)
+        }
+        
+        if let _ = metadata.other["isHardLineBreak"] as? Bool {
+            return "<br />"
+        } else {
+            return value
+        }
     }
 }
