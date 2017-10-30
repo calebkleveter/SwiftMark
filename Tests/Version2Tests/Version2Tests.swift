@@ -581,12 +581,98 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testBackslashEscape() {
+        let md = """
+        \\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\]\\^\\_\\`\\{\\|\\}\\~
+        
+        \\→\\A\\a\\ \\3\\φ\\«
+        
+        \\*not emphasized*
+        \\<br/> not a tag
+        \\[not a link](/foo)
+        \\`not code`
+        1\\. not a list
+        \\* not a list
+        \\# not a heading
+        \\[foo]: /url \"not a reference\"
+        
+        \\\\*emphasis*
+        
+        foo\\
+        bar
+        
+        `` \\[\\` ``
+        
+            \\[\\]
+        
+        ~~~
+        \\[\\]
+        ~~~
+        
+        <http://example.com?find=\\*>
+        
+        <a href=\"/bar\\/)\">
+        
+        [foo](/bar\\* \"ti\\*tle\")
+        
+        [foo]
+        
+        [foo]: /bar\\* \"ti\\*tle\"
+        
+        ``` foo\\+bar
+        foo
+        ```
+        """
+        
+        let html = """
+        <p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</p>
+        
+        <p>\\→\\A\\a\\ \\3\\φ\\«</p>
+        
+        <p>*not emphasized*
+        &lt;br/&gt; not a tag
+        [not a link](/foo)
+        `not code`
+        1. not a list
+        * not a list
+        # not a heading
+        [foo]: /url &quot;not a reference&quot;</p>
+        
+        <p>\\<em>emphasis</em></p>
+        
+        <p>foo<br />
+        bar</p>
+        
+        <p><code>\\[\\`</code></p>
+        
+        <pre><code>\\[\\]
+        </code></pre>
+        
+        <pre><code>\\[\\]
+        </code></pre>
+        
+        <p><a href=\"http://example.com?find=%5C*\">http://example.com?find=\\*</a></p>
+        
+        <a href=\"/bar\\/)\">
+        
+        <p><a href=\"/bar*\" title=\"ti*tle\">foo</a></p>
+        
+        <p><a href=\"/bar*\" title=\"ti*tle\">foo</a></p>
+        
+        <pre><code class=\"language-foo+bar\">foo
+        </code></pre>
+        """
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
             ("testThematicBreak", testThematicBreak),
             ("testATXHeading", testATXHeading),
             ("testIndentedCodeBlock", testIndentedCodeBlock),
-            ("testFencedCodeBlock", testFencedCodeBlock)
+            ("testFencedCodeBlock", testFencedCodeBlock),
+            ("testBackslashEscape", testBackslashEscape)
         ]
     }
 }
