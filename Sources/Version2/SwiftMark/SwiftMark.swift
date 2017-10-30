@@ -50,6 +50,7 @@ public class Markdown: TextRenderer {
                 ATXHeading.self,
                 IndentedCodeBlock.self,
                 FencedCodeBlock.self,
+                BackslashEscape.self,
                 Text.self
             )
         // https://github.github.com/gfm/#insecure-characters
