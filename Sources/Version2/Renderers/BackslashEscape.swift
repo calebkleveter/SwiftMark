@@ -22,7 +22,7 @@
 
 public class BackslashEscape: SyntaxRenderer {
     public var pattern: RegEx = "\\\\([[:punct:]])"
-    public var templates: [String] = ["$2", "$3"]
+    public var templates: [String] = ["$1"]
     public var renderer: TextRenderer
     
     public required init(renderer: TextRenderer) {
