@@ -21,8 +21,8 @@
 //SOFTWARE.
 
 public class BackslashEscape: SyntaxRenderer {
-    public var pattern: RegEx = "(\\\\([[:punct:]])|(\\\\(?m:$)))"
-    public var templates: [String] = []
+    public var pattern: RegEx = "\\\\([[:punct:]])"
+    public var templates: [String] = ["$2", "$3"]
     public var renderer: TextRenderer
     
     public required init(renderer: TextRenderer) {
