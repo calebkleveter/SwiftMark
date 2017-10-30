@@ -37,7 +37,20 @@ public class BackslashEscape: SyntaxRenderer {
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "BackslashEscape", rendererType: .inline, fullMatch: "", other: [:]))
+        guard case let Token.string(value: value, metadata: metadata) = renderer.currentToken else {
+            throw ParserError.incompatibleToken(renderer: "BackslashEscape", actualToken: renderer.currentToken)
+        }
+        var isHardLineBreak = false
+        renderer.popCurrent()
+        
+        if renderer.currentToken.metadata.rendererName == "EOL" {
+            isHardLineBreak = true
+        }
+        let dataObject = [
+            "isHardLineBreak": isHardLineBreak
+        ]
+        
+        return .string(value: value, metadata: (rendererName: "BackslashEscape", rendererType: .inline, fullMatch: metadata.fullMatch, other: dataObject))
     }
     
     public func render(_ node: Node) throws -> String {
