@@ -30,7 +30,10 @@ public class BackslashEscape: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "BackslashEscape", rendererType: .inline, fullMatch: match, other: [:]))
+        guard let value = strings.first else {
+            throw LexerError.missingTemplateValue(renderer: "BackslashEscape")
+        }
+        return .string(value: value, metadata: (rendererName: "BackslashEscape", rendererType: .inline, fullMatch: match, other: [:]))
     }
     
     public func parse() throws -> Node {
