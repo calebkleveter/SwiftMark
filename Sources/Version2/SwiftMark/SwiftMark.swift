@@ -50,6 +50,7 @@ public class Markdown: TextRenderer {
                 ATXHeading.self,
                 IndentedCodeBlock.self,
                 FencedCodeBlock.self,
+                CodeSpan.self,
                 BackslashEscape.self,
                 Text.self
             )
