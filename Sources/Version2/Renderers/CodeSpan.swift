@@ -41,7 +41,13 @@ public class CodeSpan: SyntaxRenderer {
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "CodeSpan", rendererType: .inline, fullMatch: "", other: [:]))
+        guard let value = renderer.currentToken.value else {
+            throw ParserError.incompatibleToken(renderer: "CodeSpan", actualToken: renderer.currentToken)
+        }
+        let metadata = renderer.currentToken.metadata
+        
+        renderer.popCurrent()
+        return .string(value: value, metadata: metadata)
     }
     
     public func render(_ node: Node) throws -> String {
