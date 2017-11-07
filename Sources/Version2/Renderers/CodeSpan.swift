@@ -22,7 +22,7 @@
 
 public class CodeSpan: SyntaxRenderer {
     public var pattern: RegEx = "(`+)((?s:.)+?)(?<!`)\\1(?!`+)"
-    public var templates: [String] = []
+    public var templates: [String] = ["2"]
     public var renderer: TextRenderer
     
     public required init(renderer: TextRenderer) {
