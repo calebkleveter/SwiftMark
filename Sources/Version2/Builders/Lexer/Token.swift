@@ -36,4 +36,12 @@ public enum Token {
         case let .string(value: _, metadata: metadata): return metadata
         }
     }
+    
+    /// Returns the value contained in the `.string` case. Returns `nil` for the `.null` case.
+    public var value: String? {
+        switch self {
+        case .null: return nil
+        case let .string(value: val, metadata: _): return val
+        }
+    }
 }

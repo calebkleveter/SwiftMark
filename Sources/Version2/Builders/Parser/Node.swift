@@ -44,4 +44,12 @@ public indirect enum Node {
         case let .object(values: _, metadata: (metadata)): return metadata
         }
     }
+    
+    /// Returns the value contained in the `.string` case. Returns `nil` for all other cases.
+    public var value: String? {
+        switch self {
+        case let .string(value: val, metadata: _): return val
+        default: return nil
+        }
+    }
 }
