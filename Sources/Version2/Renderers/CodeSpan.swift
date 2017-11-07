@@ -20,6 +20,8 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
+import Foundation
+
 public class CodeSpan: SyntaxRenderer {
     public var pattern: RegEx = "(`+)((?s:.)+?)(?<!`)\\1(?!`+)"
     public var templates: [String] = ["2"]
@@ -30,7 +32,12 @@ public class CodeSpan: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "CodeSpan", rendererType: .inline, fullMatch: match, other: [:]))
+        guard var value = strings.first else {
+            throw LexerError.missingTemplateValue(renderer: "CodeSpan")
+        }
+        value = value.replacingOccurrences(of: "\n", with: " ")
+        value = value.trimmingCharacters(in: .whitespaces)
+        return .string(value: value, metadata: (rendererName: "CodeSpan", rendererType: .inline, fullMatch: match, other: [:]))
     }
     
     public func parse() throws -> Node {
