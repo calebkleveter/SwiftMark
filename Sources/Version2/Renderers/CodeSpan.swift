@@ -35,8 +35,11 @@ public class CodeSpan: SyntaxRenderer {
         guard var value = strings.first else {
             throw LexerError.missingTemplateValue(renderer: "CodeSpan")
         }
+        
         value = value.replacingOccurrences(of: "\n", with: " ")
+        value = value.replacingOccurrences(of: " +", with: " ", options: .regularExpression)
         value = value.trimmingCharacters(in: .whitespaces)
+        
         return .string(value: value, metadata: (rendererName: "CodeSpan", rendererType: .inline, fullMatch: match, other: [:]))
     }
     
