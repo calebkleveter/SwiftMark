@@ -30,7 +30,7 @@ public enum Token {
     case string(value: String, metadata: Metadata)
     
     /// Returns that metadata for the current `Token`.
-    var metadata: Metadata {
+    public var metadata: Metadata {
         switch self {
         case let .null(metadata: metadata): return metadata
         case let .string(value: _, metadata: metadata): return metadata
