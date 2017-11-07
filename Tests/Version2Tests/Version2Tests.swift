@@ -666,13 +666,91 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testCodeSpan() {
+        let md = """
+        `foo`
+
+        `` foo ` bar  ``
+
+        ` `` `
+
+        ``
+        foo
+        ``
+
+        `foo   bar
+          baz`
+
+        `a\u{00a0}\u{00a0}b`
+
+        `foo `` bar`
+
+        `foo\`bar`
+        
+        *foo`*`
+        
+        [not a `link](/foo`)
+        
+        `<a href=\"`\">`
+        
+        <a href=\"`\">`
+        
+        `<http://foo.bar.`baz>`
+        
+        <http://foo.bar.`baz>`
+        
+        ```foo``
+        
+        `foo
+        
+        `foo``bar``
+        """
+        
+        let html = """
+        <p><code>foo</code></p>
+
+        <p><code>foo ` bar</code></p>
+
+        <p><code>``</code></p>
+
+        <p><code>foo</code></p>
+
+        <p><code>foo bar baz</code></p>
+
+        <p><code>foo `` bar</code></p>
+
+        <p><code>foo\</code>bar`</p>
+        
+        <p>*foo<code>*</code></p>
+        
+        <p>[not a <code>link](/foo</code>)</p>
+        
+        <p><code>&lt;a href=&quot;</code>&quot;&gt;`</p>
+        
+        <p><a href=\"`\">`</p>
+        
+        <p><code>&lt;http://foo.bar.</code>baz&gt;`</p>
+        
+        <p><a href=\"http://foo.bar.%60baz\">http://foo.bar.`baz</a>`</p>
+        
+        <p>```foo``</p>
+        
+        <p>`foo</p>
+        
+        <p>`foo<code>bar</code></p>
+        """
+        
+        test(markdown: md, isEqualTo: html)
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
             ("testThematicBreak", testThematicBreak),
             ("testATXHeading", testATXHeading),
             ("testIndentedCodeBlock", testIndentedCodeBlock),
             ("testFencedCodeBlock", testFencedCodeBlock),
-            ("testBackslashEscape", testBackslashEscape)
+            ("testBackslashEscape", testBackslashEscape),
+            ("testCodeSpan", testCodeSpan)
         ]
     }
 }
