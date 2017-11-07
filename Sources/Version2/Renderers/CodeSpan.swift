@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 public class CodeSpan: SyntaxRenderer {
-    public var pattern: RegEx = ""
+    public var pattern: RegEx = "(`+)((?s:.)+?)(?<!`)\\1(?!`+)"
     public var templates: [String] = []
     public var renderer: TextRenderer
     
