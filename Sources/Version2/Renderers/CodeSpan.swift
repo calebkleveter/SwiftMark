@@ -51,6 +51,9 @@ public class CodeSpan: SyntaxRenderer {
     }
     
     public func render(_ node: Node) throws -> String {
-        return ""
+        guard let value = node.value else {
+            throw RendererError.incompatibleNode(renderer: "CodeSpan", actualNode: node)
+        }
+        return value
     }
 }
