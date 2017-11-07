@@ -685,7 +685,7 @@ class SwiftMarkTests: XCTestCase {
 
         `foo `` bar`
 
-        `foo\`bar`
+        `foo\\`bar`
         
         *foo`*`
         
@@ -719,7 +719,7 @@ class SwiftMarkTests: XCTestCase {
 
         <p><code>foo `` bar</code></p>
 
-        <p><code>foo\</code>bar`</p>
+        <p><code>foo\\</code>bar`</p>
         
         <p>*foo<code>*</code></p>
         
