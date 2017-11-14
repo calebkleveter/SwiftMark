@@ -37,7 +37,11 @@ public class Strikethrough: SyntaxRenderer {
     }
     
     public func parse() throws -> Node {
-        return .null(metadata: (rendererName: "Strikethrough", rendererType: .inline, fullMatch: "", other: [:]))
+        guard let value = renderer.currentToken.value else {
+            throw ParserError.incompatibleToken(renderer: "Strikethrough", actualToken: renderer.currentToken)
+        }
+        renderer.popCurrent()
+        return .string(value: value, metadata: (rendererName: "Strikethrough", rendererType: .inline, fullMatch: "", other: [:]))
     }
     
     public func render(_ node: Node) throws -> String {
