@@ -743,6 +743,25 @@ class SwiftMarkTests: XCTestCase {
         test(markdown: md, isEqualTo: html)
     }
     
+    func testStrikethrough() {
+        let md = """
+        ~Hi~ Hello, world!
+
+        This ~text~~~~ is ~~~~curious~.
+
+        This ~~has a
+
+        new paragraph~~.
+        """
+        
+        let html = """
+        <p><del>Hi</del> Hello, world!</p>
+        <p>This <del>text</del> is <del>curious</del>.</p>
+        <p>This ~~has a</p>
+        <p>new paragraph~~.</p>
+        """
+    }
+    
     static var allTests : [(String, (SwiftMarkTests) -> () throws -> Void)] {
         return [
             ("testThematicBreak", testThematicBreak),
@@ -750,7 +769,8 @@ class SwiftMarkTests: XCTestCase {
             ("testIndentedCodeBlock", testIndentedCodeBlock),
             ("testFencedCodeBlock", testFencedCodeBlock),
             ("testBackslashEscape", testBackslashEscape),
-            ("testCodeSpan", testCodeSpan)
+            ("testCodeSpan", testCodeSpan),
+            ("testStrikethrough", testStrikethrough)
         ]
     }
 }
