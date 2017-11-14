@@ -45,6 +45,9 @@ public class Strikethrough: SyntaxRenderer {
     }
     
     public func render(_ node: Node) throws -> String {
-        return ""
+        guard let value = node.value else {
+            throw RendererError.incompatibleNode(renderer: "Strikethrough", actualNode: node)
+        }
+        return "<del>\(value)</del>"
     }
 }
