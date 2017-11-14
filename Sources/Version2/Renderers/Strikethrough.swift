@@ -22,7 +22,7 @@
 
 public class Strikethrough: SyntaxRenderer {
     public var pattern: RegEx = "~+(.+?)~+"
-    public var templates: [String] = []
+    public var templates: [String] = ["$1"]
     public var renderer: TextRenderer
     
     public required init(renderer: TextRenderer) {
