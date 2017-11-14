@@ -30,7 +30,10 @@ public class Strikethrough: SyntaxRenderer {
     }
     
     public func tokenize(_ strings: [String], forMatch match: String) throws -> Token {
-        return .null(metadata: (rendererName: "Strikethrough", rendererType: .inline, fullMatch: "", other: [:]))
+        guard let value = strings.first else {
+            throw LexerError.missingTemplateValue(renderer: "Strikethrough")
+        }
+        return .string(value: value, metadata: (rendererName: "Strikethrough", rendererType: .inline, fullMatch: match, other: [:]))
     }
     
     public func parse() throws -> Node {
