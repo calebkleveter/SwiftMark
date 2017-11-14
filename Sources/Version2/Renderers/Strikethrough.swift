@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 public class Strikethrough: SyntaxRenderer {
-    public var pattern: RegEx = ""
+    public var pattern: RegEx = "~+(.+?)~+"
     public var templates: [String] = []
     public var renderer: TextRenderer
     
