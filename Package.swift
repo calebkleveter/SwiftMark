@@ -1,11 +1,11 @@
+// swift-tools-version:4.2
+
 import PackageDescription
 
 let package = Package(
     name: "SwiftMark",
+    dependencies: [],
     targets: [
-        Target(name: "Lexer"),
-        Target(name: "Parser", dependencies: ["Lexer"]),
-        Target(name: "Renderer", dependencies: ["Parser"]),
-        Target(name: "SwiftMark", dependencies: ["Lexer", "Parser", "Renderer"])
+        .target(name: "SwiftMark", dependencies: [])
     ]
 )
