@@ -1,8 +1,10 @@
+import Utilities
+
 extension Lexer {
     public struct TokenGenerator {
-        public let generator: (String) -> Lexer.Token
+        public let generator: (inout CollectionTracker<String>) -> Lexer.Token?
         
-        public init(generator: @escaping (String) -> Lexer.Token) {
+        public init(generator: @escaping (inout CollectionTracker<String>) -> Lexer.Token?) {
             self.generator = generator
         }
     }
