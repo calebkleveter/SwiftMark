@@ -1,3 +1,10 @@
+import Utilities
+import Lexer
+
+public protocol TokenGenerator {
+    func run(on tracker: CollectionTracker<[Lexer.Token]>) -> Parser.Token?
+}
+
 extension Parser {
     public struct Token {
         public let name: String
