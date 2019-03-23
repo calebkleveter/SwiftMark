@@ -7,6 +7,10 @@ extension Lexer {
         public init(generator: @escaping (inout CollectionTracker<String>) -> Lexer.Token?) {
             self.generator = generator
         }
+        
+        public func run(on tracker: inout CollectionTracker<String>) -> Lexer.Token? {
+            return self.generator(&tracker)
+        }
     }
     
     public struct Token {
