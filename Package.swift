@@ -6,6 +6,7 @@ let package = Package(
     name: "SwiftMark",
     dependencies: [],
     targets: [
-        .target(name: "SwiftMark", dependencies: [])
+        .target(name: "Lexer", dependencies: []),
+        .target(name: "SwiftMark", dependencies: ["Lexer"])
     ]
 )
