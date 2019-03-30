@@ -35,3 +35,12 @@ public struct CollectionTracker<Base> where Base: Collection {
         return self.base[self.readIndex]
     }
 }
+
+extension CollectionTracker where Base.Element: Equatable {
+    public func read(to last: Base.Element, max: Int? = nil) -> Base.SubSequence {
+        let endIndex = self.readable(offsetBy: max ?? self.base.count - self.readable)
+        let slice = self.base[self.readable(offsetBy: 0)...endIndex]
+        
+        return slice.prefix { element in element != last }
+    }
+}
