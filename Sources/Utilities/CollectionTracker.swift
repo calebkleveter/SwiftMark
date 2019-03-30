@@ -37,10 +37,21 @@ public struct CollectionTracker<Base> where Base: Collection {
 }
 
 extension CollectionTracker where Base.Element: Equatable {
-    public func read(to last: Base.Element, max: Int? = nil) -> Base.SubSequence {
+    public mutating func read(to last: Base.Element, max: Int? = nil) -> Base.SubSequence {
         let endIndex = self.readable(offsetBy: max ?? self.base.count - self.readable)
         let slice = self.base[self.readable(offsetBy: 0)...endIndex]
+        let result = slice.prefix { element in element != last }
         
-        return slice.prefix { element in element != last }
+        self.readIndex = self.readable(offsetBy: slice.count)
+        return result
+    }
+    
+    public mutating func read(while predicate: (Base.Element)throws -> Bool, max: Int? = nil)rethrows -> Base.SubSequence {
+        let endIndex = self.readable(offsetBy: max ?? self.base.count - self.readable)
+        let slice = self.base[self.readable(offsetBy: 0)...endIndex]
+        let result = try slice.prefix(while: predicate)
+        
+        self.readIndex = self.readable(offsetBy: slice.count)
+        return result
     }
 }
