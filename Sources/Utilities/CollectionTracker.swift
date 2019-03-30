@@ -34,6 +34,14 @@ public struct CollectionTracker<Base> where Base: Collection {
         guard self.base.endIndex > self.readIndex else { return nil }
         return self.base[self.readIndex]
     }
+    
+    public mutating func pop(next distance: Int) {
+        self.readIndex = self.readable(offsetBy: distance)
+    }
+    
+    public mutating func pop() {
+        self.readIndex = self.readable(offsetBy: 1) 
+    }
 }
 
 extension CollectionTracker where Base.Element: Equatable {
