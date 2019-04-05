@@ -44,6 +44,8 @@ public struct CollectionTracker<Base> where Base: Collection {
     }
 }
 
+extension CollectionTracker: Equatable where Base: Equatable { }
+
 extension CollectionTracker where Base.Element: Equatable {
     public mutating func read(to last: Base.Element, max: Int? = nil) -> Base.SubSequence {
         let endIndex = self.readable(offsetBy: max ?? self.base.count - self.readable)
