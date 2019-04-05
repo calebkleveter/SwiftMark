@@ -36,7 +36,7 @@ extension Lexer {
         }
         
         if start < end {
-            lines.append(Lexer.Line.line(CollectionTracker(String(string[start..<end])), nil))
+            lines.append(Lexer.Line.line(CollectionTracker(String(string[start..<end])), .eof))
         }
         
         return lines
@@ -44,12 +44,13 @@ extension Lexer {
     
     public enum Line: Equatable {
         case blank
-        case line(CollectionTracker<String>, Ending?)
+        case line(CollectionTracker<String>, Ending)
         
         public enum Ending: String {
             case newLine = "\u{000A}"
             case carriageReturn = "\u{000D}"
             case combined = "\u{000A}\u{000D}"
+            case eof = "EOF"
         }
     }
 }
