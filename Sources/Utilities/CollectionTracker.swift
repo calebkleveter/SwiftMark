@@ -16,7 +16,7 @@ public struct CollectionTracker<Base> where Base: Collection {
     }
     
     public func peek(next distance: Int) -> Base.SubSequence {
-        return self.base[self.readIndex...self.readable(offsetBy: distance)]
+        return self.base[self.readIndex..<self.readable(offsetBy: distance)]
     }
     
     public func peek() -> Base.Element? {
@@ -26,7 +26,7 @@ public struct CollectionTracker<Base> where Base: Collection {
     
     public mutating func read(next distance: Int) -> Base.SubSequence {
         defer { self.readIndex = self.readable(offsetBy: distance) }
-        return self.base[self.readIndex...self.readable(offsetBy: distance)]
+        return self.base[self.readIndex..<self.readable(offsetBy: distance)]
     }
     
     public mutating func read() -> Base.Element? {
@@ -48,20 +48,20 @@ extension CollectionTracker: Equatable where Base: Equatable { }
 
 extension CollectionTracker where Base.Element: Equatable {
     public mutating func read(to last: Base.Element, max: Int? = nil) -> Base.SubSequence {
-        let endIndex = self.readable(offsetBy: max ?? self.base.count - self.readable)
-        let slice = self.base[self.readable(offsetBy: 0)...endIndex]
+        let endIndex = self.readable(offsetBy: max ?? self.readable)
+        let slice = self.base[self.readable(offsetBy: 0)..<endIndex]
         let result = slice.prefix { element in element != last }
         
-        self.readIndex = self.readable(offsetBy: slice.count)
+        self.readIndex = self.readable(offsetBy: result.count)
         return result
     }
     
     public mutating func read(while predicate: (Base.Element)throws -> Bool, max: Int? = nil)rethrows -> Base.SubSequence {
-        let endIndex = self.readable(offsetBy: max ?? self.base.count - self.readable)
-        let slice = self.base[self.readable(offsetBy: 0)...endIndex]
+        let endIndex = self.readable(offsetBy: max ?? self.readable)
+        let slice = self.base[self.readable(offsetBy: 0)..<endIndex]
         let result = try slice.prefix(while: predicate)
         
-        self.readIndex = self.readable(offsetBy: slice.count)
+        self.readIndex = self.readable(offsetBy: result.count)
         return result
     }
 }
