@@ -9,6 +9,8 @@ let package = Package(
         .target(name: "Utilities", dependencies: []),
         .target(name: "Lexer", dependencies: ["Utilities"]),
         .target(name: "Parser", dependencies: ["Lexer", "Utilities"]),
-        .target(name: "SwiftMark", dependencies: ["Lexer"])
+        .target(name: "SwiftMark", dependencies: ["Lexer"]),
+        
+        .testTarget(name: "LexerTests", dependencies: ["Utilities", "Lexer"])
     ]
 )
