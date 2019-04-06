@@ -14,7 +14,7 @@ public struct MarkdownSymbolGenerator: TokenGenerator {
             41: Lexer.Token(name: ")"), 42: Lexer.Token(name: "*"), 43: Lexer.Token(name: "+"),
             45: Lexer.Token(name: "-"), 61: Lexer.Token(name: "="), 62: Lexer.Token(name: ">"),
             91: Lexer.Token(name: "["), 92: Lexer.Token(name: "\\"), 93: Lexer.Token(name: "]"),
-            96: Lexer.Token(name: "`"),
+            95: Lexer.Token(name: "_"), 96: Lexer.Token(name: "`"),
         ]
     }
     
