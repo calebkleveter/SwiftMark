@@ -1,6 +1,8 @@
 import Utilities
 
 extension Lexer {
+    public typealias Line = Document<[UInt8]>.Line
+    
     private func line(contents: [UInt8], ending: Lexer.Line.Ending) -> Lexer.Line {
         if contents.count == 0 || contents.drop(while: { $0 == 32 || $0 == 9 }) == [] {
             return .blank
@@ -40,17 +42,5 @@ extension Lexer {
         }
         
         return lines
-    }
-    
-    public enum Line: Equatable {
-        case blank
-        case line(CollectionTracker<[UInt8]>, Ending)
-        
-        public enum Ending: String {
-            case newLine = "\u{000A}"
-            case carriageReturn = "\u{000D}"
-            case combined = "\u{000A}\u{000D}"
-            case eof = "EOF"
-        }
     }
 }
