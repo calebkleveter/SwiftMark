@@ -4,7 +4,11 @@ import Lexer
 
 /// Test file: https://daringfireball.net/projects/markdown/syntax.text
 final class LexerTests: XCTestCase {
-    let lexer = Lexer(generators: [MarkdownSymbolGenerator(), AlphaNumericGenerator()], defaultGenerator: DefaultGenerator())
+    let lexer = Lexer(generators: [
+        MarkdownSymbolGenerator(),
+        AlphaNumericGenerator(),
+        NewLineGenerator()
+    ], defaultGenerator: DefaultGenerator())
     let markdown = { () -> [UInt8] in
         let url = URL(string: "https://daringfireball.net/projects/markdown/syntax.text")!
         return try! Array(Data(contentsOf: url))

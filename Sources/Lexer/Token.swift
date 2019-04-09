@@ -48,6 +48,31 @@ public struct AlphaNumericGenerator: TokenGenerator {
     }
 }
 
+public struct NewLineGenerator: TokenGenerator {
+    let newLine: UInt8
+    let carriageReturn: UInt8
+    
+    public init() {
+        self.newLine = UInt8(ascii: "\n")
+        self.carriageReturn =  UInt8(ascii: "\r")
+    }
+    
+    public func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]? {
+        switch tracker.peek() {
+        case self.newLine?:
+            tracker.pop()
+            if tracker.peek() == self.carriageReturn {
+                tracker.pop()
+                return [Lexer.Token(name: "newLine", data: [self.newLine, self.carriageReturn])]
+            } else {
+                return [Lexer.Token(name: "newLinw", data: [self.newLine])]
+            }
+        case self.carriageReturn?: return [Lexer.Token(name: "newLine", data: [self.carriageReturn])]
+        default: return nil
+        }
+    }
+}
+
 public struct DefaultGenerator: TokenGenerator {
     public init () { }
     
