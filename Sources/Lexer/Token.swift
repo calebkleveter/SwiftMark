@@ -10,11 +10,11 @@ public struct MarkdownSymbolGenerator: TokenGenerator {
     
     public init() {
         self.tokenMap = [
-            33: Lexer.Token(name: "!"), 35: Lexer.Token(name: "#"), 40: Lexer.Token(name: "("),
-            41: Lexer.Token(name: ")"), 42: Lexer.Token(name: "*"), 43: Lexer.Token(name: "+"),
-            45: Lexer.Token(name: "-"), 61: Lexer.Token(name: "="), 62: Lexer.Token(name: ">"),
-            91: Lexer.Token(name: "["), 92: Lexer.Token(name: "\\"), 93: Lexer.Token(name: "]"),
-            95: Lexer.Token(name: "_"), 96: Lexer.Token(name: "`"),
+            "!": Lexer.Token(name: "!"), "#": Lexer.Token(name: "#"), "(": Lexer.Token(name: "("),
+            ")": Lexer.Token(name: ")"), "*": Lexer.Token(name: "*"), "+": Lexer.Token(name: "+"),
+            "-": Lexer.Token(name: "-"), "=": Lexer.Token(name: "="), ">": Lexer.Token(name: ">"),
+            "[": Lexer.Token(name: "["), "\\": Lexer.Token(name: "\\"), "]": Lexer.Token(name: "]"),
+            "_": Lexer.Token(name: "_"), "`": Lexer.Token(name: "`"),
         ]
     }
     
@@ -35,9 +35,9 @@ public struct AlphaNumericGenerator: TokenGenerator {
     
     public init() {
         self.characters = [
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
-            111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
-            77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 88, 89, 90
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+            "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H",
+            "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "Z"
         ]
     }
     
@@ -53,8 +53,8 @@ public struct NewLineGenerator: TokenGenerator {
     let carriageReturn: UInt8
     
     public init() {
-        self.newLine = UInt8(ascii: "\n")
-        self.carriageReturn =  UInt8(ascii: "\r")
+        self.newLine = "\n"
+        self.carriageReturn = "\r"
     }
     
     public func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]? {
