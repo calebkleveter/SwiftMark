@@ -2,12 +2,10 @@ import Foundation
 import Utilities
 
 public final class Lexer {
-    public let generators: [TokenGenerator]
-    public let defaultGenerator: TokenGenerator
-    
-    public init(generators: [TokenGenerator], defaultGenerator: TokenGenerator) {
+    public let generators: GeneratorList
+
+    public init(generators: GeneratorList) {
         self.generators = generators
-        self.defaultGenerator = defaultGenerator
     }
     
     public func clean(data: [UInt8]) -> [UInt8] {
@@ -19,13 +17,13 @@ public final class Lexer {
         var result: [Token] = []
         
         track: while tracker.readable > 0 {
-            for generator in self.generators {
+            for generator in self.generators.generators {
                 if let tokens = generator.run(on: &tracker), tokens.count > 0 {
                     result.append(contentsOf: tokens)
                     continue track
                 }
             }
-            guard let tokens = self.defaultGenerator.run(on: &tracker), tokens.count > 0 else {
+            guard let tokens = self.generators.default.run(on: &tracker), tokens.count > 0 else {
                 assertionFailure("Lexer.defaultGenerator _must always_ return a token")
                 throw LexerError.noGeneratorFound
             }
