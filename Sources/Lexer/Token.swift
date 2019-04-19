@@ -5,6 +5,10 @@ public protocol TokenGenerator {
     func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]?
 }
 
+public protocol NewLineGeneratorProtocol: TokenGenerator {
+    func ending(for tokens: [Lexer.Token]) -> Document<[Lexer.Token]>.Line.Ending
+}
+
 public struct MarkdownSymbolGenerator: TokenGenerator {
     internal let tokenMap: [UInt8: Lexer.Token]
     
@@ -48,7 +52,7 @@ public struct AlphaNumericGenerator: TokenGenerator {
     }
 }
 
-public struct NewLineGenerator: TokenGenerator {
+public struct NewLineGenerator: NewLineGeneratorProtocol {
     let newLine: UInt8
     let carriageReturn: UInt8
     
@@ -69,6 +73,15 @@ public struct NewLineGenerator: TokenGenerator {
             }
         case self.carriageReturn?: return [Lexer.Token(name: "newLine", data: [self.carriageReturn])]
         default: return nil
+        }
+    }
+
+    public func ending(for tokens: [Lexer.Token]) -> Document<[Lexer.Token]>.Line.Ending {
+        switch tokens.first?.data {
+        case .raw([10])?: return .newLine
+        case .raw([13])?: return .carriageReturn
+        case .raw([13, 10])?: return .combined
+        default: return .newLine
         }
     }
 }
