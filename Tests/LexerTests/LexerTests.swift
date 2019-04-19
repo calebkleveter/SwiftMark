@@ -32,8 +32,13 @@ final class LexerTests: XCTestCase {
         }
     }
     
-    func testLex() throws {
-        let tokens = try self.lexer.lex(string: self.markdown)
-        print(tokens[...35])
+    func testMeasureLex() throws {
+        measure {
+            do {
+                _ = try self.lexer.lex(string: self.markdown)
+            } catch let error {
+                XCTFail(error.localizedDescription)
+            }
+        }
     }
 }
