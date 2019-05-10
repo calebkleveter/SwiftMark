@@ -2,9 +2,9 @@ import Foundation
 import Utilities
 
 public final class Lexer {
-    public let generators: GeneratorList
+    public let generators: HandlerList<TokenGenerator>
 
-    public init(generators: GeneratorList) {
+    public init(generators: HandlerList<TokenGenerator>) {
         self.generators = generators
     }
     
@@ -17,7 +17,7 @@ public final class Lexer {
         var result: [Token] = []
         
         track: while tracker.readable > 0 {
-            for generator in self.generators.generators {
+            for generator in self.generators.handlers {
                 if let tokens = generator.run(on: &tracker), tokens.count > 0 {
                     result.append(contentsOf: tokens)
                     continue track

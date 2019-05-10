@@ -2,9 +2,9 @@ import Utilities
 import Parser
 
 public final class Renderer {
-    public let renderers: RendererList
+    public let renderers: HandlerList<TokenRenderer>
 
-    public init(renderers: RendererList) {
+    public init(renderers: HandlerList<TokenRenderer>) {
         self.renderers = renderers
     }
 
@@ -14,8 +14,8 @@ public final class Renderer {
 
         track: while let token = tracker.peek() {
             defer { tracker.pop() }
-
-            if let renderer = self.renderers.renderers.first(where: { $0.renderType == token.name }) {
+            
+            if let renderer = self.renderers.handlers.first(where: { $0.renderType == token.name }) {
                 if let bytes = renderer.render(token: token) {
                     result.append(contentsOf: bytes)
                     continue track
