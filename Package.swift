@@ -12,6 +12,9 @@ let package = Package(
         .target(name: "Renderer", dependencies: ["Parser", "Utilities"]),
         .target(name: "SwiftMark", dependencies: ["Lexer", "Parser", "Renderer"]),
         
-        .testTarget(name: "LexerTests", dependencies: ["Utilities", "Lexer"])
+        .testTarget(name: "LexerTests", dependencies: ["Utilities", "Lexer"]),
+        .testTarget(name: "SwiftMarkTests", dependencies: [
+            "SwiftMark", "Utilities", "Lexer", "Parser", "Renderer"
+        ])
     ]
 )
