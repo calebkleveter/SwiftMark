@@ -90,3 +90,35 @@ Or if it was converted to text:
 # Handing Byte Input
 
 Incoming bytes should be able to be passed in as a single block, or streamed. This can be done by having a byte buffer that is appended to when a list of bytes is passed into the consumer. Ideally we wouldn't have to store bytes, but more bytes could come later that change how the HTML is rendered. 
+
+
+```
+# Header
+
+_Hello there!_ This is **Caleb**
+```
+
+->
+
+```
+[
+    .hash, .space, .raw("Header"), .newline("\n"), .newline("\n") .underscore, .raw("Hello"), .space, .raw("there"),
+    .exclaimation, .underscore, .space, .raw("This"), .space, .raw("is"), .space, .asterik, .asterik, .raw("Caleb")
+    .asterik, .asterik
+]
+```
+
+->
+
+```
+[
+    .headerOne(.start), .raw("Header"), .headerOne(.end), .paragraph(.start), .italics(.start), .raw("Hello there!"),
+    .italics(.end), .raw(" This is "), .bold(.start), .raw("Caleb"), .bold(.end)
+]
+```
+
+-> 
+
+```
+<h1>Header</h1><p><em>Hello there!</em> This is <strong>Caleb</strong></p>
+```
