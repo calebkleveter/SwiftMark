@@ -8,7 +8,7 @@ public protocol Syntax: TokenParser, TokenRenderer {
 }
 
 extension Syntax {
-    func run(on tracker: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func run(on tracker: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
         return self.parse(tokens: &tracker)
     }
 }
