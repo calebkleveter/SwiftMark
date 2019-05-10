@@ -3,7 +3,11 @@ import Parser
 import Lexer
 
 public struct ThematicBreak: Syntax {
-    public var renderType: String = "thematicBreak"
+    public let renderType: String
+
+    public init() {
+        self.renderType = "thematicBreak"
+    }
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
         guard tokens.peek(next: -1) == ([.init(name: .newLine)] || []) else { return nil }
