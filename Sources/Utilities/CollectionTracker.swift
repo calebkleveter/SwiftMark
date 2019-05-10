@@ -14,7 +14,12 @@ public struct CollectionTracker<Base> where Base: Collection {
     private func readable(offsetBy offset: Int) -> Base.Index {
         return self.base.index(self.readIndex, offsetBy: offset, limitedBy: self.base.endIndex) ?? self.base.endIndex
     }
-    
+
+    public func peek(back distance: Int) -> Base.SubSequence {
+        let start = self.base.index(self.readIndex, offsetBy: -distance, limitedBy: self.base.startIndex) ?? self.base.startIndex
+        return self.base[start..<self.readIndex]
+    }
+
     public func peek(next distance: Int) -> Base.SubSequence {
         return self.base[self.readIndex..<self.readable(offsetBy: distance)]
     }
