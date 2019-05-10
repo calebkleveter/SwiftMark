@@ -14,11 +14,11 @@ public struct MarkdownSymbolGenerator: TokenGenerator {
     
     public init() {
         self.tokenMap = [
-            "!": Lexer.Token(name: "!"), "#": Lexer.Token(name: "#"), "(": Lexer.Token(name: "("),
-            ")": Lexer.Token(name: ")"), "*": Lexer.Token(name: "*"), "+": Lexer.Token(name: "+"),
-            "-": Lexer.Token(name: "-"), "=": Lexer.Token(name: "="), ">": Lexer.Token(name: ">"),
-            "[": Lexer.Token(name: "["), "\\": Lexer.Token(name: "\\"), "]": Lexer.Token(name: "]"),
-            "_": Lexer.Token(name: "_"), "`": Lexer.Token(name: "`"),
+            "!": Lexer.Token(name: .exclaimation), "#": Lexer.Token(name: .hash), "(": Lexer.Token(name: .openParenthese),
+            ")": Lexer.Token(name: .closeParenthese), "*": Lexer.Token(name: .asterisk), "+": Lexer.Token(name: .plus),
+            "-": Lexer.Token(name: .hyphen), "=": Lexer.Token(name: .equal), ">": Lexer.Token(name: .greaterThan),
+            "[": Lexer.Token(name: .openBracket), "\\": Lexer.Token(name: .backSlash), "]": Lexer.Token(name: .closeBracket),
+            "_": Lexer.Token(name: .underscore), "`": Lexer.Token(name: .backtick),
         ]
     }
     
@@ -48,7 +48,7 @@ public struct AlphaNumericGenerator: TokenGenerator {
     public func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]? {
         let data = tracker.read(while: self.characters.contains)
         guard data.count > 0 else { return nil }
-        return [.init(name: "raw", data: Array(data))]
+        return [.init(name: .raw, data: Array(data))]
     }
 }
 
@@ -67,11 +67,11 @@ public struct NewLineGenerator: NewLineGeneratorProtocol {
             tracker.pop()
             if tracker.peek() == self.carriageReturn {
                 tracker.pop()
-                return [Lexer.Token(name: "newLine", data: [self.newLine, self.carriageReturn])]
+                return [Lexer.Token(name: .newLine, data: [self.newLine, self.carriageReturn])]
             } else {
-                return [Lexer.Token(name: "newLinw", data: [self.newLine])]
+                return [Lexer.Token(name: .newLine, data: [self.newLine])]
             }
-        case self.carriageReturn?: return [Lexer.Token(name: "newLine", data: [self.carriageReturn])]
+        case self.carriageReturn?: return [Lexer.Token(name: .newLine, data: [self.carriageReturn])]
         default: return nil
         }
     }
@@ -91,7 +91,7 @@ public struct DefaultGenerator: TokenGenerator {
     
     public func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]? {
         guard let character = tracker.read() else { return nil }
-        return [.init(name: "raw", data: [character])]
+        return [.init(name: .raw, data: [character])]
     }
 }
 
@@ -101,16 +101,24 @@ extension Lexer {
             case raw([UInt8])
             case character
         }
-        
-        public let name: String
+
+        public struct Name: Equatable {
+            public let value: UInt8
+
+            public init(_ value: UInt8) {
+                self.value = value
+            }
+        }
+
+        public let name: Name
         public let data: Storage
         
-        public init(name: String, data: [UInt8]) {
+        public init(name: Name, data: [UInt8]) {
             self.name = name
             self.data = .raw(data)
         }
         
-        public init(name: String) {
+        public init(name: Name) {
             self.name = name
             self.data = .character
         }
@@ -122,4 +130,23 @@ extension Lexer {
             }
         }
     }
+}
+
+extension Lexer.Token.Name {
+    public static let raw: Lexer.Token.Name = .init(0)
+    public static let hash: Lexer.Token.Name = .init(35)
+    public static let plus: Lexer.Token.Name = .init(43)
+    public static let equal: Lexer.Token.Name = .init(61)
+    public static let hyphen: Lexer.Token.Name = .init(45)
+    public static let newLine: Lexer.Token.Name = .init(10)
+    public static let asterisk: Lexer.Token.Name = .init(42)
+    public static let backtick: Lexer.Token.Name = .init(96)
+    public static let backSlash: Lexer.Token.Name = .init(92)
+    public static let underscore: Lexer.Token.Name = .init(95)
+    public static let greaterThan: Lexer.Token.Name = .init(62)
+    public static let openBracket: Lexer.Token.Name = .init(91)
+    public static let closeBracket: Lexer.Token.Name = .init(93)
+    public static let exclaimation: Lexer.Token.Name = .init(33)
+    public static let openParenthese: Lexer.Token.Name = .init(40)
+    public static let closeParenthese: Lexer.Token.Name = .init(41)
 }
