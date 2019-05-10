@@ -57,8 +57,8 @@ public struct NewLineGenerator: NewLineGeneratorProtocol {
     let carriageReturn: UInt8
     
     public init() {
-        self.newLine = "\n"
-        self.carriageReturn = "\r"
+        self.newLine = 10
+        self.carriageReturn = 13
     }
     
     public func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]? {
