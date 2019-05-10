@@ -1,4 +1,4 @@
-public struct GeneratorList {
+public struct RendererList {
     public let generators: [TokenRenderer]
     public let `default`: TokenRenderer
 
