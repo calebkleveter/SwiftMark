@@ -9,7 +9,7 @@ public final class Lexer {
     }
     
     public func clean(data: [UInt8]) -> [UInt8] {
-        return data.flatMap { $0 == 0 ? [239, 191, 189] : [0] }
+        return data.flatMap { $0 == 0 ? [239, 191, 189] : [$0] }
     }
     
     public func lex(string: [UInt8])throws -> [Token] {
