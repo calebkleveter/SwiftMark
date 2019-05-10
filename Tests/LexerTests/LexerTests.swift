@@ -5,7 +5,7 @@ import Lexer
 /// Test file: https://daringfireball.net/projects/markdown/syntax.text
 final class LexerTests: XCTestCase {
     let lexer: Lexer = {
-        let generators = GeneratorList(generators: [
+        let generators = HandlerList<TokenGenerator>(handlers: [
             MarkdownSymbolGenerator(),
             AlphaNumericGenerator(),
             NewLineGenerator()
