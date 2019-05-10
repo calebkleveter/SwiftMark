@@ -1,7 +1,7 @@
 import Utilities
 import Lexer
 
-public final class Blockquote: TokenGenerator {
+public final class Blockquote: TokenParser {
     public func run(on document: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
         guard document.peek()?.name == ">" else { return nil }
 

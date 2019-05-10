@@ -1,7 +1,7 @@
 import Utilities
 import Lexer
 
-public protocol TokenGenerator {
+public protocol TokenParser {
     func run(on tracker: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token?
 }
 

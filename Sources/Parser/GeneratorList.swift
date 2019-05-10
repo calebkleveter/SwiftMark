@@ -1,20 +1,20 @@
 public struct GeneratorList {
-    public let generators: [TokenGenerator]
-    public let `default`: TokenGenerator
+    public let generators: [TokenParser]
+    public let `default`: TokenParser
 
-    public init(generators: [TokenGenerator], `default`: TokenGenerator) {
+    public init(generators: [TokenParser], `default`: TokenParser) {
         self.generators = generators
         self.default = `default`
     }
 
-    public init(_ `default`: TokenGenerator, _ generators: TokenGenerator...) {
+    public init(_ `default`: TokenParser, _ generators: TokenParser...) {
         self.generators = generators
         self.default = `default`
     }
 }
 
 extension GeneratorList: ExpressibleByArrayLiteral {
-    public init(arrayLiteral elements: TokenGenerator...) {
+    public init(arrayLiteral elements: TokenParser...) {
         guard elements.count > 0, let last = elements.last else {
             preconditionFailure("`GeneratorList` array literal must contain 1 or more elements")
         }
