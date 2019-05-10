@@ -10,24 +10,24 @@ public struct ThematicBreak: Syntax {
     }
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
-        guard tokens.peek(next: -1) == ([.init(name: .newLine)] || []) else { return nil }
+        let last = tokens.peek(back: 1)
+        guard last.first?.name == .newLine || last == [] else { return nil }
         _ = tokens.read(while: { $0.data == .raw([32]) }, max: 3)
 
         var name: Lexer.Token.Name? = nil
         var count: Int = 0
 
-        while let token = tokens.peek(), token.name != .newLine {
-            defer {
-                tokens.pop()
-                count += 1
-            }
+        peek: while let token = tokens.peek() {
+            defer { tokens.pop() }
 
             switch token.name {
             case .hyphen, .underscore, .asterisk:
-                name? = token.name
+                if name == nil { name = token.name }
                 guard token.name == name else { return nil }
+                count += 1
             case .raw:
                 guard token.data == .raw([32]) else { return nil }
+            case .newLine: break peek
             default: return nil
             }
         }
