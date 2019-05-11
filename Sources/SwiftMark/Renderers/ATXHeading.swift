@@ -15,12 +15,13 @@ public final class ATXHeading: Syntax {
         _  = tokens.read(while: { $0.data == .raw([32])}, max: 3)
 
         var depth = 0
-        while tokens.peek()?.name == .hash, depth <= 6 { depth += 1 }
+        while tokens.peek(next: depth + 1).last?.name == .hash, depth < 6 { depth += 1 }
 
-        if tokens.peek()?.name == .newLine {
+        let siganture = tokens.peek(next: depth + 1)
+        if siganture.last?.name == .newLine || siganture.count < depth + 1 {
             tokens.pop(next: depth + 1)
             return Parser.Token(name: "header\(depth)", contents: [] as [UInt8])
-        } else if tokens.peek()?.data == .raw([32]) {
+        } else if siganture.last?.data == .raw([32]) {
             tokens.pop(next: depth + 1)
         } else {
             return nil
@@ -76,9 +77,12 @@ public final class ATXHeading: Syntax {
         }
 
         switch token.data {
-        case let .parserTokens(tokens): return .init(start: [60, 104, number, 62], contents: tokens, end: [60, 104, number, 62])
-        case let .raw(contents): return .init(Array([[60, 104, number, 62], contents, [60, 104, number, 62]].joined()))
-        default: return nil
+        case let .parserTokens(tokens):
+            return .init(start: [60, 104, number, 62], contents: tokens, end: [60, 47, 104, number, 62])
+        case let .raw(contents):
+            return .init(Array([[60, 104, number, 62], contents, [60, 47, 104, number, 62]].joined()))
+        default:
+            return nil
         }
     }
 }
