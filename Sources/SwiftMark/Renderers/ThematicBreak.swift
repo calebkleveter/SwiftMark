@@ -10,13 +10,11 @@ public struct ThematicBreak: Syntax {
     }
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
-        let last = tokens.peek(back: 1)
-        guard last.first?.name == .newLine || last == [] else { return nil }
+        guard tokens.atStartOfLine() else { return nil }
         _ = tokens.read(while: { $0.data == .raw([32]) }, max: 3)
 
         var name: Lexer.Token.Name? = nil
         var count: Int = 0
-
         peek: while let token = tokens.peek() {
             defer { tokens.pop() }
 
