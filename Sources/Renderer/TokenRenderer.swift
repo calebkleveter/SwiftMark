@@ -1,7 +1,7 @@
 import Parser
 
 public protocol TokenRenderer {
-    var renderType: String { get }
+    var supportedTokens: [String] { get }
 
-    func render(token: Parser.Token) -> [UInt8]?
+    func render(token: Parser.Token) -> Renderer.Result?
 }

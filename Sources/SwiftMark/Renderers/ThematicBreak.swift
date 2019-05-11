@@ -1,12 +1,13 @@
 import Utilities
+import Renderer
 import Parser
 import Lexer
 
 public struct ThematicBreak: Syntax {
-    public let renderType: String
+    public let supportedTokens: [String]
 
     public init() {
-        self.renderType = "thematicBreak"
+        self.supportedTokens = ["thematicBreak"]
     }
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
@@ -30,10 +31,10 @@ public struct ThematicBreak: Syntax {
             }
         }
 
-        return count >= 3 ? Parser.Token(name: self.renderType, contents: [] as [UInt8]) : nil
+        return count >= 3 ? Parser.Token(name: "thematicBreak", contents: [] as [UInt8]) : nil
     }
 
-    public func render(token: Parser.Token) -> [UInt8]? {
+    public func render(token: Parser.Token) -> Renderer.Result? {
         return [60, 104, 114, 47, 62]
     }
 }
