@@ -46,7 +46,7 @@ public final class ATXHeading: Syntax {
             } else if token.name == .newLine {
                 break
             } else if token.name == .hash {
-                if cache.last?.data == .raw([32]) || cache.last?.name == .hash {
+                if cache.count == 0 || cache.last?.data == .raw([32]) || cache.last?.name == .hash {
                     cache.append(token)
                 } else {
                     contents.append(token)
