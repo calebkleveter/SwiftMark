@@ -3,7 +3,7 @@ import Renderer
 import Parser
 import Lexer
 
-public struct ThematicBreak: Syntax {
+public final class ThematicBreak: Syntax {
     public let supportedTokens: [String]
 
     public init() {
