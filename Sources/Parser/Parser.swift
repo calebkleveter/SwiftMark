@@ -32,9 +32,19 @@ public final class Parser {
                 }
             }
 
-            guard let token = self.generators.default.run(on: &tracker) else {
+            guard var token = self.generators.default.run(on: &tracker) else {
                 assertionFailure("Parser.generators.default _must always_ return a token")
                 throw ParserError.noGeneratorFound
+            }
+            
+            if !token.renderable {
+                guard case let .lexerTokens(contents) = token.data else {
+                    assertionFailure("This case can technically never be reached. Please file a bug.")
+                    throw ParserError.noParsableTokens
+                }
+
+                let data = try self.parse(tokens: contents)
+                token.data = .parserTokens(data)
             }
 
             result.append(token)
