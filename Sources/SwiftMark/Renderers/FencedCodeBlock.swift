@@ -16,8 +16,9 @@ public final class FencedCodeBlock: Syntax {
         guard tokens.atStartOfLine() else { return nil }
 
         var indentation = 0
-        if tokens.peek(next: indentation + 1).last?.data == .raw([32]) { indentation += 1 }
+        while tokens.peek(next: indentation + 1).last?.data == .raw([32]) { indentation += 1 }
         guard indentation <= 3 else { return nil }
+        tokens.pop(next: indentation)
 
         guard let character = tokens.peek(), character.name == (.backtick || .tilde) else { return nil }
         let fence = tokens.read(while: { $0.name == character.name })
@@ -29,7 +30,7 @@ public final class FencedCodeBlock: Syntax {
         while tokens.readable > 0 {
             var indented = 0
             let line = tokens.read(while: { $0.name != .newLine }).drop(while: { token in
-                defer { indentation += 1 }
+                defer { indented += 1 }
                 return token.data == .raw([32]) && indented < indentation
             })
             tokens.pop()
