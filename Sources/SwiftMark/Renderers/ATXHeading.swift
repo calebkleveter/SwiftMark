@@ -12,7 +12,7 @@ public final class ATXHeading: Syntax {
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
-        _  = tokens.read(while: { $0.data == .raw([32])}, max: 3)
+        _  = tokens.read(while: { $0.name == .space}, max: 3)
 
         var depth = 0
         while tokens.peek(next: depth + 1).last?.name == .hash, depth < 6 { depth += 1 }
@@ -21,12 +21,12 @@ public final class ATXHeading: Syntax {
         if siganture.last?.name == .newLine || siganture.count < depth + 1 {
             tokens.pop(next: depth + 1)
             return Parser.Result(name: "header\(depth)", contents: [] as [UInt8])
-        } else if siganture.last?.data == .raw([32]) {
+        } else if siganture.last?.name == .space {
             tokens.pop(next: depth + 1)
         } else {
             return nil
         }
-        _ = tokens.read(while: { $0.data == .raw([32])})
+        _ = tokens.read(while: { $0.name == .space })
 
         var contents: [Lexer.Token] = []
         var escaped: Bool = false
@@ -46,12 +46,12 @@ public final class ATXHeading: Syntax {
             } else if token.name == .newLine {
                 break
             } else if token.name == .hash {
-                if cache.count == 0 || cache.last?.data == .raw([32]) || cache.last?.name == .hash {
+                if cache.count == 0 || cache.last?.name == .space || cache.last?.name == .hash {
                     cache.append(token)
                 } else {
                     contents.append(token)
                 }
-            } else if token.data == .raw([32]) {
+            } else if token.name == .space {
                 cache.append(token)
             } else {
                 contents.append(contentsOf: cache)

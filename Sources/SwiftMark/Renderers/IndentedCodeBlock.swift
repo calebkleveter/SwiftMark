@@ -18,7 +18,7 @@ public final class IndentedCodeBlock: Syntax {
 
         var lines: [[UInt8]] = []
         while tokens.readable > 0 {
-            if tokens.peek(next: 4).filter({ $0.data == .raw([32]) }).count == 4 {
+            if tokens.peek(next: 4).filter({ $0.name == .space }).count == 4 {
                 tokens.pop(next: 4)
             } else {
                 let whitespace = tokens.whiteSpaceLine()

@@ -12,7 +12,7 @@ public final class ThematicBreak: Syntax {
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
-        _ = tokens.read(while: { $0.data == .raw([32]) }, max: 3)
+        _ = tokens.read(while: { $0.name == .space }, max: 3)
 
         var name: Lexer.Token.Name? = nil
         var count: Int = 0
@@ -25,7 +25,7 @@ public final class ThematicBreak: Syntax {
                 guard token.name == name else { return nil }
                 count += 1
             case .raw:
-                guard token.data == .raw([32]) else { return nil }
+                guard token.name == .space else { return nil }
             case .newLine: break peek
             default: return nil
             }

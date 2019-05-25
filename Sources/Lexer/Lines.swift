@@ -9,7 +9,7 @@ extension CollectionTracker where Base == Array<Lexer.Token> {
     public func whiteSpaceLine() -> (allWhiteSpace: Bool, length: Int) {
         var length = 0
 
-        while self.peek(next: length + 1).last?.data == .raw([32]) {
+        while self.peek(next: length + 1).last?.name == .space {
             length += 1
         }
 
