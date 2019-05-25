@@ -5,7 +5,8 @@ extension HandlerList where Handler == TokenGenerator {
         return HandlerList<TokenGenerator>(handlers: [
             MarkdownSymbolGenerator(),
             AlphaNumericGenerator(),
-            NewLineGenerator()
+            NewLineGenerator(),
+            EscapedGenerator()
         ], default: DefaultGenerator())
     }
 }

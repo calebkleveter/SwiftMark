@@ -87,6 +87,19 @@ public struct NewLineGenerator: NewLineGeneratorProtocol {
     }
 }
 
+public struct EscapedGenerator: TokenGenerator {
+    public func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]? {
+        guard tracker.peek() == 92 else { return nil }
+        tracker.pop()
+
+        if let character = tracker.read() {
+            return [Lexer.Token(name: .escaped, data: [character])]
+        } else {
+            return [Lexer.Token(name: .backSlash)]
+        }
+    }
+}
+
 public struct DefaultGenerator: TokenGenerator {
     public init () { }
     
@@ -135,6 +148,8 @@ extension Lexer {
 
 extension Lexer.Token.Name {
     public static let raw: Lexer.Token.Name = .init(0)
+    public static let escaped: Lexer.Token.Name = .init(1)
+
     public static let hash: Lexer.Token.Name = .init(35)
     public static let plus: Lexer.Token.Name = .init(43)
     public static let space: Lexer.Token.Name = .init(32)
