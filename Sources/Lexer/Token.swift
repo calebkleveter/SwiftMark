@@ -126,7 +126,14 @@ extension Lexer {
 
         public let name: Name
         public let data: Storage
-        
+
+        public var bytes: [UInt8] {
+            switch self.data {
+            case let .raw(bytes): return bytes
+            case .character: return [self.name.value]
+            }
+        }
+
         public init(name: Name, data: [UInt8]) {
             self.name = name
             self.data = .raw(data)
