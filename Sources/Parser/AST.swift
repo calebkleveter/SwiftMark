@@ -12,18 +12,6 @@ public struct AST {
         self.metadata = metadata
     }
 
-    public mutating func append(_ token: Parser.Result) {
-        switch token.value {
-        case let .metadata(value): self.metadata[token.name] = value
-        case .raw, .tokens: if let node = token.node { self.nodes.append(node) }
-        case .unparsed: return
-        }
-    }
-
-    public mutating func append(_ node: Node) {
-        self.nodes.append(node)
-    }
-
     public struct Node {
         public let name: String
         public let value: Value
