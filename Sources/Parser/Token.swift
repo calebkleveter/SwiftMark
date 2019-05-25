@@ -2,46 +2,54 @@ import Utilities
 import Lexer
 
 public protocol TokenParser {
-    func run(on tracker: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token?
+    func run(on tracker: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result?
 }
 
 extension Parser {
-    public struct Token {
+    public struct Result {
         public let name: String
+        public let value: Value
 
-        public var data: Data {
-            didSet {
-                switch self.data {
-                case .parserTokens, .raw: self.renderable = true
-                case .lexerTokens: self.renderable = false
-                }
-            }
-        }
-
-        internal var renderable: Bool
-
-        public init(name: String, contents: [Lexer.Token]) {
-            self.name = name
-            self.data = .lexerTokens(contents)
-            self.renderable = false
+        public enum Value {
+            case metadata(MetadataElement)
+            case raw([UInt8])
+            case unparsed([Lexer.Token])
+            case tokens([Result])
         }
 
         public init(name: String, contents: [UInt8]) {
             self.name = name
-            self.data = .raw(contents)
-            self.renderable = true
+            self.value = .raw(contents)
         }
 
-        public init(name: String, data: [Parser.Token]) {
+        public init(name: String, children: [Lexer.Token]) {
             self.name = name
-            self.data = .parserTokens(data)
-            self.renderable = true
+            self.value = .unparsed(children)
         }
 
-        public enum Data {
-            case lexerTokens([Lexer.Token])
-            case parserTokens([Parser.Token])
-            case raw([UInt8])
+        public init(name: String, children: [Result]) {
+            self.name = name
+            self.value = .tokens(children)
+        }
+
+        public init(key: String, value: MetadataElement) {
+            self.name = key
+            self.value = .metadata(value)
+        }
+
+        internal var node: AST.Node? {
+            switch self.value {
+            case let .raw(data): return AST.Node(name: self.name, data: data)
+            case let .tokens(children): return AST.Node(name: self.name, children: children.compactMap { $0.node })
+            default: return nil
+            }
+        }
+
+        public var renderable: Bool {
+            switch self.value {
+            case .metadata, .raw, .tokens: return true
+            case .unparsed: return false
+            }
         }
     }
 }

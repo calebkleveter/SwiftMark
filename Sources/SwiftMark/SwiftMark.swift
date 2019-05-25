@@ -52,8 +52,8 @@ public final class SwiftMark {
     public func render(markdown: [UInt8])throws -> [UInt8] {
         let cleaned = self.lexer.clean(data: markdown)
         let lexed = try self.lexer.lex(string: cleaned)
-        let parsed = try self.parser.parse(tokens: lexed)
-        let rendered = try self.renderer.render(tokens: parsed)
+        let ast = try self.parser.parse(tokens: lexed)
+        let rendered = try self.renderer.render(ast: ast)
 
         return rendered
     }

@@ -4,11 +4,11 @@ import Renderer
 import Utilities
 
 public protocol Syntax: TokenParser, TokenRenderer {
-    func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token?
+    func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result?
 }
 
 extension Syntax {
-    public func run(on tracker: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func run(on tracker: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         return self.parse(tokens: &tracker)
     }
 }

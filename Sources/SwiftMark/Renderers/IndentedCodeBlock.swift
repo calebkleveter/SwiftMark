@@ -10,7 +10,7 @@ public final class IndentedCodeBlock: Syntax {
         self.supportedTokens = ["indentedCode"]
     }
 
-    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         let previous = tokens.peek(back: 2)
         guard previous == [] || previous.map({ $0.name }) == Array(repeating: .newLine, count: previous.count) else {
             return nil
@@ -44,14 +44,14 @@ public final class IndentedCodeBlock: Syntax {
             lines.append(data)
         }
 
-        return Parser.Token(name: "indentedCode", contents: Array(lines.joined(separator: [10])))
+        return Parser.Result(name: "indentedCode", contents: Array(lines.joined(separator: [10])))
     }
 
-    public func render(token: Parser.Token) -> Renderer.Result? {
-        guard token.name == "indentedCode" else { return nil }
+    public func render(node: AST.Node, metadata: [String: MetadataElement]) -> Renderer.Result? {
+        guard node.name == "indentedCode" else { return nil }
 
         let data: [UInt8]
-        switch token.data {
+        switch node.value {
         case let .raw(bytes): data = bytes
         default: return nil
         }

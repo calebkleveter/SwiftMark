@@ -10,7 +10,7 @@ public final class ThematicBreak: Syntax {
         self.supportedTokens = ["thematicBreak"]
     }
 
-    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
         _ = tokens.read(while: { $0.data == .raw([32]) }, max: 3)
 
@@ -31,10 +31,10 @@ public final class ThematicBreak: Syntax {
             }
         }
 
-        return count >= 3 ? Parser.Token(name: "thematicBreak", contents: [] as [UInt8]) : nil
+        return count >= 3 ? Parser.Result(name: "thematicBreak", contents: [] as [UInt8]) : nil
     }
 
-    public func render(token: Parser.Token) -> Renderer.Result? {
+    public func render(node: AST.Node, metadata: [String: MetadataElement]) -> Renderer.Result? {
         return [60, 104, 114, 47, 62]
     }
 }

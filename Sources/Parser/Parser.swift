@@ -8,46 +8,45 @@ public final class Parser {
         self.generators = generators
     }
 
-    public func parse(tokens: [Lexer.Token])throws -> [Parser.Token] {
+    public func parse(tokens: [Lexer.Token])throws -> AST {
         var tracker = CollectionTracker(tokens)
-        var result: [Parser.Token] = []
+        var result = AST()
 
         track: while tracker.readable > 0 {
             for generator in self.generators.handlers {
-                if var token = generator.run(on: &tracker) {
+                if let token = generator.run(on: &tracker) {
                     if token.renderable {
                         result.append(token)
                     } else {
-                        guard case let .lexerTokens(contents) = token.data else {
+                        guard case let .unparsed(contents) = token.value else {
                             assertionFailure("This case can technically never be reached. Please file a bug.")
                             throw ParserError.noParsableTokens
                         }
 
-                        let data = try self.parse(tokens: contents)
-                        token.data = .parserTokens(data)
-                        result.append(token)
+                        let children = try self.parse(tokens: contents)
+                        result.append(AST.Node(name: token.name, children: children.nodes))
                     }
 
                     continue track
                 }
             }
 
-            guard var token = self.generators.default.run(on: &tracker) else {
+            guard let token = self.generators.default.run(on: &tracker) else {
                 assertionFailure("Parser.generators.default _must always_ return a token")
                 throw ParserError.noGeneratorFound
             }
             
             if !token.renderable {
-                guard case let .lexerTokens(contents) = token.data else {
+                guard case let .unparsed(contents) = token.value else {
                     assertionFailure("This case can technically never be reached. Please file a bug.")
                     throw ParserError.noParsableTokens
                 }
 
-                let data = try self.parse(tokens: contents)
-                token.data = .parserTokens(data)
+                let children = try self.parse(tokens: contents)
+                result.append(AST.Node(name: token.name, children: children.nodes))
+            } else {
+                result.append(token)
             }
-
-            result.append(token)
         }
 
         return result

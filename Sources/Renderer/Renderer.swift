@@ -14,19 +14,19 @@ public final class Renderer {
         self.defaultRenderer = renderers.default
     }
 
-    public func render(tokens: [Parser.Token])throws -> [UInt8] {
-        var tracker = CollectionTracker(tokens)
+    public func render(ast: AST)throws -> [UInt8] {
+        var tracker = CollectionTracker(ast.nodes)
         var result: [UInt8] = []
 
-        track: while let token = tracker.peek() {
+        track: while let node = tracker.peek() {
             defer { tracker.pop() }
             
-            if let renderer = self.rendererMap[token.name] {
-                if let rendered = renderer.render(token: token) {
+            if let renderer = self.rendererMap[node.name] {
+                if let rendered = renderer.render(node: node, metadata: ast.metadata) {
                     switch rendered {
                     case let .parent(start, contents, end):
                         result.append(contentsOf: start)
-                        try result.append(contentsOf: self.render(tokens: contents))
+                        try result.append(contentsOf: self.render(ast: AST(nodes: contents, metadata: ast.metadata)))
                         result.append(contentsOf: end)
                     case let .child(data): result.append(contentsOf: data)
                     }
@@ -35,14 +35,14 @@ public final class Renderer {
                 }
             }
 
-            guard let rendered = self.defaultRenderer.render(token: token) else {
+            guard let rendered = self.defaultRenderer.render(node: node, metadata: ast.metadata) else {
                 assertionFailure("Renderer.renderers.default _must always_ return bytes")
                 throw RendererError.noRendererFound
             }
             switch rendered {
             case let .parent(start, contents, end):
                 result.append(contentsOf: start)
-                try result.append(contentsOf: self.render(tokens: contents))
+                try result.append(contentsOf: self.render(ast: AST(nodes: contents, metadata: ast.metadata)))
                 result.append(contentsOf: end)
             case let .child(data): result.append(contentsOf: data)
             }

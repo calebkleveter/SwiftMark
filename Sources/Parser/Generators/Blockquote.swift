@@ -2,7 +2,7 @@ import Utilities
 import Lexer
 
 public final class Blockquote: TokenParser {
-    public func run(on document: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func run(on document: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard document.peek()?.name == .greaterThan else { return nil }
 
         var contents: [Lexer.Token] = []
@@ -29,7 +29,7 @@ public final class Blockquote: TokenParser {
         }
 
         if contents.count > 0 {
-            return Parser.Token(name: "blockquote", contents: contents)
+            return Parser.Result(name: "blockquote", children: contents)
         } else {
             return nil
         }

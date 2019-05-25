@@ -10,7 +10,7 @@ public final class ATXHeading: Syntax {
         self.supportedTokens = (1...6).map { "header\($0)" }
     }
 
-    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
         _  = tokens.read(while: { $0.data == .raw([32])}, max: 3)
 
@@ -20,7 +20,7 @@ public final class ATXHeading: Syntax {
         let siganture = tokens.peek(next: depth + 1)
         if siganture.last?.name == .newLine || siganture.count < depth + 1 {
             tokens.pop(next: depth + 1)
-            return Parser.Token(name: "header\(depth)", contents: [] as [UInt8])
+            return Parser.Result(name: "header\(depth)", contents: [] as [UInt8])
         } else if siganture.last?.data == .raw([32]) {
             tokens.pop(next: depth + 1)
         } else {
@@ -61,12 +61,12 @@ public final class ATXHeading: Syntax {
 
         }
 
-        return Parser.Token(name: "header\(depth)", contents: contents)
+        return Parser.Result(name: "header\(depth)", children: contents)
     }
 
-    public func render(token: Parser.Token) -> Renderer.Result? {
+    public func render(node: AST.Node, metadata: [String: MetadataElement]) -> Renderer.Result? {
         let number: UInt8
-        switch token.name {
+        switch node.name {
         case "header1": number = 49
         case "header2": number = 50
         case "header3": number = 51
@@ -76,13 +76,11 @@ public final class ATXHeading: Syntax {
         default: return nil
         }
 
-        switch token.data {
-        case let .parserTokens(tokens):
+        switch node.value {
+        case let .children(tokens):
             return .init(start: [60, 104, number, 62], contents: tokens, end: [60, 47, 104, number, 62])
         case let .raw(contents):
             return .init(Array([[60, 104, number, 62], contents, [60, 47, 104, number, 62]].joined()))
-        default:
-            return nil
         }
     }
 }

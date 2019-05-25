@@ -12,7 +12,7 @@ public final class FencedCodeBlock: Syntax {
         self.languagePrefix = Array(languagePrefix.utf8)
     }
 
-    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
 
         var indentation = 0
@@ -47,33 +47,32 @@ public final class FencedCodeBlock: Syntax {
         }
 
         if let token = infoString.first, case let .raw(language) = token.data {
-            return Parser.Token(name: "fencedCode", data: [
-                Parser.Token(name: "language", contents: language),
-                Parser.Token(name: "contents", contents: Array(lines.joined(separator: [10])))
+            return Parser.Result(name: "fencedCode", children: [
+                Parser.Result(name: "language", contents: language),
+                Parser.Result(name: "contents", contents: Array(lines.joined(separator: [10])))
             ])
         } else {
-            return Parser.Token(name: "fencedCode", contents: Array(lines.joined(separator: [10])))
+            return Parser.Result(name: "fencedCode", contents: Array(lines.joined(separator: [10])))
         }
     }
 
-    public func render(token: Parser.Token) -> Renderer.Result? {
-        guard token.name == "fencedCode" else { return nil }
+    public func render(node: AST.Node, metadata: [String: MetadataElement]) -> Renderer.Result? {
+        guard node.name == "fencedCode" else { return nil }
 
         let language: [UInt8]?
         let contents: [UInt8]
 
-        switch token.data {
+        switch node.value {
         case let .raw(data):
             language = nil
             contents = data
-        case let .parserTokens(tokens):
+        case let .children(tokens):
             guard tokens.count == 2 else { return nil }
-            guard case let .raw(lang) = tokens[0].data else { return nil }
-            guard case let .raw(data) = tokens[1].data else { return nil }
+            guard case let .raw(lang) = tokens[0].value else { return nil }
+            guard case let .raw(data) = tokens[1].value else { return nil }
 
             language = lang
             contents = data
-        default: return nil
         }
 
         let open: [UInt8]

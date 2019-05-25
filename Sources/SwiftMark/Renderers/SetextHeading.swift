@@ -10,7 +10,7 @@ public final class SetextHeading: Syntax {
         self.supportedTokens = ["header1", "header2"]
     }
 
-    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Token? {
+    public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
         var newLines: [Int] = []
         var peekLength = 0
@@ -41,24 +41,22 @@ public final class SetextHeading: Syntax {
         }
 
         tokens.pop(next: underline.count + 1)
-        return Parser.Token(name: "header\(depth)", contents: Array(contents))
+        return Parser.Result(name: "header\(depth)", children: Array(contents))
     }
 
-    public func render(token: Parser.Token) -> Renderer.Result? {
+    public func render(node: AST.Node, metadata: [String: MetadataElement]) -> Renderer.Result? {
         let number: UInt8
-        switch token.name {
+        switch node.name {
         case "header1": number = 1
         case "header2": number = 2
         default: return nil
         }
 
-        switch token.data {
-        case let .parserTokens(tokens):
+        switch node.value {
+        case let .children(tokens):
             return .init(start: [60, 104, number, 62], contents: tokens, end: [60, 47, 104, number, 62])
         case let .raw(contents):
             return .init(Array([[60, 104, number, 62], contents, [60, 47, 104, number, 62]].joined()))
-        default:
-            return nil
         }
     }
 }
