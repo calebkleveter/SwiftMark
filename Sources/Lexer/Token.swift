@@ -18,7 +18,8 @@ public struct MarkdownSymbolGenerator: TokenGenerator {
             ")": Lexer.Token(name: .closeParenthese), "*": Lexer.Token(name: .asterisk), "+": Lexer.Token(name: .plus),
             "-": Lexer.Token(name: .hyphen), "=": Lexer.Token(name: .equal), ">": Lexer.Token(name: .greaterThan),
             "[": Lexer.Token(name: .openBracket), "\\": Lexer.Token(name: .backSlash), "]": Lexer.Token(name: .closeBracket),
-            "_": Lexer.Token(name: .underscore), "`": Lexer.Token(name: .backtick), "~": Lexer.Token(name: .tilde)
+            "_": Lexer.Token(name: .underscore), "`": Lexer.Token(name: .backtick), "~": Lexer.Token(name: .tilde),
+            " ": Lexer.Token(name: .space)
         ]
     }
     
@@ -136,6 +137,7 @@ extension Lexer.Token.Name {
     public static let raw: Lexer.Token.Name = .init(0)
     public static let hash: Lexer.Token.Name = .init(35)
     public static let plus: Lexer.Token.Name = .init(43)
+    public static let space: Lexer.Token.Name = .init(32)
     public static let equal: Lexer.Token.Name = .init(61)
     public static let tilde: Lexer.Token.Name = .init(126)
     public static let hyphen: Lexer.Token.Name = .init(45)
