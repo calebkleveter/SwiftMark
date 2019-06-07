@@ -14,12 +14,13 @@ public struct MarkdownSymbolGenerator: TokenGenerator {
     
     public init() {
         self.tokenMap = [
-            "!": Lexer.Token(name: .exclaimation), "#": Lexer.Token(name: .hash), "(": Lexer.Token(name: .openParenthese),
-            ")": Lexer.Token(name: .closeParenthese), "*": Lexer.Token(name: .asterisk), "+": Lexer.Token(name: .plus),
-            "-": Lexer.Token(name: .hyphen), "=": Lexer.Token(name: .equal), ">": Lexer.Token(name: .greaterThan),
-            "[": Lexer.Token(name: .openBracket), "\\": Lexer.Token(name: .backSlash), "]": Lexer.Token(name: .closeBracket),
-            "_": Lexer.Token(name: .underscore), "`": Lexer.Token(name: .backtick), "~": Lexer.Token(name: .tilde),
-            " ": Lexer.Token(name: .space)
+            "!": Lexer.Token(name: .exclaimation), "#": Lexer.Token(name: .hash),
+            "(": Lexer.Token(name: .openParenthese), ")": Lexer.Token(name: .closeParenthese),
+            "*": Lexer.Token(name: .asterisk), "+": Lexer.Token(name: .plus), "-": Lexer.Token(name: .hyphen),
+            "=": Lexer.Token(name: .equal), "<": Lexer.Token(name: .lessThan), ">": Lexer.Token(name: .greaterThan),
+            "[": Lexer.Token(name: .openBracket), "\\": Lexer.Token(name: .backSlash),
+            "]": Lexer.Token(name: .closeBracket), "_": Lexer.Token(name: .underscore),
+            "`": Lexer.Token(name: .backtick), "~": Lexer.Token(name: .tilde), " ": Lexer.Token(name: .space)
         ]
     }
     
@@ -165,6 +166,7 @@ extension Lexer.Token.Name {
     public static let hyphen: Lexer.Token.Name = .init(45)
     public static let newLine: Lexer.Token.Name = .init(10)
     public static let asterisk: Lexer.Token.Name = .init(42)
+    public static let lessThan: Lexer.Token.Name = .init(60)
     public static let backtick: Lexer.Token.Name = .init(96)
     public static let backSlash: Lexer.Token.Name = .init(92)
     public static let underscore: Lexer.Token.Name = .init(95)
