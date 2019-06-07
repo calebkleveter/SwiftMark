@@ -14,51 +14,35 @@ public final class ATXHeading: Syntax {
         guard tokens.atStartOfLine() else { return nil }
         _  = tokens.read(while: { $0.name == .space}, max: 3)
 
-        var depth = 0
-        while tokens.peek(next: depth + 1).last?.name == .hash, depth < 6 { depth += 1 }
+        let depth = tokens.read(while: { $0.name == .hash }).count
+        guard depth <= 6 else { return nil }
 
-        let siganture = tokens.peek(next: depth + 1)
-        if siganture.last?.name == .newLine || siganture.count < depth + 1 {
-            tokens.pop(next: depth + 1)
-            return Parser.Result(name: "header\(depth)", contents: [] as [UInt8])
-        } else if siganture.last?.name == .space {
-            tokens.pop(next: depth + 1)
-        } else {
+        guard let next = tokens.read(), next.name != .newLine else {
+            return Parser.Result(name: "header\(depth)", contents: [])
+        }
+        guard next.name == .space else {
             return nil
         }
         _ = tokens.read(while: { $0.name == .space })
 
         var contents: [Lexer.Token] = []
-        var escaped: Bool = false
-
         var cache: [Lexer.Token] = []
-        while let token = tokens.peek() {
-            defer { tokens.pop() }
 
-            if escaped {
-                contents.append(token)
-                escaped.toggle()
-                continue
-            }
-
-            if token.name == .backSlash {
-                escaped = true
-            } else if token.name == .newLine {
-                break
-            } else if token.name == .hash {
-                if cache.count == 0 || cache.last?.name == .space || cache.last?.name == .hash {
+        reader: while let token = tokens.read() {
+            switch token.name {
+            case .newLine: break reader
+            case .hash:
+                if cache.count == 0 || cache.last?.name == (.space || .hash) {
                     cache.append(token)
                 } else {
                     contents.append(token)
                 }
-            } else if token.name == .space {
-                cache.append(token)
-            } else {
+            case .space: cache.append(token)
+            default:
                 contents.append(contentsOf: cache)
                 contents.append(token)
                 cache = []
             }
-
         }
 
         return Parser.Result(name: "header\(depth)", children: contents)

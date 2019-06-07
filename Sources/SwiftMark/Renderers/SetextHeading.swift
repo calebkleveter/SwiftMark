@@ -12,36 +12,31 @@ public final class SetextHeading: Syntax {
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
-        var newLines: [Int] = []
-        var peekLength = 0
 
-        while let token = tokens.peek(next: peekLength).last, newLines.last != peekLength - 1 {
-            if token.name == .newLine { newLines.append(peekLength) }
-            peekLength += 1
+        var contents: [Lexer.Token] = []
+        var depth = 0
+
+        reader: while tokens.readable > 0 {
+            _ = tokens.read(while: { $0.name == .space }, max: 3)
+            let line = tokens.read(while: { $0.name != .newLine })
+            guard let newLine = tokens.read() else { return nil }
+
+            guard let prefix = line.first, prefix.name != .space else { return nil }
+
+            switch prefix.name {
+            case .hyphen, .equal:
+                if Array(line) == Array(repeating: prefix, count: line.count) {
+                    depth = prefix.name == .equal ? 1 : 2
+                    break reader
+                }
+                fallthrough
+            default:
+                contents.append(contentsOf: line)
+                contents.append(newLine)
+            }
         }
 
-        guard newLines.count >= 2 && tokens.peek(next: peekLength).last?.name == .newLine else {
-            return nil
-        }
-
-        let underline = Array(tokens.base[newLines[newLines.count - 2]...newLines[newLines.count - 1]])
-        guard let character = underline.first, character.name == (.hyphen || .equal) else {
-            return nil
-        }
-        guard underline == Array(repeating: character, count: underline.count) else {
-            return nil
-        }
-
-        let contents = tokens.read(next: newLines[newLines.count - 2])
-        let depth: Int
-        switch character.name {
-        case .hyphen: depth = 2
-        case .equal: depth = 1
-        default: return nil
-        }
-
-        tokens.pop(next: underline.count + 1)
-        return Parser.Result(name: "header\(depth)", children: Array(contents))
+        return Parser.Result(name: "header\(depth)", children: contents.dropLast())
     }
 
     public func render(node: AST.Node, metadata: [String: MetadataElement]) -> Renderer.Result? {

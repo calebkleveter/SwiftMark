@@ -34,13 +34,7 @@ public final class IndentedCodeBlock: Syntax {
             let line = tokens.read(while: { $0.name != .newLine })
             tokens.pop()
 
-            let data = line.flatMap { token -> [UInt8]  in
-                switch token.data {
-                case .character: return [token.name.value]
-                case let .raw(data): return data
-                }
-            }
-
+            let data = line.flatMap { $0.bytes }
             lines.append(data)
         }
 

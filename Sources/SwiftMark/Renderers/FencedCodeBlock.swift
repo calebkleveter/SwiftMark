@@ -15,16 +15,15 @@ public final class FencedCodeBlock: Syntax {
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
         guard tokens.atStartOfLine() else { return nil }
 
-        var indentation = 0
-        while tokens.peek(next: indentation + 1).last?.name == .space { indentation += 1 }
+        let indentation = tokens.read(while: { $0.name == .space }, max: 4).count
         guard indentation <= 3 else { return nil }
-        tokens.pop(next: indentation)
 
         guard let character = tokens.peek(), character.name == (.backtick || .tilde) else { return nil }
         let fence = tokens.read(while: { $0.name == character.name })
         let infoString = tokens.read(while: { $0.name != .newLine })
-
         tokens.pop()
+
+        guard fence.count >= 3 && infoString.first?.name != (.backtick || .tilde) else { return nil }
 
         var lines: [[UInt8]] = []
         while tokens.readable > 0 {
@@ -36,12 +35,7 @@ public final class FencedCodeBlock: Syntax {
             tokens.pop()
 
             if line == fence { break }
-            let data = line.flatMap { token -> [UInt8]  in
-                switch token.data {
-                case .character: return [token.name.value]
-                case let .raw(data): return data
-                }
-            }
+            let data = line.flatMap { $0.bytes }
 
             lines.append(data)
         }

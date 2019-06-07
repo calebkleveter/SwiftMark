@@ -16,16 +16,13 @@ public final class ThematicBreak: Syntax {
 
         var name: Lexer.Token.Name? = nil
         var count: Int = 0
-        peek: while let token = tokens.peek() {
-            defer { tokens.pop() }
-
+        peek: while let token = tokens.read() {
             switch token.name {
             case .hyphen, .underscore, .asterisk:
                 if name == nil { name = token.name }
                 guard token.name == name else { return nil }
                 count += 1
-            case .raw:
-                guard token.name == .space else { return nil }
+            case .space: break
             case .newLine: break peek
             default: return nil
             }
