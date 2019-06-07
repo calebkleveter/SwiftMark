@@ -48,6 +48,6 @@ public final class Parser {
             ast.nodes.append(AST.Node(name: token.name, children: parsed.nodes))
         }
 
-        return tracker.readable - tokens.readable
+        return tokens.readable - tracker.readable
     }
 }
