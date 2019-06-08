@@ -2,6 +2,10 @@ import Utilities
 import XCTest
 import Lexer
 
+#if os(Linux)
+import FoundationNetworking
+#endif
+
 /// Test file: https://daringfireball.net/projects/markdown/syntax.text
 final class LexerTests: XCTestCase {
     let lexer: Lexer = {
