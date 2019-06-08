@@ -11,18 +11,17 @@ public final class LinkReference: Syntax {
     }
 
     public func parse(tokens: inout CollectionTracker<[Lexer.Token]>) -> Parser.Result? {
-        var tracker = tokens
-        guard tracker.atStartOfLine() else { return nil }
-        _ = tracker.read(while: { $0.name == .space }, max: 3)
+        guard tokens.atStartOfLine() else { return nil }
+        _ = tokens.read(while: { $0.name == .space }, max: 3)
 
-        guard tracker.read()?.name == .openBracket else { return nil }
-        let label = tracker.read(to: Lexer.Token(name: .closeBracket))
+        guard tokens.read()?.name == .openBracket else { return nil }
+        let label = tokens.read(to: Lexer.Token(name: .closeBracket))
         guard label.count > 0 && label.contains(where: { $0.name != .space }) else { return nil }
-        tracker.pop()
+        tokens.pop()
 
-        guard tracker.read()?.data == .raw([58]) else { return nil }
+        guard tokens.read()?.data == .raw([58]) else { return nil }
         var usedLineEnd = false
-        _ = tracker.read(while: { token in
+        _ = tokens.read(while: { token in
             if token.name == .space { return true }
             if token.name == .newLine && !usedLineEnd {
                 usedLineEnd = true
@@ -34,11 +33,12 @@ public final class LinkReference: Syntax {
 
 
         let destination: [UInt8]
-        if tracker.peek()?.name == .lessThan {
-            tracker.pop()
-            destination = tracker.read(to: Lexer.Token(name: .greaterThan)).flatMap { $0.bytes }
+        if tokens.peek()?.name == .lessThan {
+            tokens.pop()
+            destination = tokens.read(to: Lexer.Token(name: .greaterThan)).flatMap { $0.bytes }
+            tokens.pop()
         } else {
-            destination = tracker.read(while: { $0.name != .space || $0.name != .newLine }).flatMap {  $0.bytes }
+            destination = tokens.read(while: { $0.name != .space || $0.name != .newLine }).flatMap {  $0.bytes }
             guard !destination.has(.control) && !destination.has(.whitespace) else { return nil }
             guard
                 Dictionary(grouping: destination, by: { $0 })[40, default: []].count ==
@@ -49,18 +49,22 @@ public final class LinkReference: Syntax {
         }
 
         let title: [UInt8]?
-        _ = tracker.read(while: { $0.name == .space })
+        _ = tokens.read(while: { $0.name == .space })
 
-        if let start = tokens.peek(), start.name != .newLine {
+        if let start = tokens.read(), start.name != .newLine {
+            let token: Lexer.Token
             if start.bytes == [34] {
-                title = tracker.read(to: .init(name: .raw, data: [34])).flatMap { $0.bytes }
+                token = .init(name: .raw, data: [34])
             } else if start.bytes == [39] {
-                title = tracker.read(to: .init(name: .raw, data: [39])).flatMap { $0.bytes }
+                token = .init(name: .raw, data: [39])
             } else if start.name == .openParenthese {
-                title = tracker.read(to: .init(name: .closeParenthese)).flatMap { $0.bytes }
+                token = .init(name: .closeParenthese)
             } else {
                 return nil
             }
+
+            title = tokens.read(to: token).flatMap { $0.bytes }
+            tokens.pop()
         } else {
             title = nil
         }
