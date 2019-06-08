@@ -2,17 +2,13 @@ import Utilities
 import XCTest
 import Lexer
 
-#if os(Linux)
-import FoundationNetworking
-#endif
-
 /// Test file: https://daringfireball.net/projects/markdown/syntax.text
 final class LexerTests: XCTestCase {
     let lexer = Lexer(generators: .default)
 
     let markdown = { () -> [UInt8] in
-        let url = URL(string: "https://daringfireball.net/projects/markdown/syntax.text")!
-        return try! Array(Data(contentsOf: url))
+        let currentDir = FileManager.default.currentDirectoryPath
+        return try! Array(String(contentsOfFile: "\(currentDir)/Tests/markdown_test.md").utf8)
     }()
     
     func testMeasureLex() throws {
