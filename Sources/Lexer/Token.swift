@@ -54,6 +54,26 @@ public struct AlphaNumericGenerator: TokenGenerator {
     }
 }
 
+public struct WhitespaceGenerator: TokenGenerator {
+    let characters: [UInt8]
+
+    public init() {
+        self.characters = [32, 9, 11, 12]
+    }
+
+    public func run(on tracker: inout CollectionTracker<[UInt8]>) -> [Lexer.Token]? {
+        var result: [Lexer.Token] = []
+        while let byte = tracker.peek() {
+            guard self.characters.contains(byte) else { break }
+            result.append(Lexer.Token(name: .space, data: [byte]))
+
+            tracker.pop()
+        }
+
+        return result.count > 0 ? result : nil
+    }
+}
+
 public struct NewLineGenerator: NewLineGeneratorProtocol {
     let newLine: UInt8
     let carriageReturn: UInt8
