@@ -66,7 +66,7 @@ public final class LinkReference: Syntax {
         }
 
         let name = String(decoding: label.flatMap { $0.bytes }, as: UTF8.self)
-        return Parser.Result(key: "link-\(name)", value: Link(destination: destination, title: title))
+        return Parser.Result(key: "link-\(name)", value: Link(title: title, destination: destination))
     }
 
     public func render(node: AST.Node, metadata: [String: MetadataElement]) -> Renderer.Result? {
@@ -74,7 +74,12 @@ public final class LinkReference: Syntax {
     }
 }
 
-struct Link: MetadataElement {
-    let destination: [UInt8]
-    let title: [UInt8]?
+public struct Link: MetadataElement {
+    public let destination: [UInt8]
+    public let title: [UInt8]?
+
+    public init(title: [UInt8]?, destination: [UInt8]) {
+        self.destination = destination
+        self.title = title
+    }
 }
