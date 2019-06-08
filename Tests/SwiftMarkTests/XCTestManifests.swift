@@ -37,7 +37,8 @@ extension LinkReferenceTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__LinkReferenceTests = [
-        ("testParsing", testParsing),
+        ("testFullLink", testFullLink),
+        ("testRelativeLink", testRelativeLink),
     ]
 }
 
