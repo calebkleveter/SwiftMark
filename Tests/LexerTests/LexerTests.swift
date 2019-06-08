@@ -8,14 +8,7 @@ import FoundationNetworking
 
 /// Test file: https://daringfireball.net/projects/markdown/syntax.text
 final class LexerTests: XCTestCase {
-    let lexer: Lexer = {
-        let generators = HandlerList<TokenGenerator>(handlers: [
-            MarkdownSymbolGenerator(),
-            AlphaNumericGenerator(),
-            NewLineGenerator()
-        ], default: DefaultGenerator())
-        return Lexer(generators: generators)
-    }()
+    let lexer = Lexer(generators: .default)
 
     let markdown = { () -> [UInt8] in
         let url = URL(string: "https://daringfireball.net/projects/markdown/syntax.text")!
